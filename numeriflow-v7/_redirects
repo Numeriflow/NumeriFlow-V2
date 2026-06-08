@@ -1,0 +1,22 @@
+# NumeriFlow — Netlify redirect rules
+# Handles both /page and /page.html so links work either way
+
+/join                   /join.html              200
+/play                   /play.html              200
+/dashboard              /dashboard.html         200
+/assessment             /assessment.html        200
+/login                  /login.html             200
+/signup                 /signup.html            200
+/learning-program       /learning-program.html  200
+
+# Also handle trailing slashes
+/join/                  /join.html              200
+/play/                  /play.html              200
+/dashboard/             /dashboard.html         200
+/assessment/            /assessment.html        200
+/login/                 /login.html             200
+/signup/                /signup.html            200
+/learning-program/      /learning-program.html  200
+
+# Catch-all: any unknown URL goes to index rather than Netlify 404
+/*                      /index.html             200

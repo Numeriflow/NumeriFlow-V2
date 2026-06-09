@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NumeriFlow uses game-based assessment and music therapy to build real number confidence in children aged 5–13. Personalised for dyscalculia. UK National Curriculum aligned.">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="dyscalculia support, maths learning disability app, children numeracy, UK curriculum maths, music therapy dyscalculia, gamified assessment, SENCO tool, KS1 KS2 maths">
+<meta name="author" content="NumeriFlow">
+<meta name="application-name" content="NumeriFlow">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://numeriflow.uk/">
+<meta property="og:site_name" content="NumeriFlow">
+<meta property="og:title" content="NumeriFlow — Maths that clicks for children with dyscalculia">
+<meta property="og:description" content="Game-based assessment + non-instrumental music therapy, designed for children aged 5–13. Trusted by UK parents, teachers and SENCOs.">
+<meta property="og:image" content="https://numeriflow.uk/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@NumeriFlow">
+<meta name="twitter:title" content="NumeriFlow — Maths that clicks for children with dyscalculia">
+<meta name="twitter:description" content="Game-based assessment + non-instrumental music therapy, designed for children aged 5–13. Trusted by UK parents, teachers and SENCOs.">
+<meta name="twitter:image" content="https://numeriflow.uk/og-image.jpg">
+
+<!-- Mobile / PWA hints -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="NumeriFlow">
+<meta name="theme-color" content="#1D9E75">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://numeriflow.uk/">
+<title>NumeriFlow — Maths Support for Children with Dyscalculia</title>
+
+<link rel="stylesheet" href="style.css">
+<style>
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--white);
+  padding: 80px 0 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -80px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--green-light) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
+}
+
+.hero-tag-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.hero h1 .highlight {
+  color: var(--green);
+  position: relative;
+}
+
+.hero-sub {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--gray-400);
+  margin-bottom: 32px;
+  max-width: 460px;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--gray-400);
+  font-weight: 600;
+}
+
+.trust-avatars {
+  display: flex;
+}
+
+.trust-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  margin-left: -8px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+}
+.trust-avatar:first-child { margin-left: 0; }
+
+.hero-visual {
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.hero-card-main {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.hero-card-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 14px;
+}
+
+.hero-game-preview {
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.hero-emoji-row {
+  font-size: 26px;
+  margin-bottom: 12px;
+  letter-spacing: 4px;
+}
+
+.hero-answer-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.hero-ans-btn {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  border: 2px solid var(--gray-200);
+  background: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--gray-900);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.hero-ans-btn.selected {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.hero-profile-mini {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.profile-mini-bar {
+  flex: 1;
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+}
+
+.pmb-label { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.pmb-bar-bg { background: var(--gray-200); border-radius: 20px; height: 5px; margin-bottom: 4px; }
+.pmb-bar { height: 5px; border-radius: 20px; }
+.pmb-val { font-size: 11px; font-weight: 700; }
+
+.hero-float-card {
+  position: absolute;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-md);
+  padding: 12px 16px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-float-card.card-top-right {
+  top: -20px; right: -20px;
+  animation-delay: 0.5s;
+}
+
+.hero-float-card.card-bottom-left {
+  bottom: 20px; left: -24px;
+  animation-delay: 1.5s;
+}
+
+.float-label { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.float-val { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; color: var(--gray-900); }
+.float-sub { font-size: 11px; color: var(--gray-400); font-weight: 600; }
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  background: var(--green);
+  padding: 28px 0;
+}
+
+.stats-bar-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+.stat-item-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-item-lbl {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ─── HOW IT WORKS ─── */
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.how-step {
+  text-align: center;
+  position: relative;
+}
+
+.how-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -20px;
+  top: 26px;
+  font-size: 20px;
+  color: var(--gray-200);
+}
+
+.how-step-icon {
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 16px;
+}
+
+.how-step-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.how-step h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.how-step p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ─── FEATURES ─── */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+.feature-card.full-width { grid-column: 1 / -1; }
+
+.feature-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 { font-size: 19px; margin-bottom: 10px; }
+.feature-card p { font-size: 14px; }
+
+.feature-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* ─── DYSCALCULIA ─── */
+.dysc-section {
+  background: var(--gray-900);
+  color: var(--white);
+  padding: 80px 0;
+}
+
+.dysc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.dysc-grid h2 { color: var(--white); font-size: 36px; margin-bottom: 16px; }
+.dysc-grid p { color: rgba(255,255,255,0.65); font-size: 15px; line-height: 1.8; }
+
+.dysc-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dysc-stat {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.dysc-stat-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 40px;
+  color: var(--green-mid);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.dysc-stat-lbl {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.5;
+}
+
+.dysc-signs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.dysc-sign {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.5;
+}
+
+.dysc-sign-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green-mid);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+/* ─── WHO IT'S FOR ─── */
+.who-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.who-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+  text-align: center;
+}
+.who-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+.who-icon {
+  width: 60px; height: 60px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 16px;
+}
+
+.who-card h3 { font-size: 18px; margin-bottom: 10px; }
+.who-card p { font-size: 13px; line-height: 1.7; }
+
+.who-list {
+  list-style: none;
+  margin-top: 14px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.who-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray-600);
+  font-weight: 600;
+}
+
+.who-check {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* ─── PRICING ─── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+  align-items: start;
+}
+
+.price-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.price-card.featured {
+  border: 2px solid var(--green);
+  box-shadow: 0 8px 24px rgba(29,158,117,0.15);
+  transform: translateY(-8px);
+}
+
+.price-popular {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.price-name { font-size: 14px; font-weight: 700; color: var(--gray-400); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.price-amount { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 42px; color: var(--gray-900); line-height: 1; margin-bottom: 4px; }
+.price-amount span { font-size: 20px; font-weight: 700; color: var(--gray-400); }
+.price-period { font-size: 13px; color: var(--gray-400); margin-bottom: 20px; font-weight: 600; }
+.price-divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.price-feature { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--gray-600); font-weight: 600; }
+.price-check { width: 18px; height: 18px; border-radius: 50%; background: var(--green-light); color: var(--green); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+.price-cross { width: 18px; height: 18px; border-radius: 50%; background: var(--gray-100); color: var(--gray-400); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  background: var(--green);
+  border-radius: var(--radius-xl);
+  padding: 60px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 50%;
+}
+
+.cta-banner h2 { color: var(--white); font-size: 36px; margin-bottom: 12px; position: relative; }
+.cta-banner p { color: rgba(255,255,255,0.8); font-size: 16px; margin-bottom: 28px; position: relative; }
+.cta-banner-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .how-steps { grid-template-columns: 1fr; }
+  .how-step::after { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-card.full-width { grid-column: auto; }
+  .dysc-grid { grid-template-columns: 1fr; }
+  .who-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .price-card.featured { transform: none; }
+  .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+<script src="nf-core.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="logo.png" alt="NumeriFlow logo" style="height:40px;width:auto;"></a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#dyscalculia">About Dyscalculia</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Get started free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-content animate-fade-up">
+        <div class="hero-tag">
+          <div class="hero-tag-dot" aria-hidden="true"></div>
+          Trusted by UK families & educators
+        </div>
+        <h1 id="hero-heading">
+          Understanding your child's<br>
+          <span class="highlight">number journey</span>
+        </h1>
+        <p class="hero-sub">
+          NumeriFlow combines game-based assessment, personalised learning, and music therapy to identify and support children who may be struggling with dyscalculia — in a way that feels like play.
+        </p>
+        <div class="hero-cta">
+          <a href="signup.html" class="btn btn-primary btn-lg">Start free assessment →</a>
+          <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-avatars" aria-hidden="true">
+            <div class="trust-avatar avatar-green">SR</div>
+            <div class="trust-avatar avatar-purple">JM</div>
+            <div class="trust-avatar avatar-amber">PK</div>
+            <div class="trust-avatar" style="background:var(--gray-100); color:var(--gray-600);">AL</div>
+          </div>
+          <span>Join families supporting their children's learning</span>
+        </div>
+      </div>
+
+      <div class="hero-visual animate-fade-up delay-2" aria-hidden="true">
+        <div class="hero-float-card card-top-right">
+          <div class="float-label">Assessment complete</div>
+          <div class="float-val">✓ Profile ready</div>
+          <div class="float-sub">8 min · KS1</div>
+        </div>
+
+        <div class="hero-card-main">
+          <div class="hero-card-label">Game-based assessment</div>
+          <div class="hero-game-preview">
+            <div class="hero-emoji-row">🐰🐰🐰🐰🐰🐰🐰</div>
+            <div style="font-size:13px; font-weight:700; color:var(--gray-600); margin-bottom:12px;">Count the rabbits</div>
+            <div class="hero-answer-row">
+              <button class="hero-ans-btn">5</button>
+              <button class="hero-ans-btn selected">7</button>
+              <button class="hero-ans-btn">9</button>
+              <button class="hero-ans-btn">4</button>
+            </div>
+          </div>
+          <div class="hero-profile-mini">
+            <div class="profile-mini-bar">
+              <div class="pmb-label">Counting</div>
+              <div class="pmb-bar-bg"><div class="pmb-bar skill-bar-green" style="width:80%"></div></div>
+              <div class="pmb-val" style="color:var(--green-dark);">Strong</div>
+            </div>
+            <div class="profile-mini-bar">
+              <div class="pmb-label">Comparison</div>
+              <div class="pmb-bar-bg"><div class="pmb-bar skill-bar-amber" style="width:45%"></div></div>
+              <div class="pmb-val" style="color:var(--amber-dark);">Developing</div>
+            </div>
+            <div class="profile-mini-bar">
+              <div class="pmb-label">Rhythm</div>
+              <div class="pmb-bar-bg"><div class="pmb-bar skill-bar-purple" style="width:60%"></div></div>
+              <div class="pmb-val" style="color:var(--purple-dark);">On track</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-float-card card-bottom-left">
+          <div class="float-label">Music therapy</div>
+          <div class="float-val" style="font-size:18px;">🎵 Rhythm session</div>
+          <div class="float-sub">Supports number sense</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar" role="region" aria-label="Key statistics">
+  <div class="container">
+    <div class="stats-bar-inner">
+      <div>
+        <div class="stat-item-val">6%</div>
+        <div class="stat-item-lbl">of children have dyscalculia</div>
+      </div>
+      <div>
+        <div class="stat-item-val">KS1–2</div>
+        <div class="stat-item-lbl">UK curriculum aligned</div>
+      </div>
+      <div>
+        <div class="stat-item-val">8 min</div>
+        <div class="stat-item-lbl">average assessment time</div>
+      </div>
+      <div>
+        <div class="stat-item-val">100%</div>
+        <div class="stat-item-lbl">child-safe & GDPR compliant</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" aria-labelledby="how-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="label mb-12">How it works</div>
+      <h2 id="how-heading" style="font-size:36px; margin-bottom:16px;">From assessment to personalised program<br>in three guided steps</h2>
+      <p style="max-width:560px; margin:0 auto; font-size:16px;">No guesswork. No random activities. NumeriFlow guides your child through a clear, intelligent journey that adapts to how they actually learn.</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step animate-fade-up delay-1">
+        <div class="how-step-icon" style="background:var(--green-light);">🎯</div>
+        <div class="how-step-num">Step 1</div>
+        <h3>Game-based assessment</h3>
+        <p>Your child plays a short sequence of interactive games. In the background, we observe accuracy, response time, hesitation, and rhythm — building a picture of their numerical strengths.</p>
+      </div>
+      <div class="how-step animate-fade-up delay-2">
+        <div class="how-step-icon" style="background:var(--purple-light);">📊</div>
+        <div class="how-step-num">Step 2</div>
+        <h3>Learning profile</h3>
+        <p>After the assessment, you receive a clear, friendly learning profile. No harsh scores — just a plain-language summary of what your child finds easy and where they'd benefit from support.</p>
+      </div>
+      <div class="how-step animate-fade-up delay-3">
+        <div class="how-step-icon" style="background:var(--amber-light);">🗺️</div>
+        <div class="how-step-num">Step 3</div>
+        <h3>Personalised program</h3>
+        <p>NumeriFlow builds a tailored learning plan — with activities, music therapy sessions, and level assignments matched exactly to your child's profile. It evolves as they progress.</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-32">
+      <a href="signup.html" class="btn btn-primary btn-lg">Try it free today →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features" style="background:var(--gray-50);" aria-labelledby="features-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="label mb-12">Features</div>
+      <h2 id="features-heading" style="font-size:36px; margin-bottom:16px;">Everything designed for your child's success</h2>
+      <p style="max-width:520px; margin:0 auto; font-size:16px;">NumeriFlow brings together the best of educational psychology, game design, and music therapy in one child-friendly platform.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--green-light);">🎮</div>
+        <h3>Gamified assessment</h3>
+        <p>Assessment activities disguised as fun games — so your child never feels like they're being tested. We observe without them knowing.</p>
+        <div class="feature-tag-row">
+          <span class="badge badge-green">Counting</span>
+          <span class="badge badge-green">Comparison</span>
+          <span class="badge badge-green">Patterns</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--purple-light);">🎵</div>
+        <h3>Non-instrumental music therapy</h3>
+        <p>Our unique USP. Rhythmic and melodic activities that engage the cognitive functions linked to numerical understanding — no instruments needed.</p>
+        <div class="feature-tag-row">
+          <span class="badge badge-purple">Rhythm</span>
+          <span class="badge badge-purple">Melody</span>
+          <span class="badge badge-purple">Beat patterns</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--amber-light);">🧠</div>
+        <h3>Adaptive learning levels</h3>
+        <p>Each activity area has multiple levels. NumeriFlow assigns the right starting level per skill based on the assessment and adjusts automatically as your child progresses.</p>
+        <div class="feature-tag-row">
+          <span class="badge badge-amber">Level-based</span>
+          <span class="badge badge-amber">Auto-adjusting</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:var(--coral-light);">📈</div>
+        <h3>Progress tracking for parents</h3>
+        <p>A dedicated parent dashboard tracks sessions, accuracy, response speed, and skill growth over time. Share reports with teachers or therapists.</p>
+        <div class="feature-tag-row">
+          <span class="badge badge-coral">Session reports</span>
+          <span class="badge badge-coral">Skill charts</span>
+        </div>
+      </div>
+
+      <div class="feature-card full-width" style="background:var(--gray-900); border-color:transparent;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center;">
+          <div>
+            <div class="feature-icon" style="background:rgba(255,255,255,0.1);">🔐</div>
+            <h3 style="color:var(--white); margin-bottom:10px;">Child safety built in</h3>
+            <p style="color:rgba(255,255,255,0.6);">Children access NumeriFlow through a secure 6-digit play code — no account, no password, no email required. Parents stay fully in control. GDPR compliant and aligned with the UK Children's Code.</p>
+            <div class="feature-tag-row mt-16">
+              <span class="badge" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);">Play code access</span>
+              <span class="badge" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);">No child accounts</span>
+              <span class="badge" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);">GDPR compliant</span>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05); border-radius:var(--radius-lg); padding:24px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:12px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:16px;">Kid Mode Access</div>
+            <div style="display:flex; gap:8px; justify-content:center; margin-bottom:16px;">
+              <div style="width:40px; height:48px; border-radius:10px; background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif; font-weight:900; font-size:20px; color:var(--white);">5</div>
+              <div style="width:40px; height:48px; border-radius:10px; background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif; font-weight:900; font-size:20px; color:var(--white);">7</div>
+              <div style="width:40px; height:48px; border-radius:10px; background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif; font-weight:900; font-size:20px; color:var(--white);">6</div>
+              <div style="width:40px; height:48px; border-radius:10px; background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif; font-weight:900; font-size:20px; color:var(--white);">9</div>
+              <div style="width:40px; height:48px; border-radius:10px; background:var(--green); border:1.5px solid var(--green); display:flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif; font-weight:900; font-size:20px; color:var(--white);">9</div>
+              <div style="width:40px; height:48px; border-radius:10px; background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif; font-weight:900; font-size:20px; color:var(--white);">3</div>
+            </div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.5); text-align:center;">Parent generates the code · Child enters it to play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DYSCALCULIA -->
+<section class="dysc-section" id="dyscalculia" aria-labelledby="dysc-heading">
+  <div class="container">
+    <div class="dysc-grid">
+      <div>
+        <div class="label mb-12" style="color:var(--green-mid);">Understanding dyscalculia</div>
+        <h2 id="dysc-heading">The learning challenge most people haven't heard of</h2>
+        <p style="margin:16px 0;">Dyscalculia is a specific learning difficulty that affects a child's ability to understand and work with numbers. It's not about intelligence — many children with dyscalculia excel in other areas.</p>
+        <p>Like dyslexia with reading, dyscalculia affects how the brain processes numerical information. Early identification and the right support can make an enormous difference.</p>
+
+        <div class="dysc-signs" role="list" aria-label="Common signs of dyscalculia">
+          <div class="dysc-sign" role="listitem">
+            <div class="dysc-sign-dot" aria-hidden="true"></div>
+            Difficulty counting consistently or recognising quantities
+          </div>
+          <div class="dysc-sign" role="listitem">
+            <div class="dysc-sign-dot" aria-hidden="true"></div>
+            Struggle to compare numbers or understand which is bigger
+          </div>
+          <div class="dysc-sign" role="listitem">
+            <div class="dysc-sign-dot" aria-hidden="true"></div>
+            Slow response to simple arithmetic despite effort
+          </div>
+          <div class="dysc-sign" role="listitem">
+            <div class="dysc-sign-dot" aria-hidden="true"></div>
+            Difficulty telling the time or understanding patterns
+          </div>
+          <div class="dysc-sign" role="listitem">
+            <div class="dysc-sign-dot" aria-hidden="true"></div>
+            Anxiety around numbers or maths-related tasks
+          </div>
+        </div>
+      </div>
+
+      <div class="dysc-stats" role="region" aria-label="Dyscalculia statistics">
+        <div class="dysc-stat">
+          <div class="dysc-stat-val">6%</div>
+          <div class="dysc-stat-lbl">of all children affected by dyscalculia</div>
+        </div>
+        <div class="dysc-stat">
+          <div class="dysc-stat-val">25%</div>
+          <div class="dysc-stat-lbl">of UK population has some maths learning difficulty</div>
+        </div>
+        <div class="dysc-stat">
+          <div class="dysc-stat-val">4M+</div>
+          <div class="dysc-stat-lbl">individuals in the UK likely affected</div>
+        </div>
+        <div class="dysc-stat">
+          <div class="dysc-stat-val" style="font-size:28px;">Under-<br>diagnosed</div>
+          <div class="dysc-stat-lbl">Most cases go unidentified until secondary school</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="section" aria-labelledby="who-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="label mb-12">Who it's for</div>
+      <h2 id="who-heading" style="font-size:36px; margin-bottom:16px;">Supporting every child's learning journey</h2>
+    </div>
+
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-icon" style="background:var(--green-light);">👨‍👩‍👧</div>
+        <h3>Parents & families</h3>
+        <p>Understand your child's relationship with numbers and get a personalised program you can use at home.</p>
+        <ul class="who-list">
+          <li><div class="who-check" aria-hidden="true">✓</div>Easy 8-minute assessment</li>
+          <li><div class="who-check" aria-hidden="true">✓</div>Daily activity suggestions</li>
+          <li><div class="who-check" aria-hidden="true">✓</div>Progress reports to share</li>
+        </ul>
+      </div>
+      <div class="who-card">
+        <div class="who-icon" style="background:var(--purple-light);">🏫</div>
+        <h3>Schools & educators</h3>
+        <p>Identify children who may need additional numeracy support early — before they fall behind.</p>
+        <ul class="who-list">
+          <li><div class="who-check" aria-hidden="true">✓</div>Class-level reporting</li>
+          <li><div class="who-check" aria-hidden="true">✓</div>KS1 & KS2 aligned</li>
+          <li><div class="who-check" aria-hidden="true">✓</div>Multiple child profiles</li>
+        </ul>
+      </div>
+      <div class="who-card" style="opacity:0.55;position:relative;pointer-events:none;filter:grayscale(0.4);">
+        <div style="position:absolute;top:12px;right:12px;background:var(--gray-200);color:var(--gray-600);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 10px;border-radius:20px;">Coming Phase 2</div>
+        <div class="who-icon" style="background:var(--gray-100);">🩺</div>
+        <h3 style="color:var(--gray-400);">Therapists & clinics</h3>
+        <p style="color:var(--gray-400);">Professional edition with multi-client management, detailed analytics, and clinic billing — coming in Phase 2.</p>
+        <ul class="who-list">
+          <li><div class="who-check" style="color:var(--gray-300);" aria-hidden="true">✓</div><span style="color:var(--gray-400);">Professional edition</span></li>
+          <li><div class="who-check" style="color:var(--gray-300);" aria-hidden="true">✓</div><span style="color:var(--gray-400);">Detailed analytics</span></li>
+          <li><div class="who-check" style="color:var(--gray-300);" aria-hidden="true">✓</div><span style="color:var(--gray-400);">Multi-client management</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background:var(--gray-50);" aria-labelledby="pricing-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="label mb-12">Pricing</div>
+      <h2 id="pricing-heading" style="font-size:36px; margin-bottom:16px;">Simple, fair pricing</h2>
+      <p style="max-width:480px; margin:0 auto; font-size:16px;">Start free. Upgrade when you're ready. No hidden fees.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card" style="position:relative;">
+        <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--green-light);color:var(--green-dark);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 14px;border-radius:0 0 10px 10px;white-space:nowrap;">Available now</div>
+        <div class="price-name" style="margin-top:18px;">Free</div>
+        <div class="price-amount">£<span style="font-size:42px; color:var(--gray-900); font-weight:900;">0</span></div>
+        <div class="price-period">Forever free</div>
+        <ul class="price-features">
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>1 child profile</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Full assessment</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Learning profile</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Basic counting games</li>
+          <li class="price-feature"><div class="price-cross" aria-hidden="true">✕</div>All activity types</li>
+          <li class="price-feature"><div class="price-cross" aria-hidden="true">✕</div>Music therapy</li>
+          <li class="price-feature"><div class="price-cross" aria-hidden="true">✕</div>Progress reports</li>
+        </ul>
+        <a href="signup.html" class="btn btn-ghost btn-full">Get started free</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-popular">Phase 1 · Available now</div>
+        <div class="price-name">Monthly</div>
+        <div class="price-amount">£6<span>/mo</span></div>
+        <div class="price-period">Cancel anytime</div>
+        <ul class="price-features">
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Up to 3 child profiles</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Full assessment</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>All activity types</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Music therapy lab</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Progress reports</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Re-assessment every 2 weeks</li>
+          <li class="price-feature"><div class="price-cross" aria-hidden="true">✕</div>Professional dashboard</li>
+        </ul>
+        <a href="signup.html" class="btn btn-primary btn-full">Start free trial</a>
+      </div>
+
+      <div class="price-card" style="opacity:0.6;position:relative;">
+        <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gray-200);color:var(--gray-600);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 14px;border-radius:0 0 10px 10px;white-space:nowrap;">Coming Phase 2</div>
+        <div class="price-name" style="margin-top:18px;">Professional</div>
+        <div class="price-amount" style="color:var(--gray-400);">£70</div>
+        <div class="price-period">Therapists & clinics</div>
+        <ul class="price-features">
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Everything in Monthly</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Unlimited child profiles</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Professional analytics</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Multi-client management</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>Export & share reports</li>
+          <li class="price-feature"><div class="price-check" aria-hidden="true">✓</div>School/clinic billing</li>
+          <li class="price-feature" style="color:var(--gray-400);"><div class="price-check" aria-hidden="true" style="color:var(--gray-300);">✓</div>Dedicated support</li>
+        </ul>
+        <button class="btn btn-ghost btn-full" disabled style="opacity:.5;cursor:not-allowed;">Notify me when available</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="section-sm">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Ready to understand your child's number journey?</h2>
+      <p>Start with a free assessment today. No card required. Takes 8 minutes.</p>
+      <div class="cta-banner-btns">
+        <a href="signup.html" class="btn btn-white btn-xl">Start free assessment →</a>
+        <a href="login.html" class="btn btn-xl" style="background:rgba(255,255,255,0.15); color:var(--white); border:1.5px solid rgba(255,255,255,0.3);">Sign in</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════════════
+     SPONSORS / PARTNERS SECTION
+     Paste this block into index.html just above the footer
+     To add a real partner: replace a placeholder card with their logo img
+     To add a featured sponsor: uncomment the featured block below
+═══════════════════════════════════════════════════════ -->
+
+<!-- FEATURED SPONSOR (uncomment and fill in when you have a paying sponsor)
+<section style="background:var(--amber-light);border-top:1px solid var(--amber);padding:20px 0;">
+  <div class="container" style="display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;text-align:center;">
+    <div style="font-size:11px;font-weight:700;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.5px;">Featured Partner</div>
+    <img src="PARTNER_LOGO_URL" alt="Partner Name" style="height:36px;filter:grayscale(20%)">
+    <div style="font-size:14px;color:var(--amber-dark);font-weight:600;">Partner message or tagline here</div>
+    <a href="https://partner-website.com" target="_blank" rel="noopener" style="font-size:13px;color:var(--amber-dark);font-weight:700;text-decoration:underline;">Learn more →</a>
+  </div>
+</section>
+-->
+
+<section class="section" style="background:var(--gray-50);border-top:1px solid var(--gray-100);padding:48px 0;">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-400);margin-bottom:8px;">Trusted by educators · Recommended by specialists</div>
+      <h2 style="font-size:22px;color:var(--gray-900);margin-bottom:8px;">Our Partners & Supporters</h2>
+      <p style="font-size:14px;color:var(--gray-400);max-width:480px;margin:0 auto;line-height:1.7;">
+        NumeriFlow works with schools, therapists and educational organisations across the UK who share our mission to support every child with maths.
+      </p>
+    </div>
+
+    <!-- Partner logo grid — replace placeholders with real logos -->
+    <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-bottom:32px;">
+
+      <!-- Placeholder partner card — duplicate and fill in for each partner -->
+      <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:16px;padding:20px 28px;display:flex;align-items:center;justify-content:center;min-width:160px;box-shadow:var(--shadow-sm);">
+        <div style="text-align:center;">
+          <div style="width:64px;height:36px;background:var(--gray-100);border-radius:8px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gray-400);font-weight:700;">LOGO</div>
+          <div style="font-size:12px;font-weight:700;color:var(--gray-400);">Partner Name</div>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:16px;padding:20px 28px;display:flex;align-items:center;justify-content:center;min-width:160px;box-shadow:var(--shadow-sm);">
+        <div style="text-align:center;">
+          <div style="width:64px;height:36px;background:var(--gray-100);border-radius:8px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gray-400);font-weight:700;">LOGO</div>
+          <div style="font-size:12px;font-weight:700;color:var(--gray-400);">Partner Name</div>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:16px;padding:20px 28px;display:flex;align-items:center;justify-content:center;min-width:160px;box-shadow:var(--shadow-sm);">
+        <div style="text-align:center;">
+          <div style="width:64px;height:36px;background:var(--gray-100);border-radius:8px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gray-400);font-weight:700;">LOGO</div>
+          <div style="font-size:12px;font-weight:700;color:var(--gray-400);">Partner Name</div>
+        </div>
+      </div>
+
+      <!-- "Become a partner" CTA card -->
+      <div style="background:var(--green-light);border:1.5px dashed var(--green);border-radius:16px;padding:20px 28px;display:flex;align-items:center;justify-content:center;min-width:160px;">
+        <div style="text-align:center;">
+          <div style="font-size:24px;margin-bottom:6px;">🤝</div>
+          <div style="font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:6px;">Become a partner</div>
+          <a href="mailto:info@numeriflow.uk?subject=Partnership enquiry" style="font-size:11px;color:var(--green);font-weight:700;text-decoration:underline;">Get in touch</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sponsor enquiry note -->
+    <div style="text-align:center;font-size:13px;color:var(--gray-400);line-height:1.7;">
+      Interested in reaching parents and educators of children with dyscalculia?
+      <a href="mailto:info@numeriflow.uk?subject=Sponsorship enquiry" style="color:var(--green);font-weight:700;margin-left:4px;">Enquire about sponsorship →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo" style="display:flex;align-items:center;gap:8px;"><img src="logo.png" alt="NumeriFlow" style="height:36px;width:auto;filter:brightness(1.1);"></a>
+        <p class="footer-tagline">Supporting children with dyscalculia through game-based assessment, personalised learning, and music therapy. Based in Birmingham, UK.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Product</div>
+        <ul class="footer-links">
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="assessment.html">Assessment</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">For</div>
+        <ul class="footer-links">
+          <li><a href="#">Parents</a></li>
+          <li><a href="#">Schools</a></li>
+          <li><span style="color:var(--gray-400);font-size:13px;cursor:default;">Therapists <span style="font-size:10px;background:var(--gray-200);color:var(--gray-600);padding:1px 6px;border-radius:10px;font-weight:700;">Soon</span></span></li>
+          <li><span style="color:var(--gray-400);font-size:13px;cursor:default;">Clinics <span style="font-size:10px;background:var(--gray-200);color:var(--gray-600);padding:1px 6px;border-radius:10px;font-weight:700;">Soon</span></span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Cookie policy</a></li>
+          <li><a href="#">Terms of use</a></li>
+          <li><a href="#">GDPR compliance</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NumeriFlow. All rights reserved. Registered in England & Wales.</span>
+      <span>Made with care in Birmingham 🇬🇧</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

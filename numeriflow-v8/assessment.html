@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An 8-minute game-based assessment that maps your child's number skills against UK National Curriculum objectives for their year group. Counting, comparison, patterns, arithmetic and music therapy.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="NumeriFlow">
+<meta name="application-name" content="NumeriFlow">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://numeriflow.uk/assessment">
+<meta property="og:site_name" content="NumeriFlow">
+<meta property="og:title" content="NumeriFlow — Start the assessment">
+<meta property="og:description" content="8-minute game-based assessment for children aged 5–13. Maps skills to UK National Curriculum Y1–Y6.">
+<meta property="og:image" content="https://numeriflow.uk/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@NumeriFlow">
+<meta name="twitter:title" content="NumeriFlow — Start the assessment">
+<meta name="twitter:description" content="8-minute game-based assessment for children aged 5–13. Maps skills to UK National Curriculum Y1–Y6.">
+<meta name="twitter:image" content="https://numeriflow.uk/og-image.jpg">
+
+<!-- Mobile / PWA hints -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="NumeriFlow">
+<meta name="theme-color" content="#1D9E75">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://numeriflow.uk/assessment">
+<title>Assessment — NumeriFlow</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-100);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.topbar-steps{display:flex;align-items:center;gap:4px;background:var(--gray-100);border-radius:20px;padding:8px 14px}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-200);transition:all .3s}
+.step-dot.active{background:var(--green);transform:scale(1.4)}
+.step-dot.done{background:var(--green-mid)}
+.child-badge{display:flex;align-items:center;gap:8px;background:var(--gray-100);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:700;color:var(--gray-600)}
+.main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px 64px}
+.container{width:100%;max-width:680px}
+.screen{display:none;animation:fadeUp .35s ease}
+.screen.active{display:block}
+.screen-heading{font-family:'Nunito',sans-serif;font-weight:900;font-size:28px;color:var(--gray-900);margin-bottom:8px}
+.screen-sub{font-size:15px;color:var(--gray-400);line-height:1.7;margin-bottom:28px}
+/* KS cards */
+.ks-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.ks-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px 20px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm);text-align:left;width:100%}
+.ks-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.ks-card.selected{border-color:var(--green);border-width:2px;background:var(--green-light)}
+.ks-age{font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+.ks-label{font-family:'Nunito',sans-serif;font-weight:900;font-size:20px;color:var(--gray-900);margin-bottom:8px}
+.ks-desc{font-size:13px;color:var(--gray-400);line-height:1.5}
+.ks-auto-note{margin-top:10px;font-size:11px;font-weight:700;color:var(--green)}
+/* Year selector */
+.year-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:20px}
+.year-btn{padding:12px 8px;border-radius:var(--radius-md);border:1.5px solid var(--gray-200);background:var(--white);font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:all .15s;color:var(--gray-900);text-align:center}
+.year-btn:hover{border-color:var(--green);background:var(--green-light)}
+.year-btn.selected{border-color:var(--green);border-width:2px;background:var(--green)}
+.year-btn.selected{color:var(--white)}
+/* Progress */
+.game-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.game-phase{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gray-400)}
+.game-timer{font-size:13px;font-weight:700;color:var(--gray-400);display:flex;align-items:center;gap:5px}
+.progress-wrap{background:var(--gray-100);border-radius:20px;height:6px;margin-bottom:16px;overflow:hidden}
+.progress-bar{height:6px;background:var(--green);border-radius:20px;transition:width .6s ease}
+/* Game area */
+.game-area{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-xl);padding:32px 28px;margin:16px 0;text-align:center;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--shadow-md)}
+.activity-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
+.game-question{font-family:'Nunito',sans-serif;font-weight:800;font-size:20px;color:var(--gray-900);margin-bottom:20px;line-height:1.3}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;font-size:32px;max-width:360px}
+.answer-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.answer-btn{width:60px;height:60px;border-radius:14px;font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;border:2px solid var(--gray-200);background:var(--gray-50);cursor:pointer;transition:all .15s;color:var(--gray-900);box-shadow:var(--shadow-sm)}
+.answer-btn:hover{border-color:var(--green);background:var(--green-light);transform:scale(1.06)}
+.answer-btn.correct{background:var(--green-light);border-color:var(--green);color:var(--green-dark);transform:scale(1.1)}
+.answer-btn.wrong{background:var(--coral-light);border-color:var(--coral);color:var(--coral-dark)}
+.answer-btn.wide{width:auto;padding:0 18px;font-size:16px}
+.game-feedback{font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;margin-top:14px;min-height:22px}
+.game-feedback.good{color:var(--green-dark)}
+.game-feedback.bad{color:var(--coral-dark)}
+/* Number boxes */
+.compare-row{display:flex;align-items:center;gap:20px;margin-bottom:24px}
+.num-box{width:88px;height:88px;border-radius:18px;background:var(--gray-50);border:2px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:40px;color:var(--gray-900)}
+.num-box.sm{width:64px;height:64px;font-size:28px}
+.vs-label{font-size:13px;font-weight:700;color:var(--gray-400);text-transform:uppercase}
+.cmp-btn{padding:14px 24px;border-radius:12px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:14px;border:2px solid var(--gray-200);background:var(--gray-50);cursor:pointer;transition:all .15s;color:var(--gray-900)}
+.cmp-btn:hover{border-color:var(--green);background:var(--green-light)}
+.cmp-btn.correct{background:var(--green-light);border-color:var(--green);color:var(--green-dark)}
+.cmp-btn.wrong{background:var(--coral-light);border-color:var(--coral);color:var(--coral-dark)}
+/* Sequence boxes */
+.seq-row{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;justify-content:center}
+.seq-box{width:54px;height:54px;border-radius:12px;background:var(--gray-100);border:2px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:20px;color:var(--gray-900)}
+.seq-box.unknown{color:var(--gray-400);background:var(--white);border-style:dashed}
+/* Music / rhythm */
+.music-panel{display:flex;flex-direction:column;align-items:center;width:100%}
+.music-intro{font-size:13px;color:var(--gray-400);margin-bottom:16px;line-height:1.6;max-width:400px;text-align:center}
+.beat-display{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.beat-cell{width:40px;height:40px;border-radius:10px;background:var(--gray-100);border:2px solid var(--gray-200);transition:all .15s;display:flex;align-items:center;justify-content:center}
+.beat-cell.active-beat{background:var(--green);border-color:var(--green-dark);transform:scale(1.15)}
+.beat-cell.user-beat{background:var(--purple);border-color:var(--purple-dark)}
+.beat-cell.match{background:var(--green);border-color:var(--green-dark)}
+.beat-cell.miss{background:var(--coral-light);border-color:var(--coral)}
+.rhythm-pads{display:flex;gap:14px;justify-content:center;margin-bottom:20px}
+.pad{width:70px;height:70px;border-radius:16px;cursor:pointer;border:none;transition:all .1s;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:24px}
+.pad:hover{transform:scale(1.06)}
+.pad.beat{transform:scale(.88);box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.pad-g{background:var(--green)}
+.pad-p{background:var(--purple)}
+.pad-a{background:var(--amber)}
+.pad-c{background:var(--coral)}
+.melody-keys{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.mel-key{width:52px;height:80px;border-radius:10px;cursor:pointer;border:2px solid transparent;transition:all .1s;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;color:var(--white);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;box-shadow:0 4px 8px rgba(0,0,0,.15)}
+.mel-key:hover{transform:translateY(-3px);box-shadow:0 8px 16px rgba(0,0,0,.2)}
+.mel-key.playing{transform:translateY(2px);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+/* Stats */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.stat-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-md);padding:14px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-val{font-family:'Nunito',sans-serif;font-weight:900;font-size:24px;color:var(--gray-900)}
+.stat-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.observer-note{background:var(--gray-100);border-radius:var(--radius-md);padding:12px 16px;font-size:12px;color:var(--gray-400);text-align:center;line-height:1.5}
+/* Processing */
+.processing-center{display:flex;flex-direction:column;align-items:center;padding:48px 24px;text-align:center}
+.processing-icon{width:80px;height:80px;border-radius:20px;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:24px;animation:breathe 2s ease-in-out infinite}
+.proc-list{width:100%;max-width:320px;margin:28px auto 0;text-align:left}
+.proc-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-100);font-size:14px;color:var(--gray-400);font-weight:600;opacity:.3;transition:opacity .4s}
+.proc-item.active{opacity:1}
+.proc-item.done{opacity:1;color:var(--gray-600)}
+.proc-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;background:var(--gray-100);color:var(--gray-400)}
+.proc-icon.spinning{background:var(--green-light);color:var(--green);animation:spin 1s linear infinite}
+.proc-icon.done-icon{background:var(--green-light);color:var(--green);animation:none}
+/* Profile */
+.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:20px 24px;background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--gray-100);box-shadow:var(--shadow-sm)}
+.obs-box{background:var(--green-light);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:20px;border-left:4px solid var(--green)}
+.obs-label{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.obs-text{font-size:14px;color:var(--green-deeper);line-height:1.7}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.skill-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-sm)}
+.skill-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.skill-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:var(--gray-900)}
+.skill-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.badge-strong{background:var(--green-light);color:var(--green-dark)}
+.badge-track{background:var(--purple-light);color:var(--purple-dark)}
+.badge-develop{background:var(--amber-light);color:var(--amber-dark)}
+.badge-support{background:var(--coral-light);color:var(--coral-dark)}
+.skill-bar-bg{background:var(--gray-100);border-radius:20px;height:6px;margin-bottom:10px;overflow:hidden}
+.skill-bar{height:6px;border-radius:20px;transition:width 1.2s cubic-bezier(.25,.46,.45,.94);width:0}
+.bar-strong{background:var(--green)}
+.bar-track{background:var(--purple)}
+.bar-develop{background:var(--amber)}
+.bar-support{background:var(--coral)}
+.skill-note{font-size:12px;color:var(--gray-400);line-height:1.5}
+/* Curriculum objectives */
+.curriculum-section{margin-top:20px;margin-bottom:20px}
+.curriculum-heading{font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;color:var(--gray-900);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.obj-list{display:flex;flex-direction:column;gap:8px}
+.obj-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--radius-md);border:1px solid var(--gray-100);background:var(--white);font-size:13px;color:var(--gray-600);line-height:1.5}
+.obj-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.obj-label{font-weight:700;color:var(--gray-900);margin-bottom:2px;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+.disclaimer-box{background:var(--gray-100);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--gray-400);line-height:1.6;display:flex;gap:10px}
+/* Program */
+.program-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.prog-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-sm);transition:transform .2s}
+.prog-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.prog-card.priority{border:2px solid var(--amber)}
+.prog-card.music-card{border:2px solid var(--purple)}
+.prog-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.prog-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:var(--gray-900);margin-bottom:4px}
+.prog-level{font-size:12px;font-weight:600;color:var(--gray-400);margin-bottom:10px}
+.level-dots{display:flex;gap:5px;margin-bottom:10px}
+.lvl-dot{width:9px;height:9px;border-radius:50%;background:var(--gray-200)}
+.lvl-dot.on{background:var(--green)}
+.lvl-dot.on-p{background:var(--purple)}
+.lvl-dot.on-a{background:var(--amber)}
+.prog-badge{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:4px}
+.weekly-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.weekly-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-md);padding:16px 10px;text-align:center;box-shadow:var(--shadow-sm)}
+.weekly-val{font-family:'Nunito',sans-serif;font-weight:900;font-size:28px;color:var(--gray-900)}
+.weekly-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.4px;margin-top:4px}
+.reassess-note{background:var(--green-light);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--green-deeper);font-weight:600;display:flex;align-items:center;gap:10px}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(max-width:600px){.ks-grid,.skills-grid,.program-grid{grid-template-columns:1fr}.year-grid{grid-template-columns:repeat(3,1fr)}.answer-btn{width:52px;height:52px;font-size:18px}.num-box{width:72px;height:72px;font-size:32px}}
+</style>
+<script src="nf-core.js"></script>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="dashboard.html" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="logo.png" alt="NumeriFlow" style="height:38px;width:auto;"></a>
+  <div class="topbar-steps" aria-label="Assessment progress">
+    <div class="step-dot active" id="dot0"></div>
+    <div class="step-dot" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+    <div class="step-dot" id="dot4"></div>
+  </div>
+  <div class="child-badge" id="childBadge">Loading...</div>
+</nav>
+
+<main class="main">
+<div class="container">
+
+<!-- ════ SCREEN 0: Welcome ════ -->
+<section class="screen active" id="screen0">
+  <h1 class="screen-heading" id="s0heading">Let's start the assessment</h1>
+  <p class="screen-sub" id="s0sub">A short sequence of activities — about 8 minutes, and it feels like a game.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px;">
+    <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px 16px;text-align:center;box-shadow:var(--shadow-sm);">
+      <div style="width:52px;height:52px;border-radius:14px;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;">🎯</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:4px;">Step 1</div>
+      <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;">Game activities</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px 16px;text-align:center;box-shadow:var(--shadow-sm);">
+      <div style="width:52px;height:52px;border-radius:14px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;">📊</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--purple);margin-bottom:4px;">Step 2</div>
+      <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;">Learning profile</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px 16px;text-align:center;box-shadow:var(--shadow-sm);">
+      <div style="width:52px;height:52px;border-radius:14px;background:var(--amber-light);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;">🗺️</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--amber-dark);margin-bottom:4px;">Step 3</div>
+      <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;">Personalised program</div>
+    </div>
+  </div>
+  <div class="card mb-24" style="margin-bottom:24px;">
+    <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;margin-bottom:6px;">What we track</div>
+    <div style="font-size:14px;color:var(--gray-400);line-height:1.7;">Accuracy, response speed, hesitation patterns, and rhythm timing — mapped against the UK National Curriculum for your child's year group. This is not a test — the experience is designed to feel like play.</div>
+  </div>
+  <button class="btn btn-primary btn-lg" onclick="goTo(1)">Confirm age group →</button>
+</section>
+
+<!-- ════ SCREEN 1: KS + Year ════ -->
+<section class="screen" id="screen1">
+  <h1 class="screen-heading">Confirm the right level</h1>
+  <p class="screen-sub" id="s1sub">We've matched the assessment to your child's year group. You can adjust if needed.</p>
+  <div class="ks-grid">
+    <button class="ks-card" id="ks1card" onclick="selectKS('KS1',this)" aria-pressed="false">
+      <div class="ks-age">Ages 5–7 · Years 1 &amp; 2</div>
+      <div class="ks-label">Key Stage 1</div>
+      <div class="ks-desc">Counting to 100, number bonds, simple comparison, addition &amp; subtraction within 20</div>
+      <div class="ks-auto-note" id="ks1note" style="display:none;">✓ Matched to child's age</div>
+    </button>
+    <button class="ks-card" id="ks2card" onclick="selectKS('KS2',this)" aria-pressed="false">
+      <div class="ks-age">Ages 7–11 · Years 3–6</div>
+      <div class="ks-label">Key Stage 2</div>
+      <div class="ks-desc">Multiplication, fractions, place value, written methods, decimals &amp; percentages</div>
+      <div class="ks-auto-note" id="ks2note" style="display:none;">✓ Matched to child's age</div>
+    </button>
+  </div>
+  <div style="margin-bottom:8px;font-size:13px;font-weight:700;color:var(--gray-600);">Select school year (for precise matching)</div>
+  <div class="year-grid" id="yearGrid" role="group" aria-label="School year selection"></div>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="goTo(0)">← Back</button>
+    <button class="btn btn-primary" id="s1next" onclick="goTo(2)" disabled aria-disabled="true">Begin activities →</button>
+  </div>
+</section>
+
+<!-- ════ SCREEN 2: Games ════ -->
+<section class="screen" id="screen2">
+  <h2 class="screen-heading" id="gameHeading" style="font-size:22px;" aria-live="polite">Activity 1 of 5</h2>
+  <div class="game-header">
+    <div class="game-phase" id="gamePhase" aria-live="polite">COUNTING</div>
+    <div class="game-timer">⏱ <span id="timerDisplay">0s</span></div>
+  </div>
+  <div class="progress-wrap" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressWrap">
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  </div>
+  <div class="game-area" id="gameArea">
+    <div class="activity-label"><div class="activity-dot" aria-hidden="true"></div><span id="gameActivityLabel">Counting</span></div>
+    <div class="game-question" id="gameQuestion">Loading...</div>
+    <div class="emoji-grid" id="emojiGrid" aria-live="polite"></div>
+    <div class="answer-row" id="answerRow" role="group" aria-label="Answer choices"></div>
+    <div class="game-feedback" id="gameFeedback" aria-live="assertive"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val" id="statCorrect" aria-live="polite">0</div><div class="stat-lbl">Correct</div></div>
+    <div class="stat-card"><div class="stat-val" id="statAttempts" aria-live="polite">0</div><div class="stat-lbl">Attempts</div></div>
+    <div class="stat-card"><div class="stat-val" id="statSpeed" aria-live="polite">—</div><div class="stat-lbl">Avg speed</div></div>
+  </div>
+  <div class="observer-note">NumeriFlow tracks response time and hesitation — not just correct answers.</div>
+</section>
+
+<!-- ════ SCREEN 3: Processing ════ -->
+<section class="screen" id="screen3">
+  <div class="processing-center">
+    <div class="processing-icon" aria-hidden="true">🧠</div>
+    <h1 class="screen-heading">Building the learning profile</h1>
+    <p class="screen-sub" style="max-width:380px;">Analysing responses against the UK National Curriculum for <span id="procChildName">your child</span>'s year group...</p>
+    <div class="proc-list" role="list">
+      <div class="proc-item" id="proc0" role="listitem"><div class="proc-icon" id="procIcon0">○</div>Counting &amp; number sense</div>
+      <div class="proc-item" id="proc1" role="listitem"><div class="proc-icon" id="procIcon1">○</div>Comparison &amp; ordering</div>
+      <div class="proc-item" id="proc2" role="listitem"><div class="proc-icon" id="procIcon2">○</div>Pattern recognition</div>
+      <div class="proc-item" id="proc3" role="listitem"><div class="proc-icon" id="procIcon3">○</div>Rhythm &amp; timing profile</div>
+      <div class="proc-item" id="proc4" role="listitem"><div class="proc-icon" id="procIcon4">○</div>Mapping to curriculum objectives</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SCREEN 4: Learning Profile ════ -->
+<section class="screen" id="screen4">
+  <div class="profile-header">
+    <div class="avatar avatar-lg avatar-purple" id="profileAvatar" aria-hidden="true">?</div>
+    <div>
+      <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;color:var(--gray-900);margin-bottom:3px;" id="profileName">Learning profile</div>
+      <div style="font-size:13px;color:var(--gray-400);font-weight:600;" id="profileMeta">Assessed today</div>
+    </div>
+  </div>
+  <div class="obs-box" role="note">
+    <div class="obs-label">What we observed</div>
+    <div class="obs-text" id="obsText">Processing...</div>
+  </div>
+  <h2 style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;margin-bottom:16px;">Skill areas</h2>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-header"><div class="skill-name">Counting</div><div class="skill-badge" id="badge-counting">—</div></div><div class="skill-bar-bg"><div class="skill-bar" id="bar-counting"></div></div><div class="skill-note" id="note-counting">—</div></div>
+    <div class="skill-card"><div class="skill-header"><div class="skill-name">Comparison</div><div class="skill-badge" id="badge-comparison">—</div></div><div class="skill-bar-bg"><div class="skill-bar" id="bar-comparison"></div></div><div class="skill-note" id="note-comparison">—</div></div>
+    <div class="skill-card"><div class="skill-header"><div class="skill-name">Patterns</div><div class="skill-badge" id="badge-patterns">—</div></div><div class="skill-bar-bg"><div class="skill-bar" id="bar-patterns"></div></div><div class="skill-note" id="note-patterns">—</div></div>
+    <div class="skill-card"><div class="skill-header"><div class="skill-name">Rhythm</div><div class="skill-badge" id="badge-rhythm">—</div></div><div class="skill-bar-bg"><div class="skill-bar" id="bar-rhythm"></div></div><div class="skill-note" id="note-rhythm">—</div></div>
+  </div>
+  <!-- CURRICULUM OBJECTIVES SECTION -->
+  <div class="curriculum-section" id="curriculumSection">
+    <div class="curriculum-heading">📚 <span>UK Curriculum objectives to focus on</span></div>
+    <div class="obj-list" id="objList"></div>
+  </div>
+  <div class="disclaimer-box" role="note">
+    <span>ℹ️</span>
+    <div>This profile shows learning patterns that may benefit from support. This is <strong>not a medical diagnosis</strong>. Please consult a qualified educational psychologist for a formal dyscalculia assessment.</div>
+  </div>
+  <button class="btn btn-primary btn-lg btn-full" onclick="goTo(5)">See personalised program →</button>
+</section>
+
+<!-- ════ SCREEN 5: Personalised Program ════ -->
+<section class="screen" id="screen5">
+  <h1 class="screen-heading" id="programHeading">Learning program 🗺️</h1>
+  <p class="screen-sub">Personalised starting points based on the assessment and UK curriculum objectives for <span id="progYearLabel">this year group</span>. Each activity adapts as your child progresses.</p>
+  <div class="program-grid" id="programGrid"></div>
+  <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;margin-bottom:12px;">Suggested weekly routine</div>
+  <div class="weekly-grid" style="margin-bottom:20px;">
+    <div class="weekly-card"><div class="weekly-val" id="weeklyFreq">3×</div><div class="weekly-lbl" id="weeklyFocusLbl">Priority activity</div></div>
+    <div class="weekly-card"><div class="weekly-val">2×</div><div class="weekly-lbl">Music therapy</div></div>
+    <div class="weekly-card"><div class="weekly-val">10 min</div><div class="weekly-lbl">Per session</div></div>
+  </div>
+  <div class="reassess-note">📅 Re-assess in 2 weeks — levels adjust automatically based on progress.</div>
+  <div class="btn-row">
+    <button class="btn btn-primary btn-lg" onclick="finish()">Go to dashboard →</button>
+    <button class="btn btn-ghost" onclick="goTo(4)">← Back to profile</button>
+  </div>
+</section>
+
+</div>
+</main>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════
+const getLS = k => { try { return JSON.parse(localStorage.getItem(k)||'null'); } catch(e){ return null; } };
+const setLS = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+const initials = n => { if(!n)return'?'; const p=n.trim().split(' '); return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():n.slice(0,2).toUpperCase(); };
+const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const shuffle = a => { const r=[...a]; for(let i=r.length-1;i>0;i--){const j=rnd(0,i);[r[i],r[j]]=[r[j],r[i]];} return r; };
+const pick = a => a[rnd(0,a.length-1)];
+
+// ══════════════════════════════════════════════
+//  WEB AUDIO API SETUP
+// ══════════════════════════════════════════════
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+// Haptic feedback — vibrates device on supported mobile browsers
+// Pattern: [vibrate ms] — single tap for correct, double for wrong, long for milestone
+function haptic(pattern) {
+  if (navigator && navigator.vibrate) {
+    try { navigator.vibrate(pattern); } catch(e) {}
+  }
+}
+
+// Play a tone: frequency (Hz), type, duration (s), volume
+function playTone(freq, type='sine', duration=0.3, vol=0.4) {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, ctx.currentTime);
+  gain.gain.setValueAtTime(vol, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + duration);
+}
+
+// Correct sound: pleasant ascending chime
+function playCorrect() {
+  [523, 659, 784].forEach((f, i) => setTimeout(() => playTone(f,'sine',0.25,0.35), i*80));
+  haptic([60]); // short single pulse
+}
+
+// Wrong sound: gentle low buzz
+function playWrong() {
+  playTone(220, 'sawtooth', 0.2, 0.2);
+  haptic([40, 60, 40]); // double pulse for wrong
+}
+
+// Note frequencies for melody keys (C4 to C5)
+const NOTE_FREQS = {
+  C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23,
+  G4: 392.00, A4: 440.00, B4: 493.88, C5: 523.25
+};
+
+const NOTE_COLORS = {
+  C4:'#E57373', D4:'#FF9800', E4:'#FDD835', F4:'#66BB6A',
+  G4:'#26C6DA', A4:'#5C6BC0', B4:'#AB47BC', C5:'#EC407A'
+};
+
+// Pad frequencies for rhythm pads
+const PAD_FREQS = { g:392, p:330, a:262, c:220 };
+const PAD_TYPES = { g:'sine', p:'triangle', a:'square', c:'sawtooth' };
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let selectedKS = '';
+let selectedYear = '';
+let childName = '';
+let childAge = 5;
+
+let games = [];
+let currentGame = 0;
+let totalCorrect = 0;
+let totalAttempts = 0;
+let secondsElapsed = 0;
+let timerInterval = null;
+let questionStartTime = 0;
+let tapCount = 0;
+let userBeatPattern = [];
+let targetBeatPattern = [];
+let melodySequence = [];
+let userMelodyInput = [];
+let melodyPlaybackIdx = 0;
+let melodyPlayInterval = null;
+
+const gameData = {
+  counting:   { correct:0, attempts:0, responseTimes:[] },
+  comparison: { correct:0, attempts:0, responseTimes:[] },
+  patterns:   { correct:0, attempts:0, responseTimes:[] },
+  arithmetic: { correct:0, attempts:0, responseTimes:[] },
+  rhythm:     { taps:0, patternMatch:0, responseTimes:[] }
+};
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+(function init() {
+  const child = getLS('nf_child');
+  if (!child) { window.location.href = 'dashboard.html'; return; }
+
+  childName = child.name || 'Your child';
+  childAge = parseInt(child.age) || 6;
+
+  document.getElementById('childBadge').textContent = childName;
+  document.getElementById('s0heading').textContent = "Let's assess " + childName;
+  document.getElementById('s0sub').textContent = childName + "'s activities are matched to the UK National Curriculum for their year group. About 8 minutes.";
+  document.getElementById('procChildName').textContent = childName + "'s";
+
+  // Auto KS from age
+  const autoKS = childAge <= 7 ? 'KS1' : 'KS2';
+  selectedKS = autoKS;
+
+  const ks1 = document.getElementById('ks1card');
+  const ks2 = document.getElementById('ks2card');
+  if (autoKS === 'KS1') {
+    ks1.classList.add('selected'); ks1.setAttribute('aria-pressed','true');
+    document.getElementById('ks1note').style.display = 'block';
+  } else {
+    ks2.classList.add('selected'); ks2.setAttribute('aria-pressed','true');
+    document.getElementById('ks2note').style.display = 'block';
+  }
+
+  // Build year selector
+  buildYearSelector(autoKS);
+
+  // Auto-select year from age
+  const autoYear = ageToYear(childAge);
+  selectedYear = autoYear;
+  highlightYear(autoYear);
+
+  document.getElementById('s1next').disabled = false;
+  document.getElementById('s1next').setAttribute('aria-disabled','false');
+
+  document.getElementById('s1sub').textContent =
+    "We've matched the assessment to " + autoYear + " (" + (autoKS==='KS1'?'Key Stage 1':'Key Stage 2') + ") based on " + childName + "'s age. You can change it.";
+})();
+
+function ageToYear(age) {
+  const map = {5:'Year 1',6:'Year 2',7:'Year 3',8:'Year 3',9:'Year 4',10:'Year 5',11:'Year 6'};
+  return map[age] || (age <= 5 ? 'Year 1' : 'Year 6');
+}
+
+function buildYearSelector(ks) {
+  const grid = document.getElementById('yearGrid');
+  grid.innerHTML = '';
+  const years = ks === 'KS1' ? ['Year 1','Year 2'] : ['Year 3','Year 4','Year 5','Year 6'];
+  years.forEach(y => {
+    const btn = document.createElement('button');
+    btn.className = 'year-btn';
+    btn.textContent = y;
+    btn.setAttribute('aria-pressed','false');
+    btn.onclick = () => selectYear(y, btn);
+    btn.id = 'yr-' + y.replace(' ','-');
+    grid.appendChild(btn);
+  });
+}
+
+function highlightYear(year) {
+  document.querySelectorAll('.year-btn').forEach(b => {
+    b.classList.remove('selected');
+    b.setAttribute('aria-pressed','false');
+  });
+  const btn = document.getElementById('yr-' + year.replace(' ','-'));
+  if (btn) { btn.classList.add('selected'); btn.setAttribute('aria-pressed','true'); }
+}
+
+function selectYear(year, btn) {
+  selectedYear = year;
+  highlightYear(year);
+}
+
+function selectKS(ks, btn) {
+  document.querySelectorAll('.ks-card').forEach(c => { c.classList.remove('selected'); c.setAttribute('aria-pressed','false'); });
+  btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
+  selectedKS = ks;
+  ['ks1note','ks2note'].forEach(id => document.getElementById(id).style.display='none');
+  document.getElementById(ks==='KS1'?'ks1note':'ks2note').style.display='block';
+  buildYearSelector(ks);
+  const firstYear = ks==='KS1'?'Year 1':'Year 3';
+  selectedYear = firstYear;
+  highlightYear(firstYear);
+  document.getElementById('s1next').disabled = false;
+  document.getElementById('s1next').setAttribute('aria-disabled','false');
+}
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function goTo(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen'+n).classList.add('active');
+  document.querySelectorAll('.step-dot').forEach((d,i) => {
+    d.classList.remove('active','done');
+    if(i<n) d.classList.add('done');
+    if(i===n) d.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===2) initAssessment();
+  if(n===3) startProcessing();
+  if(n===4) showProfile();
+  if(n===5) showProgram();
+}
+
+// ══════════════════════════════════════════════
+//  CURRICULUM-MATCHED GAME BANK
+// ══════════════════════════════════════════════
+
+// Map join.html tile names to skillKey values used in game objects
+const SKILL_KEY_MAP = {
+  counting:'counting', comparison:'comparison',
+  patterns:'patterns', arithmetic:'arithmetic', music:'rhythm'
+};
+
+function getGames() {
+  const yr = selectedYear;
+
+  // Build the full question bank for this year group
+  let allGames;
+  if (yr === 'Year 1')      allGames = gamesYear1();
+  else if (yr === 'Year 2') allGames = gamesYear2();
+  else if (yr === 'Year 3') allGames = gamesYear3();
+  else if (yr === 'Year 4') allGames = gamesYear4();
+  else if (yr === 'Year 5') allGames = gamesYear5();
+  else                      allGames = gamesYear6();
+
+  // Check if child launched a specific game type from join.html
+  const launchType = sessionStorage.getItem('nf_launch_game');
+  if (launchType && SKILL_KEY_MAP[launchType]) {
+    sessionStorage.removeItem('nf_launch_game'); // clear so re-visit gets full assessment
+    const skillKey = SKILL_KEY_MAP[launchType];
+    const filtered = allGames.filter(g => g.skillKey === skillKey);
+    return filtered.length >= 2 ? filtered : allGames; // fallback to full if too few
+  }
+
+  return allGames; // full assessment
+}
+
+// ── Year 1: count to 20, one more/less, number bonds to 10 ──
+// 3-4 questions per skill → ~16 questions total → 5-8 minutes
+function gamesYear1() {
+  const games = [];
+
+  // COUNTING (4 questions) — count objects, one more/one less
+  const emojis = ['⭐','🍎','🐰','🦋','🐸'];
+  const countNums = [rnd(2,5), rnd(3,7), rnd(4,9), rnd(6,10)];
+  countNums.forEach((n, i) => {
+    const wrong = shuffle([n-1,n+1,n+2,n-2].filter(x=>x>0&&x!==n)).slice(0,3);
+    games.push({ type:'count', skillKey:'counting', label:'Counting', title:'COUNTING · Year 1',
+      question:'Count the '+(emojis[i]||'⭐')+'s — how many can you see?',
+      emoji:emojis[i]||'⭐', count:n, options:shuffle([n,...wrong]),
+      curriculumRef:'Count to and across 100, forwards and backwards from any number (Y1)' });
+  });
+  // One more / one less
+  const baseN = rnd(3,9);
+  games.push({ type:'mcq', skillKey:'counting', label:'One more', title:'NUMBER SENSE · Year 1',
+    question:'What is one MORE than ' + baseN + '?', answer:String(baseN+1),
+    options:shuffle([baseN+1,baseN,baseN+2,baseN-1].map(String)),
+    curriculumRef:'Given a number, identify one more and one less (Y1)' });
+
+  // COMPARISON (3 questions) — more than / less than
+  [[rnd(1,5),rnd(6,10)],[rnd(1,9),rnd(1,9)],[rnd(5,15),rnd(5,15)]].forEach(([a,b]) => {
+    games.push({ type:'compare', skillKey:'comparison', label:'Number comparison', title:'COMPARISON · Year 1',
+      question:'Which number is bigger?', numA:a, numB:b,
+      curriculumRef:'Identify and represent numbers using objects; use language: equal to, more than, less than (Y1)' });
+  });
+
+  // PATTERNS (3 questions) — count in 2s, 5s, 10s
+  const seqs = [
+    {q:'2, 4, 6, 8, ?', vals:['2','4','6','8','?'], ans:10, opts:shuffle([10,9,11,12])},
+    {q:'5, 10, 15, ?',  vals:['5','10','15','?'],   ans:20, opts:shuffle([20,18,22,25])},
+    {q:'10, 20, 30, ?', vals:['10','20','30','?'],  ans:40, opts:shuffle([40,35,45,50])}
+  ];
+  seqs.forEach(s => {
+    games.push({ type:'sequence', skillKey:'patterns', label:'Patterns', title:'PATTERNS · Year 1',
+      question:'What comes next? ' + s.q, seqValues:s.vals, seqAnswer:s.ans, options:s.opts,
+      curriculumRef:'Count in multiples of 2, 5 and 10 (Y1)' });
+  });
+
+  // ARITHMETIC (3 questions) — number bonds to 10
+  [rnd(1,4), rnd(2,6), rnd(3,8)].forEach(bondA => {
+    const bondB = 10 - bondA;
+    const opts = shuffle([bondB, bondB>1?bondB-1:bondB+2, bondB+1, bondB>2?bondB-2:bondB+3].slice(0,4));
+    games.push({ type:'numberbond', skillKey:'arithmetic', label:'Number bonds', title:'NUMBER BONDS · Year 1',
+      question: bondA + ' + ? = 10', bondKnown:bondA, bondTotal:10, bondAnswer:bondB,
+      options:opts,
+      curriculumRef:'Represent and use number bonds and related subtraction facts within 20 (Y1)' });
+  });
+
+  // MUSIC / RHYTHM (3 questions — melody, rhythm, beat counting)
+  games.push({ type:'melody', skillKey:'rhythm', label:'Music therapy', title:'MELODY · Year 1',
+    question:'Listen to the tune then tap it back!',
+    curriculumRef:'Rhythm cognition — supports counting patterns and number sequencing (Y1)' });
+  games.push({ type:'rhythm', skillKey:'rhythm', label:'Rhythm tap', title:'RHYTHM · Year 1',
+    question:'Tap the pads in the same order as the pattern!',
+    curriculumRef:'Beat matching — develops temporal ordering linked to number ordering (Y1)' });
+  games.push({ type:'beatcount', skillKey:'rhythm', label:'Beat counting', title:'BEAT COUNT · Year 1',
+    question:'Listen carefully — how many beats do you hear?',
+    beatCount: rnd(2, 5),
+    curriculumRef:'Auditory beat counting — reinforces number sense and counting to 10 (Y1)' });
+
+  return shuffle(games.filter((_,i)=>i<18)); // cap at 18, randomise order
+}
+
+
+// ── Year 2: to 100, count in 2s/5s/10s, add/sub within 20, simple times ──
+function gamesYear2() {
+  const games = [];
+
+  // COUNTING (4 questions)
+  const emojis2 = ['🍎','🐟','🌻','🎈'];
+  [rnd(10,15), rnd(12,18), rnd(14,20), rnd(8,16)].forEach((n, i) => {
+    const wrong = shuffle([n-2,n-1,n+1,n+2].filter(x=>x>0&&x!==n)).slice(0,3);
+    games.push({ type:'count', skillKey:'counting', label:'Counting', title:'COUNTING · Year 2',
+      question:'Count the ' + emojis2[i] + 's!', emoji:emojis2[i], count:n,
+      options:shuffle([n,...wrong]),
+      curriculumRef:'Count in steps of 2, 3 and 5 from 0; recognise odd and even numbers (Y2)' });
+  });
+  // Odd or even
+  const oe = rnd(1,20);
+  games.push({ type:'mcq', skillKey:'counting', label:'Odd or even', title:'ODD OR EVEN · Year 2',
+    question:'Is ' + oe + ' odd or even?', answer:oe%2===0?'Even':'Odd',
+    options:['Odd','Even'],
+    curriculumRef:'Recognise odd and even numbers (Y2)' });
+
+  // COMPARISON (3 questions)
+  [[rnd(10,50),rnd(10,50)],[rnd(20,80),rnd(20,80)],[rnd(1,99),rnd(1,99)]].forEach(([a,b]) => {
+    games.push({ type:'compare', skillKey:'comparison', label:'Comparing numbers', title:'COMPARISON · Year 2',
+      question:'Which number is bigger?', numA:a, numB:b,
+      curriculumRef:'Compare and order numbers from 0 to 100; use <, > and = signs (Y2)' });
+  });
+
+  // PATTERNS (3 questions)
+  const seqs2 = [
+    {q:'5, 10, 15, 20, ?',   vals:['5','10','15','20','?'],   ans:25, opts:shuffle([25,22,28,30])},
+    {q:'3, 6, 9, 12, ?',     vals:['3','6','9','12','?'],     ans:15, opts:shuffle([15,13,16,18])},
+    {q:'10, 20, 30, 40, ?',  vals:['10','20','30','40','?'],  ans:50, opts:shuffle([50,45,55,60])}
+  ];
+  seqs2.forEach(s => {
+    games.push({ type:'sequence', skillKey:'patterns', label:'Counting patterns', title:'PATTERNS · Year 2',
+      question:'What comes next? ' + s.q, seqValues:s.vals, seqAnswer:s.ans, options:s.opts,
+      curriculumRef:'Count in steps of 2, 3 and 5 from 0 (Y2)' });
+  });
+
+  // ARITHMETIC (4 questions) — add/sub within 20
+  [[rnd(5,10), rnd(1,9)],[rnd(8,14), rnd(1,6)],[rnd(10,18), rnd(1,8)],[rnd(6,12), rnd(1,8)]].forEach(([a,b]) => {
+    const isAdd = Math.random() > 0.4;
+    const ans = isAdd ? a+b : a-b;
+    if(ans < 0) return;
+    games.push({ type:'mcq', skillKey:'arithmetic', label:isAdd?'Addition':'Subtraction', title:(isAdd?'ADDITION':'SUBTRACTION')+' · Year 2',
+      question: a + (isAdd?' + ':' − ') + b + ' = ?', answer:String(ans),
+      options:shuffle([ans,ans+1,ans-1,ans+2].map(String)),
+      curriculumRef:'Add and subtract numbers using concrete objects and mentally, including two-digit numbers (Y2)' });
+  });
+
+  // MUSIC (3)
+  games.push({ type:'rhythm', skillKey:'rhythm', label:'Rhythm tap', title:'RHYTHM · Year 2',
+    question:'Tap the pads to match the beat!',
+    curriculumRef:'Rhythmic pattern repetition — reinforces multiplication counting patterns (Y2)' });
+  games.push({ type:'melody', skillKey:'rhythm', label:'Melody match', title:'MELODY · Year 2',
+    question:'Listen and play back the melody!',
+    curriculumRef:'Beat sequencing — supports understanding of number sequences (Y2)' });
+  games.push({ type:'beatcount', skillKey:'rhythm', label:'Beat counting', title:'BEAT COUNT · Year 2',
+    question:'Listen carefully — how many beats do you hear?',
+    beatCount: rnd(3, 8),
+    curriculumRef:'Auditory beat counting — reinforces multiplication counting in 2s and 5s (Y2)' });
+
+  return shuffle(games).slice(0, 18);
+}
+
+// ── Year 3: to 1000, ×2/3/4/5/8/10, add/sub with carrying ──
+function gamesYear3() {
+  const games = [];
+
+  // COUNTING / NUMBER SENSE (4 questions)
+  [[rnd(100,999),rnd(100,999)],[rnd(200,800),rnd(200,800)],[rnd(50,500),rnd(50,500)]].forEach(([a,b]) => {
+    games.push({ type:'compare', skillKey:'counting', label:'3-digit numbers', title:'NUMBER SENSE · Year 3',
+      question:'Which number is bigger?', numA:a, numB:b,
+      curriculumRef:'Count from 0 in multiples of 4, 8, 50 and 100 (Y3)' });
+  });
+  const placeN = rnd(100,900);
+  games.push({ type:'mcq', skillKey:'counting', label:'Place value', title:'PLACE VALUE · Year 3',
+    question:'What is the value of the hundreds digit in ' + placeN + '?',
+    answer:String(Math.floor(placeN/100)*100),
+    options:shuffle([Math.floor(placeN/100)*100, Math.floor(placeN/10)%10*10, placeN%10, Math.floor(placeN/100)*100+100].map(String)),
+    curriculumRef:'Recognise the place value of each digit in a 3-digit number (Y3)' });
+
+  // COMPARISON / TIMES TABLES (4 questions)
+  [pick([2,3,4,5,8,10]), pick([2,3,4,5,8,10]), pick([3,4,8]), pick([2,5,10])].forEach(t => {
+    const m = rnd(2,10); const p = t*m;
+    const wrong = shuffle([p-t,p+t,p+t*2].filter(x=>x>0&&x!==p)).slice(0,3);
+    games.push({ type:'mcq', skillKey:'comparison', label:'Times tables', title:'MULTIPLICATION · Year 3',
+      question: t + ' × ' + m + ' = ?', answer:String(p), options:shuffle([p,...wrong].map(String)),
+      curriculumRef:'Recall and use multiplication and division facts for 3, 4 and 8 times tables (Y3)' });
+  });
+
+  // PATTERNS (3 questions)
+  [[100,200,300,400,500],[4,8,12,16,20],[50,100,150,200,250]].forEach(seq => {
+    const ans = seq[seq.length-1]; const disp = seq.slice(0,-1).map(String).concat(['?']);
+    const step = seq[1]-seq[0];
+    games.push({ type:'sequence', skillKey:'patterns', label:'Number sequences', title:'PATTERNS · Year 3',
+      question:'What comes next? ' + seq.slice(0,-1).join(', ') + ', ?',
+      seqValues:disp, seqAnswer:ans, options:shuffle([ans,ans-step,ans+step,ans+step*2]),
+      curriculumRef:'Count from 0 in multiples of 4, 8, 50 and 100 (Y3)' });
+  });
+
+  // ARITHMETIC (4 questions) — add/sub 3-digit
+  [[rnd(100,400),rnd(50,200)],[rnd(200,500),rnd(100,300)],[rnd(150,450),rnd(50,150)],[rnd(300,700),rnd(100,200)]].forEach(([a,b]) => {
+    const isAdd = Math.random() > 0.4; const ans = isAdd ? a+b : a-b;
+    if(ans < 0) return;
+    games.push({ type:'mcq', skillKey:'arithmetic', label:isAdd?'Addition':'Subtraction', title:(isAdd?'ADDITION':'SUBTRACTION')+' · Year 3',
+      question: a + (isAdd?' + ':' − ') + b + ' = ?', answer:String(ans),
+      options:shuffle([ans,ans+10,ans-10,ans+100].map(String)),
+      curriculumRef:'Add and subtract numbers with up to 3 digits using formal written methods (Y3)' });
+  });
+
+  // MUSIC (3)
+  games.push({ type:'melody', skillKey:'rhythm', label:'Melody match', title:'MELODY · Year 3',
+    question:'Listen to the melody then play it back!',
+    curriculumRef:'Melodic pattern memory — supports multiplication sequence recall (Y3)' });
+  games.push({ type:'rhythm', skillKey:'rhythm', label:'Beat pattern', title:'RHYTHM · Year 3',
+    question:'Match the beat pattern by tapping!',
+    curriculumRef:'Complex rhythm patterns — develops working memory for multi-step arithmetic (Y3)' });
+  games.push({ type:'beatcount', skillKey:'rhythm', label:'Beat counting', title:'BEAT COUNT · Year 3',
+    question:'Listen carefully — how many beats do you hear?',
+    beatCount: rnd(4, 10),
+    curriculumRef:'Auditory beat counting — reinforces 3, 4 and 8 times table rhythm patterns (Y3)' });
+
+  return shuffle(games).slice(0, 18);
+}
+
+// ── Year 4: to 10,000, all ×tables to 12, fractions, decimals ──
+function gamesYear4() {
+  const games = [];
+
+  // COUNTING (3)
+  [[rnd(1000,9999),rnd(1000,9999)],[rnd(2000,8000),rnd(2000,8000)],[rnd(5000,9000),rnd(1000,4999)]].forEach(([a,b]) => {
+    games.push({ type:'compare', skillKey:'counting', label:'4-digit numbers', title:'NUMBER SENSE · Year 4',
+      question:'Which number is bigger?', numA:a, numB:b,
+      curriculumRef:'Count in multiples of 6, 7, 9, 25 and 1000 (Y4)' });
+  });
+  const roundN = rnd(100,9900);
+  games.push({ type:'mcq', skillKey:'counting', label:'Rounding', title:'ROUNDING · Year 4',
+    question:'Round ' + roundN + ' to the nearest 100.',
+    answer:String(Math.round(roundN/100)*100),
+    options:shuffle([Math.round(roundN/100)*100, Math.floor(roundN/100)*100, Math.ceil(roundN/100)*100, Math.round(roundN/1000)*1000].map(String)),
+    curriculumRef:'Round any number to the nearest 10, 100 or 1000 (Y4)' });
+
+  // COMPARISON / TIMES TABLES (4)
+  [pick([6,7,9,11,12]),pick([6,7,8,9,12]),pick([7,9,11,12]),pick([6,8,9,12])].forEach(t => {
+    const m = rnd(3,12); const p = t*m;
+    const wrong = shuffle([p-t,p+t,p-t*2].filter(x=>x>0&&x!==p)).slice(0,3);
+    games.push({ type:'mcq', skillKey:'comparison', label:'Times tables to 12', title:'MULTIPLICATION · Year 4',
+      question: t + ' × ' + m + ' = ?', answer:String(p), options:shuffle([p,...wrong].map(String)),
+      curriculumRef:'Recall multiplication and division facts for all tables up to 12×12 (Y4)' });
+  });
+
+  // PATTERNS / FRACTIONS (3)
+  [pick([3,4,5,8,10]),pick([4,5,8,10]),pick([3,5,8])].forEach(d => {
+    const n = rnd(1,d-1);
+    const wrong = shuffle([[n+1,d],[n,d+1],[n-1>0?n-1:1,d]].map(([a,b])=>a+'/'+b));
+    games.push({ type:'fraction', skillKey:'patterns', label:'Fractions', title:'FRACTIONS · Year 4',
+      question:'Which fraction shows ' + n + ' out of ' + d + ' parts?',
+      answer:n+'/'+d, fracN:n, fracD:d,
+      options:shuffle([n+'/'+d,...wrong.slice(0,3)]),
+      curriculumRef:'Recognise and show fractions of a discrete set of objects (Y4)' });
+  });
+
+  // ARITHMETIC / DIVISION (4)
+  [pick([6,7,8,9,12]),pick([6,7,9,11]),pick([6,8,9,12]),pick([7,9,11,12])].forEach(t => {
+    const m = rnd(3,12); const p = t*m;
+    games.push({ type:'mcq', skillKey:'arithmetic', label:'Division', title:'DIVISION · Year 4',
+      question: p + ' ÷ ' + t + ' = ?', answer:String(m),
+      options:shuffle([m,m+1,m-1,m+2].filter(x=>x>0).map(String)),
+      curriculumRef:'Use place value, known and derived facts to multiply and divide mentally (Y4)' });
+  });
+
+  // MUSIC (3)
+  games.push({ type:'rhythm', skillKey:'rhythm', label:'Beat pattern', title:'RHYTHM · Year 4',
+    question:'Match the beat pattern — all 4 pads!',
+    curriculumRef:'Complex beat patterns (6-8 beats) — mirrors 12× table pattern structure (Y4)' });
+  games.push({ type:'melody', skillKey:'rhythm', label:'Melody challenge', title:'MELODY · Year 4',
+    question:'Listen carefully and play the melody back!',
+    curriculumRef:'Melody sequences — supports fraction pattern recognition (Y4)' });
+  games.push({ type:'beatcount', skillKey:'rhythm', label:'Beat counting', title:'BEAT COUNT · Year 4',
+    question:'Listen carefully — how many beats do you hear?',
+    beatCount: rnd(5, 12),
+    curriculumRef:'Auditory beat counting — reinforces 6, 7, 9 times table rhythm patterns (Y4)' });
+
+  return shuffle(games).slice(0, 18);
+}
+
+// ── Year 5: negative numbers, fractions, multiples, factors ──
+function gamesYear5() {
+  const games = [];
+
+  // COUNTING / NUMBER SENSE (4)
+  [[-rnd(1,8),rnd(1,8)],[-rnd(2,6),rnd(3,9)],[-rnd(5,10),-rnd(1,4)],[rnd(100,999),rnd(100,999)]].forEach(([a,b]) => {
+    games.push({ type:'compare', skillKey:'counting', label:'Number ordering', title:'NUMBER SENSE · Year 5',
+      question:'Which number is bigger?', numA:a, numB:b,
+      curriculumRef:'Interpret negative numbers in context; count through 0 (Y5)' });
+  });
+  const n1000 = rnd(10000,900000);
+  games.push({ type:'mcq', skillKey:'counting', label:'Large numbers', title:'PLACE VALUE · Year 5',
+    question:'Round ' + n1000.toLocaleString() + ' to the nearest 1,000.',
+    answer:String(Math.round(n1000/1000)*1000),
+    options:shuffle([Math.round(n1000/1000)*1000,Math.floor(n1000/1000)*1000,Math.ceil(n1000/1000)*1000,Math.round(n1000/10000)*10000].map(String)),
+    curriculumRef:'Count forwards or backwards in steps of powers of 10 (Y5)' });
+
+  // COMPARISON / FACTORS (4)
+  [pick([12,18,24,30,36,48]),pick([15,20,24,30,40]),pick([16,24,32,36]),pick([18,24,30,42])].forEach(fn => {
+    const factors = Array.from({length:fn},(_,i)=>i+1).filter(i=>fn%i===0);
+    const nonFactor = [fn+3,fn+5,fn+7].find(x=>fn%x!==0)||fn+11;
+    const pool = shuffle([...factors.slice(1,4), nonFactor]);
+    games.push({ type:'mcq', skillKey:'comparison', label:'Factors', title:'FACTORS · Year 5',
+      question:'Which of these is NOT a factor of ' + fn + '?', answer:String(nonFactor),
+      options:pool.slice(0,4).map(String),
+      curriculumRef:'Identify multiples and factors, including all factor pairs of a number (Y5)' });
+  });
+
+  // PATTERNS / SEQUENCES (3)
+  [[0.5,1.0,1.5,2.0,2.5],[0.25,0.5,0.75,1.0,1.25],[1.1,1.2,1.3,1.4,1.5]].forEach(seq => {
+    const ans = seq[seq.length-1];
+    const step = seq[1]-seq[0];
+    games.push({ type:'sequence', skillKey:'patterns', label:'Decimal sequences', title:'SEQUENCES · Year 5',
+      question:'What comes next? ' + seq.slice(0,-1).join(', ') + ', ?',
+      seqValues:seq.slice(0,-1).map(String).concat(['?']), seqAnswer:ans,
+      options:shuffle([ans, ans+step, ans-step, ans+step*2]),
+      curriculumRef:'Count forwards or backwards in steps of powers of 10 for any given number (Y5)' });
+  });
+
+  // ARITHMETIC (4)
+  [[rnd(4,12),rnd(4,12)],[rnd(6,15),rnd(6,15)],[rnd(8,20),rnd(5,12)],[rnd(10,25),rnd(10,25)]].forEach(([a,b]) => {
+    const p = a*b;
+    games.push({ type:'mcq', skillKey:'arithmetic', label:'Multiplication', title:'MULTIPLICATION · Year 5',
+      question: a + ' × ' + b + ' = ?', answer:String(p),
+      options:shuffle([p,p+a,p-b,p+b].map(String)),
+      curriculumRef:'Multiply numbers mentally drawing upon known facts (Y5)' });
+  });
+
+  // MUSIC (3)
+  games.push({ type:'melody', skillKey:'rhythm', label:'Melody challenge', title:'MELODY · Year 5',
+    question:'Remember the melody (5 notes!) and play it back!',
+    curriculumRef:'Complex melody sequences — supports factor and multiple pattern recognition (Y5)' });
+  games.push({ type:'rhythm', skillKey:'rhythm', label:'Advanced rhythm', title:'RHYTHM · Year 5',
+    question:'Match the longer beat pattern — good luck!',
+    curriculumRef:'Rhythmic precision — develops timing accuracy for decimal and percentage work (Y5)' });
+  games.push({ type:'beatcount', skillKey:'rhythm', label:'Beat counting', title:'BEAT COUNT · Year 5',
+    question:'Listen carefully — how many beats do you hear?',
+    beatCount: rnd(6, 14),
+    curriculumRef:'Auditory beat counting — supports decimal and percentage rhythmic patterns (Y5)' });
+
+  return shuffle(games).slice(0, 18);
+}
+
+// ── Year 6: long division, percentages, ratio, algebra ──
+function gamesYear6() {
+  const games = [];
+
+  // COUNTING / ALGEBRA (4)
+  [2,3,4,5].forEach(a => {
+    const b = rnd(2,9); const c = rnd(1,9); const alg = a*b+c;
+    games.push({ type:'mcq', skillKey:'counting', label:'Algebra', title:'ALGEBRA · Year 6',
+      question: a + 'n + ' + c + ' = ' + alg + '. What is n?', answer:String(b),
+      options:shuffle([b,b+1,b-1,b+2].map(String)),
+      curriculumRef:'Use simple formulae; express missing number problems algebraically (Y6)' });
+  });
+
+  // COMPARISON / PERCENTAGES (4)
+  [10,20,25,50].forEach(pct => {
+    const whole = pick([80,100,120,200,400]);
+    const ans = Math.round(whole*pct/100);
+    games.push({ type:'mcq', skillKey:'comparison', label:'Percentages', title:'PERCENTAGES · Year 6',
+      question: pct + '% of ' + whole + ' = ?', answer:String(ans),
+      options:shuffle([ans,ans+whole*0.1,ans-whole*0.1,ans+whole*0.2].map(x=>String(Math.round(x)))),
+      curriculumRef:'Solve problems involving percentage of an amount (Y6)' });
+  });
+
+  // PATTERNS / RATIO (3)
+  [2,3,4].forEach(() => {
+    const r1=rnd(2,5); const r2=rnd(2,5); const total=r1+r2; const whole=total*rnd(3,8);
+    const share=Math.round(whole/total*r1);
+    games.push({ type:'mcq', skillKey:'patterns', label:'Ratio', title:'RATIO · Year 6',
+      question:'Ratio ' + r1 + ':' + r2 + '. Total ' + whole + '. First share = ?',
+      answer:String(share),
+      options:shuffle([share,share+r1,share-r2>0?share-r2:share+r2,whole-share].map(String)),
+      curriculumRef:'Solve problems involving relative sizes of two quantities using ratio (Y6)' });
+  });
+
+  // ARITHMETIC / DIVISION (4)
+  [pick([6,7,8,9]),pick([7,8,9,11]),pick([6,9,11,12]),pick([7,8,9,11])].forEach(d => {
+    const q = rnd(10,99); const p = d*q;
+    games.push({ type:'mcq', skillKey:'arithmetic', label:'Division', title:'DIVISION · Year 6',
+      question: p + ' ÷ ' + d + ' = ?', answer:String(q),
+      options:shuffle([q,q+1,q-1,q+d].map(String)),
+      curriculumRef:'Divide numbers up to 4 digits by a 2-digit number using long division (Y6)' });
+  });
+
+  // MUSIC (3)
+  games.push({ type:'rhythm', skillKey:'rhythm', label:'Beat master', title:'RHYTHM · Year 6',
+    question:'Master the beat — longest pattern yet!',
+    curriculumRef:'Complex beat pattern mastery — supports algebraic sequential thinking (Y6)' });
+  games.push({ type:'melody', skillKey:'rhythm', label:'Advanced melody', title:'MELODY · Year 6',
+    question:'Listen carefully and reproduce the full melody!',
+    curriculumRef:'Advanced melody — develops working memory for multi-step problem solving (Y6)' });
+  games.push({ type:'beatcount', skillKey:'rhythm', label:'Beat counting', title:'BEAT COUNT · Year 6',
+    question:'Listen carefully — how many beats do you hear?',
+    beatCount: rnd(7, 16),
+    curriculumRef:'Auditory beat counting — supports algebraic and ratio pattern thinking (Y6)' });
+
+  return shuffle(games).slice(0, 18);
+}
+
+// ══════════════════════════════════════════════
+//  ASSESSMENT ENGINE
+// ══════════════════════════════════════════════
+function initAssessment() {
+  currentGame=0; totalCorrect=0; totalAttempts=0;
+  secondsElapsed=0; tapCount=0;
+  userBeatPattern=[]; targetBeatPattern=[];
+  melodySequence=[]; userMelodyInput=[];
+
+  Object.keys(gameData).forEach(k => {
+    gameData[k]={correct:0,attempts:0,responseTimes:[],taps:0,patternMatch:0};
+  });
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    secondsElapsed++;
+    document.getElementById('timerDisplay').textContent = secondsElapsed + 's';
+  }, 1000);
+
+  games = getGames();
+  updateStats();
+  renderGame();
+}
+
+function renderGame() {
+  const g = games[currentGame];
+  if (!g) return;
+
+  const pct = Math.round((currentGame/games.length)*100);
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressWrap').setAttribute('aria-valuenow', pct);
+  document.getElementById('gameHeading').textContent = 'Activity '+(currentGame+1)+' of '+games.length;
+  document.getElementById('gamePhase').textContent = g.title;
+  document.getElementById('gameActivityLabel').textContent = g.label;
+  document.getElementById('gameQuestion').textContent = g.question;
+  document.getElementById('gameFeedback').textContent = '';
+  document.getElementById('gameFeedback').className = 'game-feedback';
+
+  const emojiGrid = document.getElementById('emojiGrid');
+  const answerRow = document.getElementById('answerRow');
+  emojiGrid.innerHTML=''; answerRow.innerHTML='';
+  emojiGrid.style.display='none';
+
+  questionStartTime = Date.now();
+
+  switch(g.type) {
+    case 'count':      renderCount(g); break;
+    case 'compare':    renderCompare(g); break;
+    case 'sequence':   renderSequence(g); break;
+    case 'mcq':        renderMCQ(g); break;
+    case 'numberbond': renderNumberBond(g); break;
+    case 'fraction':   renderFraction(g); break;
+    case 'rhythm':     renderRhythm(g); break;
+    case 'melody':     renderMelody(g); break;
+    case 'beatcount':  renderBeatCount(g); break;
+  }
+}
+
+// ── Count ──────────────────────────────────────
+function renderCount(g) {
+  const emojiGrid = document.getElementById('emojiGrid');
+  emojiGrid.style.display='flex';
+  for(let i=0;i<g.count;i++){
+    const s=document.createElement('span');
+    s.textContent=g.emoji; s.setAttribute('aria-hidden','true');
+    emojiGrid.appendChild(s);
+  }
+  emojiGrid.setAttribute('aria-label', g.count+' objects');
+  const ar = document.getElementById('answerRow');
+  g.options.forEach(opt=>{
+    const btn=makeAnsBtn(opt, ()=>checkStd(opt===g.count, g.skillKey, g.options.map(o=>({val:o,btn:null})), btn));
+    ar.appendChild(btn);
+  });
+}
+
+// ── MCQ (general multiple choice) ──────────────
+function renderMCQ(g) {
+  const ar = document.getElementById('answerRow');
+  g.options.forEach(opt=>{
+    const btn = makeAnsBtn(opt, ()=>checkStd(String(opt)===String(g.answer), g.skillKey, [], btn));
+    btn.classList.add('wide');
+    ar.appendChild(btn);
+  });
+}
+
+// ── Number bond ────────────────────────────────
+function renderNumberBond(g) {
+  const ar = document.getElementById('answerRow');
+  g.options.forEach(opt=>{
+    const btn = makeAnsBtn(opt, ()=>checkStd(opt===g.bondAnswer, g.skillKey, [], btn));
+    ar.appendChild(btn);
+  });
+}
+
+// ── Fraction ───────────────────────────────────
+function renderFraction(g) {
+  const ar = document.getElementById('answerRow');
+  // Show fraction bars visually
+  const visual = document.createElement('div');
+  visual.style.cssText='display:flex;gap:16px;margin-bottom:20px;justify-content:center;';
+  const totalBoxes=g.fracD;
+  const filledBoxes=g.fracN;
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;gap:4px;';
+  for(let i=0;i<totalBoxes;i++){
+    const box=document.createElement('div');
+    box.style.cssText='width:28px;height:28px;border-radius:6px;border:2px solid var(--gray-200);background:'+(i<filledBoxes?'var(--green)':'var(--gray-100)')+';';
+    row.appendChild(box);
+  }
+  visual.appendChild(row);
+  document.getElementById('emojiGrid').style.display='block';
+  document.getElementById('emojiGrid').appendChild(visual);
+
+  g.options.forEach(opt=>{
+    const btn = makeAnsBtn(opt, ()=>checkStd(opt===g.answer, g.skillKey, [], btn));
+    btn.classList.add('wide');
+    ar.appendChild(btn);
+  });
+}
+
+// ── Compare ────────────────────────────────────
+function renderCompare(g) {
+  const ar = document.getElementById('answerRow');
+  const numA = g.numA, numB = g.numB;
+  const correct = numA > numB ? 'left' : numB > numA ? 'right' : 'equal';
+
+  const wrapper=document.createElement('div');
+  wrapper.style.cssText='display:flex;flex-direction:column;align-items:center;gap:20px;';
+
+  const row=document.createElement('div');
+  row.className='compare-row';
+  // Smaller boxes for large numbers
+  const boxClass = (Math.abs(numA)>99||Math.abs(numB)>99) ? 'num-box sm' : 'num-box';
+  row.innerHTML=`<div class="${boxClass}" aria-label="Number ${numA}">${numA}</div><div class="vs-label">or</div><div class="${boxClass}" aria-label="Number ${numB}">${numB}</div>`;
+
+  const btnRow=document.createElement('div');
+  btnRow.style.cssText='display:flex;gap:14px;flex-wrap:wrap;justify-content:center;';
+
+  const btnA=document.createElement('button'); btnA.className='cmp-btn'; btnA.textContent=numA+' is bigger';
+  const btnB=document.createElement('button'); btnB.className='cmp-btn'; btnB.textContent=numB+' is bigger';
+
+  btnA.onclick=()=>{ btnA.onclick=null; btnB.onclick=null; checkCompare('left',correct,g.skillKey,btnA,btnB); };
+  btnB.onclick=()=>{ btnA.onclick=null; btnB.onclick=null; checkCompare('right',correct,g.skillKey,btnB,btnA); };
+
+  if(correct==='equal') {
+    // If equal add an equal option
+    const btnE=document.createElement('button'); btnE.className='cmp-btn'; btnE.textContent='They\'re equal';
+    btnE.onclick=()=>{ btnE.onclick=null; checkCompare('equal','equal',g.skillKey,btnE,btnA); };
+    btnRow.appendChild(btnA); btnRow.appendChild(btnE); btnRow.appendChild(btnB);
+  } else {
+    btnRow.appendChild(btnA); btnRow.appendChild(btnB);
+  }
+
+  wrapper.appendChild(row); wrapper.appendChild(btnRow);
+  ar.appendChild(wrapper);
+}
+
+// ── Sequence ───────────────────────────────────
+function renderSequence(g) {
+  const ar = document.getElementById('answerRow');
+  const seqRow = document.createElement('div');
+  seqRow.className='seq-row';
+  g.seqValues.forEach(v=>{
+    const box=document.createElement('div');
+    box.className='seq-box'+(v==='?'?' unknown':'');
+    box.textContent=v;
+    seqRow.appendChild(box);
+  });
+  document.getElementById('emojiGrid').style.display='block';
+  document.getElementById('emojiGrid').appendChild(seqRow);
+
+  const btnRow=document.createElement('div');
+  btnRow.style.cssText='display:flex;gap:12px;flex-wrap:wrap;justify-content:center;';
+  g.options.forEach(opt=>{
+    const btn=makeAnsBtn(opt, ()=>checkStd(Number(opt)===Number(g.seqAnswer), g.skillKey, [], btn));
+    btn.classList.add('wide');
+    btnRow.appendChild(btn);
+  });
+  ar.appendChild(btnRow);
+}
+
+// ══════════════════════════════════════════════
+//  MUSIC THERAPY — WEB AUDIO API
+// ══════════════════════════════════════════════
+
+// ── Rhythm: tap pads to match shown pattern ──
+function renderRhythm(g) {
+  const ar = document.getElementById('answerRow');
+
+  // Generate a target beat pattern (sequence of pad colours)
+  const padKeys = ['g','p','a','c'];
+  const patternLen = selectedYear==='Year 1'||selectedYear==='Year 2' ? 4 : selectedYear==='Year 3'||selectedYear==='Year 4' ? 6 : 8;
+  targetBeatPattern = Array.from({length:patternLen}, ()=>pick(padKeys));
+  userBeatPattern = [];
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'music-panel';
+
+  // Show the target pattern as coloured cells
+  const patternLabel = document.createElement('div');
+  patternLabel.style.cssText='font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;';
+  patternLabel.textContent = 'Target pattern — tap the pads in this order:';
+  wrapper.appendChild(patternLabel);
+
+  const beatDisplay = document.createElement('div');
+  beatDisplay.className = 'beat-display';
+  beatDisplay.id = 'beatDisplay';
+
+  targetBeatPattern.forEach((padKey, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'beat-cell';
+    cell.id = 'beat-'+i;
+    cell.style.background = padColors[padKey];
+    cell.style.border = '2px solid '+padColors[padKey];
+    beatDisplay.appendChild(cell);
+  });
+  wrapper.appendChild(beatDisplay);
+
+  // Play the pattern audio for them to hear
+  const playBtn = document.createElement('button');
+  playBtn.className = 'btn btn-ghost btn-sm';
+  playBtn.style.marginBottom = '16px';
+  playBtn.textContent = '🔊 Hear the pattern';
+  playBtn.onclick = () => playBeatPattern(targetBeatPattern, playBtn);
+  wrapper.appendChild(playBtn);
+
+  // Pads
+  const padsDiv = document.createElement('div');
+  padsDiv.className = 'rhythm-pads';
+  padKeys.forEach(k => {
+    const pad = document.createElement('button');
+    pad.className = 'pad pad-'+k;
+    pad.setAttribute('aria-label', k+' pad');
+    pad.textContent = padEmoji[k];
+    pad.onclick = () => tapRhythmPad(k, pad);
+    padsDiv.appendChild(pad);
+  });
+  wrapper.appendChild(padsDiv);
+
+  // User pattern display
+  const userLabel = document.createElement('div');
+  userLabel.style.cssText='font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;';
+  userLabel.textContent = 'Your pattern:';
+  wrapper.appendChild(userLabel);
+
+  const userDisplay = document.createElement('div');
+  userDisplay.className = 'beat-display';
+  userDisplay.id = 'userBeatDisplay';
+  wrapper.appendChild(userDisplay);
+
+  // Controls row: backspace + done
+  const controlsRow = document.createElement('div');
+  controlsRow.style.cssText='display:flex;gap:10px;justify-content:center;align-items:center;margin-top:16px;';
+
+  const backspaceBtn = document.createElement('button');
+  backspaceBtn.className = 'btn btn-ghost btn-sm';
+  backspaceBtn.id = 'rhythmBackBtn';
+  backspaceBtn.style.cssText='opacity:.4;';
+  backspaceBtn.disabled = true;
+  backspaceBtn.textContent = '⌫ Delete last';
+  backspaceBtn.onclick = deleteLastRhythmBeat;
+  controlsRow.appendChild(backspaceBtn);
+
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'btn btn-ghost btn-sm';
+  clearBtn.id = 'rhythmClearBtn';
+  clearBtn.style.cssText='opacity:.4;';
+  clearBtn.disabled = true;
+  clearBtn.textContent = '✕ Clear all';
+  clearBtn.onclick = clearRhythmPattern;
+  controlsRow.appendChild(clearBtn);
+
+  const doneBtn = document.createElement('button');
+  doneBtn.className = 'btn btn-primary';
+  doneBtn.id = 'rhythmDoneBtn';
+  doneBtn.style.cssText='opacity:.4;';
+  doneBtn.disabled = true;
+  doneBtn.textContent = 'Check my pattern →';
+  doneBtn.onclick = checkRhythmPattern;
+  controlsRow.appendChild(doneBtn);
+
+  wrapper.appendChild(controlsRow);
+
+  ar.appendChild(wrapper);
+
+  // Auto-play the pattern after a short delay
+  setTimeout(() => playBeatPattern(targetBeatPattern, playBtn), 800);
+}
+
+const padColors = { g:'#1D9E75', p:'#7F77DD', a:'#EF9F27', c:'#D85A30' };
+const padEmoji  = { g:'🟢', p:'🟣', a:'🟡', c:'🔴' };
+
+function playBeatPattern(pattern, btn) {
+  if (btn) { btn.disabled=true; btn.textContent='▶ Playing...'; }
+  pattern.forEach((k,i)=>{
+    setTimeout(()=>{
+      playTone(PAD_FREQS[k], PAD_TYPES[k], 0.25, 0.5);
+      const cell=document.getElementById('beat-'+i);
+      if(cell){ cell.classList.add('active-beat'); setTimeout(()=>cell.classList.remove('active-beat'),250); }
+    }, i*380);
+  });
+  setTimeout(()=>{
+    if(btn){ btn.disabled=false; btn.textContent='🔊 Hear again'; }
+  }, pattern.length*380+300);
+}
+
+function tapRhythmPad(k, pad) {
+  pad.classList.add('beat');
+  setTimeout(()=>pad.classList.remove('beat'),120);
+  playTone(PAD_FREQS[k], PAD_TYPES[k], 0.2, 0.5);
+  haptic([30]); // tactile drum tap
+
+  if(userBeatPattern.length < targetBeatPattern.length) {
+    userBeatPattern.push(k);
+    tapCount++;
+    gameData.rhythm.taps++;
+    totalAttempts++;
+    updateStats();
+
+    // Show in user display
+    const userDisplay = document.getElementById('userBeatDisplay');
+    if(userDisplay){
+      const cell=document.createElement('div');
+      cell.className='beat-cell user-beat';
+      cell.style.background=padColors[k];
+      cell.style.border='2px solid '+padColors[k];
+      userDisplay.appendChild(cell);
+    }
+
+    // Enable buttons based on state
+    const canSubmit = userBeatPattern.length >= targetBeatPattern.length;
+    const hasTaps = userBeatPattern.length > 0;
+    const doneBtn2 = document.getElementById('rhythmDoneBtn');
+    const backBtn2 = document.getElementById('rhythmBackBtn');
+    const clearBtn2 = document.getElementById('rhythmClearBtn');
+    if (doneBtn2) { doneBtn2.disabled = !canSubmit; doneBtn2.style.opacity = canSubmit ? '1' : '.4'; }
+    if (backBtn2) { backBtn2.disabled = false; backBtn2.style.opacity = '1'; }
+    if (clearBtn2) { clearBtn2.disabled = false; clearBtn2.style.opacity = '1'; }
+  }
+}
+
+function deleteLastRhythmBeat() {
+  if (userBeatPattern.length === 0) return;
+  userBeatPattern.pop();
+  tapCount = Math.max(0, tapCount - 1);
+  totalAttempts = Math.max(0, totalAttempts - 1);
+  gameData.rhythm.taps = Math.max(0, (gameData.rhythm.taps || 0) - 1);
+  const userDisplay = document.getElementById('userBeatDisplay');
+  if (userDisplay) {
+    const cells = userDisplay.querySelectorAll('.beat-cell');
+    if (cells.length > 0) cells[cells.length - 1].remove();
+  }
+  const doneBtn = document.getElementById('rhythmDoneBtn');
+  const backBtn = document.getElementById('rhythmBackBtn');
+  const clearBtn = document.getElementById('rhythmClearBtn');
+  const hasTaps = userBeatPattern.length > 0;
+  const canSubmit = userBeatPattern.length >= targetBeatPattern.length;
+  if (doneBtn) { doneBtn.disabled = !canSubmit; doneBtn.style.opacity = canSubmit ? '1' : '.4'; }
+  if (backBtn) { backBtn.disabled = !hasTaps; backBtn.style.opacity = hasTaps ? '1' : '.4'; }
+  if (clearBtn) { clearBtn.disabled = !hasTaps; clearBtn.style.opacity = hasTaps ? '1' : '.4'; }
+  updateStats();
+}
+
+function clearRhythmPattern() {
+  const removed = userBeatPattern.length;
+  userBeatPattern = [];
+  tapCount = Math.max(0, tapCount - removed);
+  totalAttempts = Math.max(0, totalAttempts - removed);
+  gameData.rhythm.taps = Math.max(0, (gameData.rhythm.taps || 0) - removed);
+  const userDisplay = document.getElementById('userBeatDisplay');
+  if (userDisplay) userDisplay.innerHTML = '';
+  const doneBtn = document.getElementById('rhythmDoneBtn');
+  const backBtn = document.getElementById('rhythmBackBtn');
+  const clearBtn = document.getElementById('rhythmClearBtn');
+  if (doneBtn) { doneBtn.disabled = true; doneBtn.style.opacity = '.4'; }
+  if (backBtn) { backBtn.disabled = true; backBtn.style.opacity = '.4'; }
+  if (clearBtn) { clearBtn.disabled = true; clearBtn.style.opacity = '.4'; }
+  updateStats();
+}
+
+function checkRhythmPattern() {
+  const rt = Date.now()-questionStartTime;
+  gameData.rhythm.responseTimes.push(rt);
+
+  let matches = 0;
+  userBeatPattern.forEach((k,i)=>{ if(k===targetBeatPattern[i]) matches++; });
+  const matchPct = matches/targetBeatPattern.length;
+  gameData.rhythm.patternMatch = matchPct;
+
+  // Visual feedback on beat display
+  const userDisplay = document.getElementById('userBeatDisplay');
+  if(userDisplay){
+    const cells = userDisplay.querySelectorAll('.beat-cell');
+    cells.forEach((cell,i)=>{
+      cell.classList.remove('user-beat');
+      if(userBeatPattern[i]===targetBeatPattern[i]) cell.classList.add('match');
+      else cell.classList.add('miss');
+    });
+  }
+
+  if(matchPct >= 0.75) {
+    playCorrect();
+    totalCorrect++; gameData.rhythm.correct++;
+    showFeedback('Great rhythm! 🎵', 'good');
+  } else if(matchPct >= 0.5) {
+    showFeedback('Good try! Keep practising 🎶', 'good');
+    gameData.rhythm.correct += 0.5;
+  } else {
+    playWrong();
+    showFeedback('Keep practising — rhythm takes time!', 'bad');
+  }
+  updateStats();
+  setTimeout(nextGame, 1400);
+}
+
+// ── Beat Count: play N drum beats, user picks how many ────
+function renderBeatCount(g) {
+  const ar = document.getElementById('answerRow');
+  const beatCount = g.beatCount || rnd(2, 8);
+  let isPlaying = false;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'music-panel';
+
+  const intro = document.createElement('div');
+  intro.className = 'music-intro';
+  intro.textContent = 'Listen to the drum beats, then choose how many you heard.';
+  wrapper.appendChild(intro);
+
+  // Visual beat display — dots light up as beats play
+  const beatVisual = document.createElement('div');
+  beatVisual.style.cssText = 'display:flex;gap:10px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;';
+  beatVisual.id = 'bcVisual';
+  for (let i = 0; i < beatCount; i++) {
+    const dot = document.createElement('div');
+    dot.style.cssText = 'width:32px;height:32px;border-radius:50%;background:var(--gray-100);border:2px solid var(--gray-200);transition:all .15s;';
+    dot.id = 'bc-dot-' + i;
+    beatVisual.appendChild(dot);
+  }
+  wrapper.appendChild(beatVisual);
+
+  // Play button
+  const playBtn = document.createElement('button');
+  playBtn.className = 'btn btn-ghost btn-sm';
+  playBtn.style.marginBottom = '16px';
+  playBtn.textContent = '🥁 Hear the beats';
+  playBtn.id = 'bcPlayBtn';
+  playBtn.onclick = () => playBeatCountSequence(beatCount, playBtn);
+  wrapper.appendChild(playBtn);
+
+  // Answer options — nearby numbers
+  const answerRow2 = document.createElement('div');
+  answerRow2.style.cssText = 'display:flex;gap:12px;justify-content:center;flex-wrap:wrap;';
+  const distractors = shuffle([
+    beatCount - 2, beatCount - 1, beatCount, beatCount + 1, beatCount + 2
+  ].filter(x => x > 0 && x !== beatCount)).slice(0, 3);
+  const opts = shuffle([beatCount, ...distractors]);
+  opts.forEach(opt => {
+    const btn = makeAnsBtn(opt, () => {
+      document.querySelectorAll('.answer-btn,.cmp-btn').forEach(b => b.onclick = null);
+      checkStd(opt === beatCount, g.skillKey, [], btn);
+    });
+    btn.classList.add('wide');
+    answerRow2.appendChild(btn);
+  });
+  ar.appendChild(wrapper);
+  ar.appendChild(answerRow2);
+
+  // Auto-play after short delay
+  setTimeout(() => playBeatCountSequence(beatCount, playBtn), 700);
+}
+
+function playBeatCountSequence(count, btn) {
+  if (btn) { btn.disabled = true; btn.textContent = '🥁 Playing...'; }
+  const interval = 480;
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      // Drum sound: short noise burst using gain + oscillator
+      const ctx = getAudioCtx();
+      const bufSize = ctx.sampleRate * 0.05;
+      const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let j = 0; j < bufSize; j++) data[j] = (Math.random() * 2 - 1) * Math.pow(1 - j/bufSize, 3);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.8, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      src.connect(gain); gain.connect(ctx.destination);
+      src.start(); src.stop(ctx.currentTime + 0.1);
+      // Also add a low thud for richer drum sound
+      playTone(80, 'sine', 0.12, 0.5);
+      haptic([50]); // feel each drum beat
+
+      // Light up dot
+      const dot = document.getElementById('bc-dot-' + i);
+      if (dot) {
+        dot.style.background = 'var(--green)';
+        dot.style.borderColor = 'var(--green-dark)';
+        dot.style.transform = 'scale(1.25)';
+        setTimeout(() => {
+          dot.style.background = 'var(--gray-100)';
+          dot.style.borderColor = 'var(--gray-200)';
+          dot.style.transform = 'scale(1)';
+        }, 220);
+      }
+    }, i * interval);
+  }
+  setTimeout(() => {
+    if (btn) { btn.disabled = false; btn.textContent = '🥁 Hear again'; }
+  }, count * interval + 400);
+}
+
+// ── Melody: play sequence, user repeats it ────
+function renderMelody(g) {
+  const ar = document.getElementById('answerRow');
+  const notes = Object.keys(NOTE_FREQS);
+  const seqLen = selectedYear==='Year 1'||selectedYear==='Year 2' ? 3 : selectedYear==='Year 3'||selectedYear==='Year 4' ? 4 : 5;
+  melodySequence = Array.from({length:seqLen}, ()=>pick(notes));
+  userMelodyInput = [];
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'music-panel';
+
+  const intro = document.createElement('div');
+  intro.className = 'music-intro';
+  intro.textContent = 'Listen to the melody, then tap the same notes in order. Each key plays a different musical note.';
+  wrapper.appendChild(intro);
+
+  // Play button
+  const playBtn = document.createElement('button');
+  playBtn.className = 'btn btn-ghost btn-sm';
+  playBtn.style.marginBottom='16px';
+  playBtn.textContent = '🔊 Hear melody';
+  playBtn.id = 'melPlayBtn';
+  playBtn.onclick = () => playMelody(melodySequence, playBtn);
+  wrapper.appendChild(playBtn);
+
+  // Piano keys
+  const keysDiv = document.createElement('div');
+  keysDiv.className = 'melody-keys';
+  notes.forEach(note=>{
+    const key = document.createElement('button');
+    key.className = 'mel-key';
+    key.style.background = NOTE_COLORS[note];
+    key.textContent = note.replace('4','').replace('5','5');
+    key.setAttribute('aria-label', 'Note '+note);
+    key.id = 'mel-'+note;
+    key.onclick = () => tapMelodyKey(note, key);
+    keysDiv.appendChild(key);
+  });
+  wrapper.appendChild(keysDiv);
+
+  // User sequence display
+  const seqLabel = document.createElement('div');
+  seqLabel.style.cssText='font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;';
+  seqLabel.textContent = 'Your melody ('+ seqLen +' notes needed):';
+  wrapper.appendChild(seqLabel);
+
+  const userSeqDiv = document.createElement('div');
+  userSeqDiv.className = 'beat-display';
+  userSeqDiv.id = 'userMelodyDisplay';
+  wrapper.appendChild(userSeqDiv);
+
+  // Melody backspace controls
+  const melControlsRow = document.createElement('div');
+  melControlsRow.style.cssText='display:flex;gap:10px;justify-content:center;margin-top:14px;';
+
+  const melBackBtn = document.createElement('button');
+  melBackBtn.className = 'btn btn-ghost btn-sm';
+  melBackBtn.id = 'melBackBtn';
+  melBackBtn.style.cssText='opacity:.4;';
+  melBackBtn.disabled = true;
+  melBackBtn.textContent = '⌫ Delete last';
+  melBackBtn.onclick = deleteLastMelodyNote;
+  melControlsRow.appendChild(melBackBtn);
+
+  const melClearBtn = document.createElement('button');
+  melClearBtn.className = 'btn btn-ghost btn-sm';
+  melClearBtn.id = 'melClearBtn';
+  melClearBtn.style.cssText='opacity:.4;';
+  melClearBtn.disabled = true;
+  melClearBtn.textContent = '✕ Clear all';
+  melClearBtn.onclick = clearMelodyInput;
+  melControlsRow.appendChild(melClearBtn);
+
+  wrapper.appendChild(melControlsRow);
+  ar.appendChild(wrapper);
+
+  // Auto-play after short delay
+  setTimeout(()=>playMelody(melodySequence, playBtn), 800);
+}
+
+function playMelody(sequence, btn) {
+  if(btn){ btn.disabled=true; btn.textContent='▶ Listening...'; }
+  sequence.forEach((note,i)=>{
+    setTimeout(()=>{
+      playTone(NOTE_FREQS[note],'sine',0.4,0.45);
+      const key=document.getElementById('mel-'+note);
+      if(key){ key.classList.add('playing'); setTimeout(()=>key.classList.remove('playing'),350); }
+    }, i*500);
+  });
+  setTimeout(()=>{
+    if(btn){ btn.disabled=false; btn.textContent='🔊 Hear again'; }
+  }, sequence.length*500+300);
+}
+
+function deleteLastMelodyNote() {
+  if (userMelodyInput.length === 0) return;
+  userMelodyInput.pop();
+  totalAttempts = Math.max(0, totalAttempts - 1);
+  gameData.rhythm.taps = Math.max(0, (gameData.rhythm.taps || 0) - 1);
+  const display = document.getElementById('userMelodyDisplay');
+  if (display) { const cells = display.querySelectorAll('.beat-cell'); if (cells.length > 0) cells[cells.length - 1].remove(); }
+  const hasTaps = userMelodyInput.length > 0;
+  const melBack = document.getElementById('melBackBtn');
+  const melClear = document.getElementById('melClearBtn');
+  if (melBack) { melBack.disabled = !hasTaps; melBack.style.opacity = hasTaps ? '1' : '.4'; }
+  if (melClear) { melClear.disabled = !hasTaps; melClear.style.opacity = hasTaps ? '1' : '.4'; }
+  updateStats();
+}
+
+function clearMelodyInput() {
+  const removed = userMelodyInput.length;
+  userMelodyInput = [];
+  totalAttempts = Math.max(0, totalAttempts - removed);
+  gameData.rhythm.taps = Math.max(0, (gameData.rhythm.taps || 0) - removed);
+  const display = document.getElementById('userMelodyDisplay');
+  if (display) display.innerHTML = '';
+  const melBack = document.getElementById('melBackBtn');
+  const melClear = document.getElementById('melClearBtn');
+  if (melBack) { melBack.disabled = true; melBack.style.opacity = '.4'; }
+  if (melClear) { melClear.disabled = true; melClear.style.opacity = '.4'; }
+  updateStats();
+}
+
+function tapMelodyKey(note, key) {
+  if(userMelodyInput.length >= melodySequence.length) return;
+
+  playTone(NOTE_FREQS[note],'sine',0.3,0.4);
+  haptic([25]); // subtle piano key feel
+  key.classList.add('playing');
+  setTimeout(()=>key.classList.remove('playing'),300);
+
+  userMelodyInput.push(note);
+  totalAttempts++;
+  gameData.rhythm.taps++;
+  updateStats();
+
+  // Enable back/clear buttons
+  const melBack = document.getElementById('melBackBtn');
+  const melClear = document.getElementById('melClearBtn');
+  if (melBack) { melBack.disabled = false; melBack.style.opacity = '1'; }
+  if (melClear) { melClear.disabled = false; melClear.style.opacity = '1'; }
+
+  // Show in display
+  const display = document.getElementById('userMelodyDisplay');
+  if(display){
+    const cell = document.createElement('div');
+    cell.className = 'beat-cell';
+    cell.style.background = NOTE_COLORS[note];
+    cell.style.border = '2px solid '+NOTE_COLORS[note];
+    display.appendChild(cell);
+  }
+
+  // When complete, auto-check (disable edit buttons during check)
+  if(userMelodyInput.length >= melodySequence.length) {
+    if (melBack) { melBack.disabled = true; melBack.style.opacity = '.4'; }
+    if (melClear) { melClear.disabled = true; melClear.style.opacity = '.4'; }
+    setTimeout(checkMelody, 400);
+  }
+}
+
+function checkMelody() {
+  const rt = Date.now()-questionStartTime;
+  gameData.rhythm.responseTimes.push(rt);
+
+  let matches=0;
+  userMelodyInput.forEach((n,i)=>{ if(n===melodySequence[i]) matches++; });
+  const matchPct = matches/melodySequence.length;
+  gameData.rhythm.patternMatch = matchPct;
+
+  const display = document.getElementById('userMelodyDisplay');
+  if(display){
+    const cells = display.querySelectorAll('.beat-cell');
+    cells.forEach((cell,i)=>{
+      if(userMelodyInput[i]===melodySequence[i]) cell.classList.add('match');
+      else cell.classList.add('miss');
+    });
+  }
+
+  if(matchPct >= 0.75) {
+    playCorrect();
+    totalCorrect++; gameData.rhythm.correct++;
+    showFeedback('Perfect melody! 🎼', 'good');
+  } else if(matchPct >= 0.5) {
+    showFeedback('Nearly there! 🎵', 'good');
+    gameData.rhythm.correct += 0.5;
+  } else {
+    playWrong();
+    showFeedback('Keep listening and trying! 🎶', 'bad');
+  }
+  updateStats();
+  setTimeout(nextGame, 1400);
+}
+
+// ══════════════════════════════════════════════
+//  GENERIC ANSWER CHECKING
+// ══════════════════════════════════════════════
+function makeAnsBtn(val, handler) {
+  const btn = document.createElement('button');
+  btn.className = 'answer-btn';
+  btn.textContent = val;
+  btn.setAttribute('aria-label','Answer: '+val);
+  btn.onclick = handler;
+  return btn;
+}
+
+function checkStd(isCorrect, skillKey, opts, btn) {
+  const rt = Date.now()-questionStartTime;
+  gameData[skillKey].attempts++;
+  gameData[skillKey].responseTimes.push(rt);
+  totalAttempts++;
+
+  document.querySelectorAll('.answer-btn,.cmp-btn').forEach(b=>b.onclick=null);
+
+  if(isCorrect) {
+    btn.classList.add('correct');
+    gameData[skillKey].correct++;
+    totalCorrect++;
+    playCorrect();
+    showFeedback('Well done! 🎉','good');
+    updateStats();
+    setTimeout(nextGame, 900);
+  } else {
+    btn.classList.add('wrong');
+    playWrong();
+    showFeedback('Not quite — try again!','bad');
+    updateStats();
+    setTimeout(()=>{
+      btn.classList.remove('wrong');
+      document.getElementById('gameFeedback').textContent='';
+      document.querySelectorAll('.answer-btn,.cmp-btn').forEach(b=>{
+        b.onclick = ()=>checkStd(b.textContent===String(games[currentGame].answer)||
+          Number(b.textContent)===Number(games[currentGame].answer)||
+          Number(b.textContent)===Number(games[currentGame].count)||
+          Number(b.textContent)===Number(games[currentGame].seqAnswer)||
+          Number(b.textContent)===Number(games[currentGame].bondAnswer), skillKey, opts, b);
+      });
+    }, 750);
+  }
+}
+
+function checkCompare(chosen, correct, skillKey, chosenBtn, otherBtn) {
+  const rt = Date.now()-questionStartTime;
+  gameData[skillKey].attempts++;
+  gameData[skillKey].responseTimes.push(rt);
+  totalAttempts++;
+
+  if(chosen===correct) {
+    chosenBtn.classList.add('correct');
+    gameData[skillKey].correct++;
+    totalCorrect++;
+    playCorrect();
+    showFeedback('Correct! 🌟','good');
+    updateStats();
+    setTimeout(nextGame, 900);
+  } else {
+    chosenBtn.classList.add('wrong');
+    playWrong();
+    showFeedback('Not quite!','bad');
+    updateStats();
+    setTimeout(nextGame, 1100);
+  }
+}
+
+function showFeedback(text, type) {
+  const el=document.getElementById('gameFeedback');
+  el.textContent=text; el.className='game-feedback '+type;
+}
+
+function updateStats() {
+  document.getElementById('statCorrect').textContent = totalCorrect;
+  document.getElementById('statAttempts').textContent = totalAttempts;
+  const allT = Object.values(gameData).flatMap(d=>d.responseTimes||[]);
+  if(allT.length) {
+    const avg = allT.reduce((a,b)=>a+b,0)/allT.length;
+    document.getElementById('statSpeed').textContent=(avg/1000).toFixed(1)+'s';
+  }
+}
+
+function nextGame() {
+  currentGame++;
+  if(currentGame>=games.length) {
+    clearInterval(timerInterval);
+    document.getElementById('progressBar').style.width='100%';
+    setTimeout(()=>goTo(3), 500);
+  } else {
+    renderGame();
+  }
+}
+
+// ══════════════════════════════════════════════
+//  PROCESSING
+// ══════════════════════════════════════════════
+function startProcessing() {
+  const steps=['proc0','proc1','proc2','proc3','proc4'];
+  steps.forEach((id,idx)=>{
+    setTimeout(()=>{
+      const el=document.getElementById(id);
+      const icon=document.getElementById(id.replace('proc','procIcon'));
+      el.classList.add('active');
+      icon.classList.add('spinning'); icon.textContent='↻';
+      setTimeout(()=>{
+        el.classList.add('done');
+        icon.classList.remove('spinning');
+        icon.classList.add('done-icon'); icon.textContent='✓';
+        if(id==='proc4'){
+          saveResults();
+          setTimeout(()=>goTo(4), 600);
+        }
+      }, 700);
+    }, idx*900);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  SCORE CALCULATION
+// ══════════════════════════════════════════════
+function calcScore(skillKey) {
+  const d = gameData[skillKey];
+  if(skillKey==='rhythm') {
+    const matchScore = (d.patternMatch||0)*60;
+    const tapScore = Math.min((d.taps||0)*5, 30);
+    const avgT = d.responseTimes.length ? d.responseTimes.reduce((a,b)=>a+b,0)/d.responseTimes.length : 8000;
+    const timeScore = avgT<5000?10:0;
+    return Math.round(Math.min(matchScore+tapScore+timeScore, 100));
+  }
+  const attempts = Math.max(d.attempts,1);
+  const acc = (d.correct/attempts)*100;
+  const avgT = d.responseTimes.length ? d.responseTimes.reduce((a,b)=>a+b,0)/d.responseTimes.length : 5000;
+  const timeBonus = avgT<2000?15:avgT<4000?8:avgT<7000?0:-10;
+  return Math.round(Math.max(0, Math.min(100, acc+timeBonus)));
+}
+
+function scoreToMeta(score) {
+  if(score>=80) return {label:'Strong',    cls:'badge-strong',  bar:'bar-strong'};
+  if(score>=60) return {label:'On track',  cls:'badge-track',   bar:'bar-track'};
+  if(score>=40) return {label:'Developing',cls:'badge-develop', bar:'bar-develop'};
+  return              {label:'Needs support',cls:'badge-support',bar:'bar-support'};
+}
+
+function levelFromScore(score) {
+  if(score>=85) return 4;
+  if(score>=70) return 3;
+  if(score>=55) return 2;
+  if(score>=40) return 1;
+  return 0;
+}
+
+// ══════════════════════════════════════════════
+//  SAVE TO LOCALSTORAGE
+// ══════════════════════════════════════════════
+function saveResults() {
+  const child = getLS('nf_child');
+  const skills = {
+    counting:   calcScore('counting'),
+    comparison: calcScore('comparison'),
+    patterns:   calcScore('patterns'),
+    arithmetic: calcScore('arithmetic'),
+    rhythm:     calcScore('rhythm')
+  };
+  const allT = Object.values(gameData).flatMap(d=>d.responseTimes||[]);
+  const avgSpeed = allT.length ? allT.reduce((a,b)=>a+b,0)/allT.length/1000 : 5;
+
+  // Get active child index safely — parseInt avoids || 0 breaking on index 0
+  const activeIdx = (() => {
+    try {
+      const raw = localStorage.getItem('nf_active_child');
+      if(raw === null) return 0;
+      const n = parseInt(raw, 10);
+      return isNaN(n) ? 0 : n;
+    } catch(e){ return 0; }
+  })();
+
+  // Preserve existing session count for this specific child
+  const perChildKey   = 'nf_assessment_' + activeIdx;
+  const existingAss   = (() => { try { return JSON.parse(localStorage.getItem(perChildKey)||'null'); } catch(e){ return null; } })();
+  const legacyAss     = getLS('nf_assessment');
+  const prevSessions  = existingAss?.sessions || legacyAss?.sessions || 0;
+
+  const assessment = {
+    completedAt: Date.now(),
+    ks:          selectedKS,
+    year:        selectedYear,
+    skills,
+    accuracy:    Math.round((totalCorrect / Math.max(totalAttempts, 1)) * 100),
+    speed:       Math.round(avgSpeed * 10) / 10,
+    level:       skills.counting >= 70 && skills.comparison >= 70 ? 2 : 1,
+    sessions:    prevSessions + 1,
+    curriculumObjectives: getCurriculumObjectives(selectedYear, skills),
+    activities:  buildActivityLog()
+  };
+
+  // Write to BOTH keys so dashboard (per-child) and legacy readers all work
+  localStorage.setItem(perChildKey,   JSON.stringify(assessment)); // dashboard reads this
+  localStorage.setItem('nf_assessment', JSON.stringify(assessment)); // legacy / join.html / play.html
+}
+
+// ══════════════════════════════════════════════
+//  UK CURRICULUM OBJECTIVES MAPPING
+// ══════════════════════════════════════════════
+const CURRICULUM = {
+  'Year 1': {
+    counting: [
+      { icon:'🔢', area:'Number', text:'Count to and across 100, forwards and backwards from any number' },
+      { icon:'🔢', area:'Number', text:'Count, read and write numbers to 100 in numerals; count in multiples of 2, 5 and 10' },
+      { icon:'🔢', area:'Number', text:'Given a number, identify one more and one less' }
+    ],
+    comparison: [
+      { icon:'⚖️', area:'Comparison', text:'Identify and represent numbers using objects and pictorial representations' },
+      { icon:'⚖️', area:'Comparison', text:'Use the language: equal to, more than, less than (fewer), most, least' }
+    ],
+    patterns: [
+      { icon:'🧩', area:'Patterns', text:'Count in multiples of 2, 5 and 10' },
+      { icon:'🧩', area:'Patterns', text:'Recognise, find and name a half as one of two equal parts' }
+    ],
+    arithmetic: [
+      { icon:'➕', area:'Arithmetic', text:'Represent and use number bonds and related subtraction facts within 20' },
+      { icon:'➕', area:'Arithmetic', text:'Add and subtract one-digit and two-digit numbers to 20' }
+    ],
+    rhythm: [
+      { icon:'🎵', area:'Music therapy', text:'Rhythm cognition — supports counting patterns and number sequencing' },
+      { icon:'🎵', area:'Music therapy', text:'Beat matching — develops temporal ordering linked to number ordering' }
+    ]
+  },
+  'Year 2': {
+    counting: [
+      { icon:'🔢', area:'Number', text:'Count in steps of 2, 3, and 5 from 0, and in 10s from any number' },
+      { icon:'🔢', area:'Number', text:'Recognise the place value of each digit in a two-digit number (tens, ones)' }
+    ],
+    comparison: [
+      { icon:'⚖️', area:'Comparison', text:'Compare and order numbers from 0 up to 100; use <, > and = signs' },
+      { icon:'⚖️', area:'Comparison', text:'Use place value and number facts to solve problems' }
+    ],
+    patterns: [
+      { icon:'🧩', area:'Patterns', text:'Count in steps of 5 from 0 and identify patterns in counting sequences' },
+      { icon:'🧩', area:'Patterns', text:'Recognise, find, name and write fractions 1/3, 1/4, 2/4 and 3/4' }
+    ],
+    arithmetic: [
+      { icon:'➕', area:'Arithmetic', text:'Add and subtract numbers using concrete objects, pictorial representations, and mentally, including: two-digit + one-digit, two-digit + tens' },
+      { icon:'➕', area:'Arithmetic', text:'Recall and use multiplication and division facts for the 2, 5 and 10 times tables' }
+    ],
+    rhythm: [
+      { icon:'🎵', area:'Music therapy', text:'Rhythmic pattern repetition — reinforces multiplication counting patterns' },
+      { icon:'🎵', area:'Music therapy', text:'Beat sequencing — supports understanding of number sequences' }
+    ]
+  },
+  'Year 3': {
+    counting: [
+      { icon:'🔢', area:'Number', text:'Count from 0 in multiples of 4, 8, 50 and 100; find 10 or 100 more or less than a given number' },
+      { icon:'🔢', area:'Number', text:'Recognise the place value of each digit in a three-digit number (hundreds, tens, ones)' }
+    ],
+    comparison: [
+      { icon:'⚖️', area:'Comparison', text:'Compare and order numbers up to 1,000' },
+      { icon:'⚖️', area:'Comparison', text:'Identify, represent and estimate numbers using different representations' }
+    ],
+    patterns: [
+      { icon:'🧩', area:'Patterns', text:'Count up and down in tenths; recognise that tenths arise from dividing objects into 10 equal parts' },
+      { icon:'🧩', area:'Patterns', text:'Recognise and use fractions as numbers: unit fractions and non-unit fractions with small denominators' }
+    ],
+    arithmetic: [
+      { icon:'➕', area:'Arithmetic', text:'Add and subtract numbers with up to 3 digits, using formal written methods of columnar addition and subtraction' },
+      { icon:'➕', area:'Arithmetic', text:'Recall and use multiplication and division facts for the 3, 4 and 8 multiplication tables' }
+    ],
+    rhythm: [
+      { icon:'🎵', area:'Music therapy', text:'Melodic pattern memory — supports multiplication sequence recall' },
+      { icon:'🎵', area:'Music therapy', text:'Complex rhythm patterns — develops working memory for multi-step arithmetic' }
+    ]
+  },
+  'Year 4': {
+    counting: [
+      { icon:'🔢', area:'Number', text:'Count in multiples of 6, 7, 9, 25 and 1,000; find 1,000 more or less than a given number' },
+      { icon:'🔢', area:'Number', text:'Recognise the place value of each digit in a four-digit number (thousands, hundreds, tens, ones)' }
+    ],
+    comparison: [
+      { icon:'⚖️', area:'Comparison', text:'Order and compare numbers beyond 1,000' },
+      { icon:'⚖️', area:'Comparison', text:'Round any number to the nearest 10, 100 or 1,000' }
+    ],
+    patterns: [
+      { icon:'🧩', area:'Patterns', text:'Recognise and show, using diagrams, families of common equivalent fractions' },
+      { icon:'🧩', area:'Patterns', text:'Solve problems involving increasingly harder fractions to calculate quantities' }
+    ],
+    arithmetic: [
+      { icon:'➕', area:'Arithmetic', text:'Recall multiplication and division facts for multiplication tables up to 12 × 12' },
+      { icon:'➕', area:'Arithmetic', text:'Use place value, known and derived facts to multiply and divide mentally' }
+    ],
+    rhythm: [
+      { icon:'🎵', area:'Music therapy', text:'Complex beat patterns (6-8 beats) — mirrors 12× table pattern structure' },
+      { icon:'🎵', area:'Music therapy', text:'Melody sequences — supports fraction pattern recognition' }
+    ]
+  },
+  'Year 5': {
+    counting: [
+      { icon:'🔢', area:'Number', text:'Count forwards or backwards in steps of powers of 10 for any given number up to 1,000,000' },
+      { icon:'🔢', area:'Number', text:'Interpret negative numbers in context; count forwards and backwards with positive and negative whole numbers through 0' }
+    ],
+    comparison: [
+      { icon:'⚖️', area:'Comparison', text:'Compare and order fractions whose denominators are all multiples of the same number' },
+      { icon:'⚖️', area:'Comparison', text:'Identify multiples and factors, including finding all factor pairs of a number' }
+    ],
+    patterns: [
+      { icon:'🧩', area:'Patterns', text:'Recognise and use square numbers and cube numbers, and the notation for squared (²) and cubed (³)' },
+      { icon:'🧩', area:'Patterns', text:'Solve problems involving multiplication and division including using their knowledge of factors and multiples, squares and cubes' }
+    ],
+    arithmetic: [
+      { icon:'➕', area:'Arithmetic', text:'Multiply and divide numbers mentally drawing upon known facts' },
+      { icon:'➕', area:'Arithmetic', text:'Multiply and divide whole numbers and those involving decimals by 10, 100 and 1,000' }
+    ],
+    rhythm: [
+      { icon:'🎵', area:'Music therapy', text:'Complex melody sequences (5 notes) — supports factor and multiple pattern recognition' },
+      { icon:'🎵', area:'Music therapy', text:'Rhythmic precision — develops the timing accuracy needed for decimal and percentage work' }
+    ]
+  },
+  'Year 6': {
+    counting: [
+      { icon:'🔢', area:'Number', text:'Use negative numbers in context, and calculate intervals across 0' },
+      { icon:'🔢', area:'Number', text:'Round any whole number to a required degree of accuracy' }
+    ],
+    comparison: [
+      { icon:'⚖️', area:'Comparison', text:'Solve problems involving the relative sizes of two quantities where missing values can be found using integer multiplication and division facts' },
+      { icon:'⚖️', area:'Comparison', text:'Use, read, write and convert between standard units' }
+    ],
+    patterns: [
+      { icon:'🧩', area:'Patterns', text:'Express missing number problems algebraically' },
+      { icon:'🧩', area:'Patterns', text:'Find pairs of numbers that satisfy number sentences involving two unknowns' }
+    ],
+    arithmetic: [
+      { icon:'➕', area:'Arithmetic', text:'Divide numbers up to 4 digits by a 2-digit number using the formal written method of long division' },
+      { icon:'➕', area:'Arithmetic', text:'Perform mental calculations, including with mixed operations and large numbers' }
+    ],
+    rhythm: [
+      { icon:'🎵', area:'Music therapy', text:'Complex beat pattern mastery — supports algebraic sequential thinking' },
+      { icon:'🎵', area:'Music therapy', text:'Advanced melody — develops working memory for multi-step problem solving' }
+    ]
+  }
+};
+
+function getCurriculumObjectives(year, skills) {
+  const yearObj = CURRICULUM[year] || CURRICULUM['Year 1'];
+  const objectives = [];
+
+  // Add objectives for weak areas first
+  const skillOrder = Object.entries(skills).sort((a,b)=>a[1]-b[1]);
+  skillOrder.forEach(([key, score]) => {
+    if(score < 70) {
+      const mapping = {
+        counting:'counting', comparison:'comparison',
+        patterns:'patterns', arithmetic:'arithmetic', rhythm:'rhythm'
+      };
+      const area = mapping[key];
+      if(yearObj[area]) {
+        yearObj[area].forEach(obj => {
+          if(!objectives.find(o=>o.text===obj.text)) objectives.push({...obj, score, priority: score < 55});
+        });
+      }
+    }
+  });
+
+  // Always include rhythm objectives
+  if(yearObj.rhythm && !objectives.find(o=>o.area==='Music therapy')) {
+    yearObj.rhythm.forEach(obj => objectives.push({...obj, score:skills.rhythm, priority:skills.rhythm<55}));
+  }
+
+  return objectives.slice(0, 6);
+}
+
+function buildActivityLog() {
+  const now = new Date();
+  const ts = now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  const map = {
+    counting:  {icon:'🔢',bg:'var(--green-light)', sc:'var(--green-dark)',name:'Counting & number sense'},
+    comparison:{icon:'⚖️',bg:'var(--amber-light)',  sc:'var(--amber-dark)',name:'Number comparison'},
+    patterns:  {icon:'🧩',bg:'var(--purple-light)',sc:'var(--purple-dark)',name:'Patterns & sequences'},
+    arithmetic:{icon:'➕',bg:'var(--coral-light)',  sc:'var(--coral-dark)',name:'Arithmetic'},
+    rhythm:    {icon:'🎵',bg:'var(--purple-light)',sc:'var(--purple-dark)',name:'Music therapy'}
+  };
+  return Object.entries(gameData).map(([key])=>{
+    const s=calcScore(key); const m=map[key];
+    return {icon:m.icon,bg:m.bg,name:m.name,time:'Today · '+ts+' · 2 min',score:s+'%',sc:m.sc};
+  });
+}
+
+// ══════════════════════════════════════════════
+//  PROFILE SCREEN
+// ══════════════════════════════════════════════
+function showProfile() {
+  const child = getLS('nf_child');
+  const assessment = getLS('nf_assessment');
+  if(!assessment) return;
+
+  const name = child?.name||'Your child';
+  const ini = initials(name);
+
+  document.getElementById('profileAvatar').textContent = ini;
+  document.getElementById('profileName').textContent = name+"'s learning profile";
+  document.getElementById('profileMeta').textContent = selectedYear+' · '+(selectedKS==='KS1'?'Key Stage 1':'Key Stage 2')+' · Assessed today';
+
+  const s = assessment.skills;
+  const weakest = Object.entries(s).sort((a,b)=>a[1]-b[1]);
+  const strongest = Object.entries(s).sort((a,b)=>b[1]-a[1]);
+  const weakName = {counting:'counting',comparison:'comparing numbers',patterns:'pattern recognition',arithmetic:'arithmetic',rhythm:'rhythm'}[weakest[0][0]];
+  const strongName = {counting:'counting',comparison:'number comparison',patterns:'pattern recognition',arithmetic:'arithmetic',rhythm:'rhythm'}[strongest[0][0]];
+
+  document.getElementById('obsText').textContent =
+    name+' shows '+scoreToMeta(strongest[0][1]).label.toLowerCase()+' ability in '+strongName+'. '+
+    (weakest[0][1]<60?'More support would benefit '+weakName+'. ':'Across the board performance is good. ')+
+    (s.rhythm<60?'Rhythm activities showed hesitation — music therapy is recommended to support number sense.':'Rhythm responses were solid — music therapy will help maintain and build on this.');
+
+  ['counting','comparison','patterns','rhythm'].forEach(key=>{
+    const score = s[key]||s.arithmetic||50;
+    const meta = scoreToMeta(score);
+    const badge = document.getElementById('badge-'+key);
+    badge.textContent = meta.label; badge.className='skill-badge '+meta.cls;
+    const bar = document.getElementById('bar-'+key);
+    bar.className = 'skill-bar '+meta.bar;
+    setTimeout(()=>bar.style.width=score+'%', 200);
+    document.getElementById('note-'+key).textContent = getSkillNote(key, score, name);
+  });
+
+  // Curriculum objectives
+  const objs = assessment.curriculumObjectives||[];
+  const objList = document.getElementById('objList');
+  objList.innerHTML = '';
+  if(objs.length===0) {
+    document.getElementById('curriculumSection').style.display='none';
+  } else {
+    objs.forEach(obj=>{
+      const item=document.createElement('div');
+      item.className='obj-item';
+      item.style.borderLeft=obj.priority?'3px solid var(--amber)':'1px solid var(--gray-100)';
+      item.innerHTML=`<div class="obj-icon">${obj.icon}</div><div><div class="obj-label">${obj.area}${obj.priority?' · Priority':''}</div>${obj.text}</div>`;
+      objList.appendChild(item);
+    });
+  }
+}
+
+function getSkillNote(key, score, name) {
+  const notes = {
+    counting:{
+      strong:name+' counts confidently. Ready to extend to larger numbers and multiples.',
+      track:'Good counting ability. Some hesitation on larger quantities.',
+      develop:'Counting is developing — visual objects and number lines will help.',
+      support:'Structured counting practice with physical objects is recommended.'
+    },
+    comparison:{
+      strong:'Excellent number comparison. Ready for ordering and rounding.',
+      track:'Compares most numbers correctly. Takes more time with larger values.',
+      develop:'Number comparison needs support. Visual comparison tools recommended.',
+      support:'Comparing numbers is a challenge — start with objects before abstract numbers.'
+    },
+    patterns:{
+      strong:'Pattern recognition is strong. Ready for sequences and fractions.',
+      track:'Identifies most patterns correctly. Occasional hesitation.',
+      develop:'Pattern work needs consolidation. More practice with simple sequences.',
+      support:'Patterns are a key challenge — systematic practice is recommended.'
+    },
+    rhythm:{
+      strong:'Excellent rhythm sense. Music therapy will extend mathematical pattern thinking.',
+      track:'Good rhythm awareness. Regular music sessions will build confidence.',
+      develop:'Rhythm is developing. Consistent music therapy is highly recommended.',
+      support:'Rhythm needs dedicated attention — music therapy is a priority support.'
+    }
+  };
+  const tier = score>=80?'strong':score>=60?'track':score>=40?'develop':'support';
+  return notes[key]?.[tier]||'—';
+}
+
+// ══════════════════════════════════════════════
+//  PROGRAM SCREEN
+// ══════════════════════════════════════════════
+function showProgram() {
+  const child = getLS('nf_child');
+  const assessment = getLS('nf_assessment');
+  if(!assessment) return;
+
+  const name = child?.name||'Your child';
+  document.getElementById('programHeading').textContent = name+"'s learning program 🗺️";
+  document.getElementById('progYearLabel').textContent = selectedYear+' ('+( selectedKS==='KS1'?'Key Stage 1':'Key Stage 2')+')';
+
+  const s = assessment.skills;
+  const yearCurr = CURRICULUM[selectedYear]||CURRICULUM['Year 1'];
+
+  const programs = [
+    {icon:'🔢',bg:'var(--green-light)',name:'Counting & number sense',skillKey:'counting',level:levelFromScore(s.counting),dotColor:'on'},
+    {icon:'⚖️',bg:'var(--amber-light)',name:'Number comparison',skillKey:'comparison',level:levelFromScore(s.comparison),dotColor:'on-a'},
+    {icon:'🧩',bg:'var(--purple-light)',name:'Pattern & sequencing',skillKey:'patterns',level:levelFromScore(s.patterns),dotColor:'on-p'},
+    {icon:'➕',bg:'var(--coral-light)',name:'Arithmetic',skillKey:'arithmetic',level:levelFromScore(s.arithmetic||s.patterns),dotColor:'on'},
+    {icon:'🎵',bg:'var(--purple-light)',name:'Music therapy',skillKey:'rhythm',level:levelFromScore(s.rhythm),dotColor:'on-p',isMusic:true}
+  ];
+
+  const topPriority = programs.filter(p=>s[p.skillKey]<55).sort((a,b)=>s[a.skillKey]-s[b.skillKey])[0];
+  if(topPriority) {
+    document.getElementById('weeklyFocusLbl').textContent = topPriority.name;
+  }
+
+  const grid = document.getElementById('programGrid');
+  grid.innerHTML='';
+
+  programs.forEach(p=>{
+    const card=document.createElement('div');
+    const isPriority = s[p.skillKey]<55;
+    card.className='prog-card'+(isPriority?' priority':'')+(p.isMusic?' music-card':'');
+
+    const dots=Array.from({length:5},(_,i)=>{
+      const cls = i<p.level ? p.dotColor : '';
+      return '<div class="lvl-dot '+cls+'"></div>';
+    }).join('');
+
+    // Get curriculum ref for this skill
+    const areaKey = {counting:'counting',comparison:'comparison',patterns:'patterns',arithmetic:'arithmetic',rhythm:'rhythm'}[p.skillKey];
+    const currObjs = yearCurr[areaKey]||[];
+    const currRef = currObjs[0]?.text||'';
+
+    const badgeText = isPriority?(p.isMusic?'Recommended this week':'Priority this week'):'Continue to develop';
+    const badgeClass = isPriority?(p.isMusic?'badge-track':'badge-develop'):'badge-green';
+
+    card.innerHTML=`
+      <div class="prog-icon" style="background:${p.bg};">${p.icon}</div>
+      <div class="prog-name">${p.name}</div>
+      <div class="prog-level">Starting at Level ${p.level} of 5 — ${selectedYear}</div>
+      <div class="level-dots">${dots}</div>
+      <div class="prog-badge ${badgeClass}">${badgeText}</div>
+      ${currRef?'<div style="font-size:11px;color:var(--gray-400);margin-top:10px;line-height:1.5;border-top:1px solid var(--gray-100);padding-top:8px;">📚 '+currRef+'</div>':''}`;
+
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  FINISH
+// ══════════════════════════════════════════════
+function finish() {
+  // Ensure play code exists for this child before going to dashboard
+  const activeIdx = (() => {
+    try {
+      const raw = localStorage.getItem('nf_active_child');
+      if(raw === null) return 0;
+      const n = parseInt(raw, 10);
+      return isNaN(n) ? 0 : n;
+    } catch(e){ return 0; }
+  })();
+  const codeKey = 'nf_code_' + activeIdx;
+  if(!localStorage.getItem(codeKey)){
+    const code = Array.from({length:6}, () => Math.floor(Math.random()*10)).join('');
+    localStorage.setItem(codeKey, code);
+    localStorage.setItem('nf_code', code); // sync legacy key
+  } else {
+    // Sync whichever code exists to the legacy key so join.html reads it
+    localStorage.setItem('nf_code', localStorage.getItem(codeKey));
+  }
+  window.location.href = 'dashboard.html';
+}
+</script>
+<script>/* nf-paygate-injected */
+(function(){
+  if(!NF.getUser()){ window.location.href='login.html?next=assessment.html'; return; }
+})();
+</script>
+</body>
+</html>

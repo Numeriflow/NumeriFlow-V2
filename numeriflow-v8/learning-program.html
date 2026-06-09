@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Your child's personalised NumeriFlow learning programme — based on their assessment results and mapped to UK National Curriculum objectives.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="NumeriFlow">
+<meta name="application-name" content="NumeriFlow">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://numeriflow.uk/learning-program">
+<meta property="og:site_name" content="NumeriFlow">
+<meta property="og:title" content="NumeriFlow — Personalised Learning Programme">
+<meta property="og:description" content="See your child's personalised programme, skill profile, and curriculum objectives to focus on.">
+<meta property="og:image" content="https://numeriflow.uk/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@NumeriFlow">
+<meta name="twitter:title" content="NumeriFlow — Personalised Learning Programme">
+<meta name="twitter:description" content="See your child's personalised programme, skill profile, and curriculum objectives to focus on.">
+<meta name="twitter:image" content="https://numeriflow.uk/og-image.jpg">
+
+<!-- Mobile / PWA hints -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="NumeriFlow">
+<meta name="theme-color" content="#1D9E75">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://numeriflow.uk/learning-program">
+<title>Learning Program — NumeriFlow</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{background:var(--gray-50)}
+.app-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--white);border-right:1px solid var(--gray-100);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:20px 20px 0;display:block;font-family:'Nunito',sans-serif;font-weight:900;font-size:20px;color:var(--gray-900);text-decoration:none}
+.sidebar-logo span{color:var(--green)}
+.child-switcher{margin:16px 12px;padding:12px;background:var(--gray-50);border-radius:var(--radius-md);border:1px solid var(--gray-100)}
+.child-switcher-inner{display:flex;align-items:center;gap:10px}
+.child-switcher-name{font-weight:700;font-size:14px;color:var(--gray-900)}
+.child-switcher-detail{font-size:11px;color:var(--gray-400);font-weight:600}
+.nav-section{padding:8px 12px 4px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-400)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;margin:1px 8px;border-radius:var(--radius-md);font-size:14px;font-weight:700;color:var(--gray-600);cursor:pointer;transition:all .15s;text-decoration:none;border:none;background:none;width:calc(100% - 16px);text-align:left}
+.nav-item:hover{background:var(--gray-100);color:var(--gray-900);text-decoration:none}
+.nav-item.active{background:var(--green-light);color:var(--green-dark)}
+.nav-item-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--gray-100)}
+.main-content{padding:32px;overflow-y:auto}
+.page-header{margin-bottom:28px}
+.page-title{font-size:26px;margin-bottom:4px}
+.page-sub{font-size:14px;color:var(--gray-400)}
+
+/* No assessment state */
+.no-data{background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);padding:56px 32px;text-align:center;margin-bottom:24px}
+.no-data-icon{font-size:52px;margin-bottom:16px}
+
+/* Profile card */
+.profile-card{background:var(--white);border-radius:var(--radius-xl);border:1px solid var(--gray-100);padding:24px;margin-bottom:20px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:16px}
+.profile-meta{font-size:13px;color:var(--gray-400);font-weight:600;margin-top:4px}
+.reassess-bar{background:var(--green-light);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:20px;font-size:13px;color:var(--green-deeper);font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+/* Observation box */
+.obs-box{background:var(--green-light);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:20px;border-left:4px solid var(--green)}
+.obs-label{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.obs-text{font-size:14px;color:var(--green-deeper);line-height:1.7}
+
+/* Skills grid */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.skill-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-sm)}
+.skill-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.skill-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:var(--gray-900)}
+.skill-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.badge-strong{background:var(--green-light);color:var(--green-dark)}
+.badge-track{background:var(--purple-light);color:var(--purple-dark)}
+.badge-develop{background:var(--amber-light);color:var(--amber-dark)}
+.badge-support{background:var(--coral-light);color:var(--coral-dark)}
+.skill-bar-bg{background:var(--gray-100);border-radius:20px;height:6px;margin-bottom:10px;overflow:hidden}
+.skill-bar{height:6px;border-radius:20px;transition:width 1.2s cubic-bezier(.25,.46,.45,.94);width:0}
+.bar-strong{background:var(--green)}
+.bar-track{background:var(--purple)}
+.bar-develop{background:var(--amber)}
+.bar-support{background:var(--coral)}
+.skill-note{font-size:12px;color:var(--gray-400);line-height:1.5}
+
+/* Curriculum section */
+.curriculum-section{margin-bottom:20px}
+.curriculum-heading{font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;color:var(--gray-900);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.obj-list{display:flex;flex-direction:column;gap:8px}
+.obj-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--radius-md);border:1px solid var(--gray-100);background:var(--white);font-size:13px;color:var(--gray-600);line-height:1.5}
+.obj-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.obj-label{font-weight:700;color:var(--gray-900);margin-bottom:2px;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+
+/* Program cards */
+.program-section{margin-bottom:20px}
+.program-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.prog-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);transition:transform .2s}
+.prog-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.prog-card.priority{border:2px solid var(--amber)}
+.prog-card.music-card{border:2px solid var(--purple)}
+.prog-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.prog-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:var(--gray-900);margin-bottom:4px}
+.prog-level{font-size:12px;font-weight:600;color:var(--gray-400);margin-bottom:10px}
+.level-dots{display:flex;gap:5px;margin-bottom:10px}
+.lvl-dot{width:9px;height:9px;border-radius:50%;background:var(--gray-200)}
+.lvl-dot.on{background:var(--green)}
+.lvl-dot.on-p{background:var(--purple)}
+.lvl-dot.on-a{background:var(--amber)}
+.prog-badge{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:4px}
+
+/* Weekly routine */
+.weekly-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.weekly-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-md);padding:16px 10px;text-align:center;box-shadow:var(--shadow-sm)}
+.weekly-val{font-family:'Nunito',sans-serif;font-weight:900;font-size:28px;color:var(--gray-900)}
+.weekly-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.4px;margin-top:4px}
+
+/* Disclaimer */
+.disclaimer-box{background:var(--gray-100);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--gray-400);line-height:1.6;display:flex;gap:10px}
+
+/* Assessment date */
+.assessed-on{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.assessed-date{font-size:13px;color:var(--gray-600);font-weight:600}
+.sessions-count{font-size:13px;color:var(--gray-400);font-weight:600}
+
+@media(max-width:900px){.app-layout{grid-template-columns:1fr}.sidebar{display:none}.skills-grid,.program-grid{grid-template-columns:1fr}.weekly-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<script src="nf-core.js"></script>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" role="navigation" aria-label="App navigation">
+    <a href="index.html" class="sidebar-logo" style="display:flex;align-items:center;gap:8px;padding-bottom:4px;"><img src="logo.png" alt="NumeriFlow" style="height:38px;width:auto;"></a>
+    <div class="child-switcher">
+      <div class="child-switcher-inner">
+        <div class="avatar avatar-md avatar-purple" id="sidebarAvatar" aria-hidden="true">?</div>
+        <div>
+          <div class="child-switcher-name" id="sidebarChildName">Loading...</div>
+          <div class="child-switcher-detail" id="sidebarChildDetail">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-section">Main</div>
+    <a href="dashboard.html" class="nav-item"><span class="nav-item-icon">📊</span> Dashboard</a>
+    <a href="assessment.html" class="nav-item"><span class="nav-item-icon">🎯</span> Start assessment</a>
+    <a href="learning-program.html" class="nav-item active" aria-current="page"><span class="nav-item-icon">🗺️</span> Learning program</a>
+    <a href="#" class="nav-item"><span class="nav-item-icon">📈</span> Progress reports</a>
+    <div class="nav-section">Settings</div>
+    <a href="dashboard.html" class="nav-item"><span class="nav-item-icon">👧</span> Child profiles</a>
+    <a href="#" class="nav-item"><span class="nav-item-icon">💳</span> Billing</a>
+    <a href="#" class="nav-item"><span class="nav-item-icon">⚙️</span> Settings</a>
+    <div class="sidebar-footer">
+      <div class="user-row" style="display:flex;align-items:center;gap:10px;padding:8px;">
+        <div class="avatar avatar-sm avatar-green" id="sidebarUserAvatar" aria-hidden="true">Me</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--gray-900);" id="sidebarUserName">My account</div>
+          <div style="font-size:11px;color:var(--gray-400);" id="sidebarUserRole">Parent · Free plan</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" role="main">
+    <div class="page-header">
+      <h1 class="page-title" id="pageTitle">Learning program 🗺️</h1>
+      <p class="page-sub" id="pageSub">Personalised plan based on the last assessment.</p>
+    </div>
+
+    <!-- NO ASSESSMENT STATE -->
+    <div id="noDataState" class="no-data" style="display:none;">
+      <div class="no-data-icon">🗺️</div>
+      <h2 style="font-size:22px;margin-bottom:10px;">No assessment yet</h2>
+      <p style="font-size:14px;color:var(--gray-400);max-width:400px;margin:0 auto 24px;line-height:1.7;">Complete the 8-minute game-based assessment first — your child's personalised learning program will appear here.</p>
+      <a href="assessment.html" class="btn btn-primary btn-lg">Start assessment →</a>
+    </div>
+
+    <!-- HAS DATA STATE -->
+    <div id="hasDataState" style="display:none;">
+
+      <!-- Profile header -->
+      <div class="profile-card">
+        <div class="avatar avatar-xl avatar-purple" id="profileAvatar" aria-hidden="true">?</div>
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;color:var(--gray-900);margin-bottom:3px;" id="profileName">Learning profile</div>
+          <div class="profile-meta" id="profileMeta">—</div>
+        </div>
+      </div>
+
+      <!-- Assessed on + sessions -->
+      <div class="assessed-on">
+        <div class="assessed-date" id="assessedDate">📅 Assessed —</div>
+        <div class="sessions-count" id="sessionsCount">🎮 0 sessions completed</div>
+      </div>
+
+      <!-- Reassess note -->
+      <div class="reassess-bar">
+        <span>📅 Re-assess in 2 weeks — levels adjust automatically based on progress.</span>
+        <a href="assessment.html" class="btn btn-ghost btn-sm">Re-assess now</a>
+      </div>
+
+      <!-- Observation -->
+      <div class="obs-box" role="note">
+        <div class="obs-label">What we observed</div>
+        <div class="obs-text" id="obsText">Loading...</div>
+      </div>
+
+      <!-- Skill areas -->
+      <h2 style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;margin-bottom:16px;">Skill areas</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-header"><div class="skill-name">Counting</div><div class="skill-badge" id="badge-counting">—</div></div>
+          <div class="skill-bar-bg"><div class="skill-bar" id="bar-counting"></div></div>
+          <div class="skill-note" id="note-counting">—</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header"><div class="skill-name">Comparison</div><div class="skill-badge" id="badge-comparison">—</div></div>
+          <div class="skill-bar-bg"><div class="skill-bar" id="bar-comparison"></div></div>
+          <div class="skill-note" id="note-comparison">—</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header"><div class="skill-name">Patterns</div><div class="skill-badge" id="badge-patterns">—</div></div>
+          <div class="skill-bar-bg"><div class="skill-bar" id="bar-patterns"></div></div>
+          <div class="skill-note" id="note-patterns">—</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-header"><div class="skill-name">Music therapy</div><div class="skill-badge" id="badge-rhythm">—</div></div>
+          <div class="skill-bar-bg"><div class="skill-bar" id="bar-rhythm"></div></div>
+          <div class="skill-note" id="note-rhythm">—</div>
+        </div>
+      </div>
+
+      <!-- Curriculum objectives -->
+      <div class="curriculum-section" id="curriculumSection">
+        <div class="curriculum-heading">📚 <span>UK curriculum objectives to focus on</span></div>
+        <div class="obj-list" id="objList"></div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="disclaimer-box" role="note">
+        <span>ℹ️</span>
+        <div>This profile shows learning patterns that may benefit from support. This is <strong>not a medical diagnosis</strong>. Please consult a qualified educational psychologist for a formal dyscalculia assessment.</div>
+      </div>
+
+      <!-- Personalised program -->
+      <div class="program-section">
+        <h2 style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;margin-bottom:6px;" id="programHeading">Personalised program</h2>
+        <p style="font-size:14px;color:var(--gray-400);margin-bottom:20px;" id="programSub">Each activity adapts as your child progresses.</p>
+        <div class="program-grid" id="programGrid"></div>
+      </div>
+
+      <!-- Weekly routine -->
+      <h2 style="font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;margin-bottom:12px;">Suggested weekly routine</h2>
+      <div class="weekly-grid">
+        <div class="weekly-card"><div class="weekly-val" id="weeklyFreq">3×</div><div class="weekly-lbl" id="weeklyFocusLbl">Priority activity</div></div>
+        <div class="weekly-card"><div class="weekly-val">2×</div><div class="weekly-lbl">Music therapy</div></div>
+        <div class="weekly-card"><div class="weekly-val">10 min</div><div class="weekly-lbl">Per session</div></div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+        <a href="assessment.html" class="btn btn-primary btn-lg">Re-assess →</a>
+        <a href="join.html" class="btn btn-ghost btn-lg">Open child play →</a>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const get = k => { try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;} };
+
+function initials(n){if(!n)return'?';const p=n.trim().split(' ');return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():n.slice(0,2).toUpperCase();}
+function ksLabel(age){return parseInt(age)<=7?'Key Stage 1':'Key Stage 2';}
+
+function getActiveIdx(){
+  const raw=localStorage.getItem('nf_active_child');
+  if(raw===null)return 0;
+  const n=parseInt(raw,10);
+  return isNaN(n)?0:n;
+}
+function getChildren(){return get('nf_children')||[];}
+function getActiveChild(){const ch=getChildren();const i=Math.min(getActiveIdx(),Math.max(ch.length-1,0));return ch[i]||null;}
+function getActiveAssessment(){return get('nf_assessment_'+getActiveIdx());}
+
+function scoreToMeta(score){
+  if(score>=80)return{label:'Strong',cls:'badge-strong',bar:'bar-strong'};
+  if(score>=60)return{label:'On track',cls:'badge-track',bar:'bar-track'};
+  if(score>=40)return{label:'Developing',cls:'badge-develop',bar:'bar-develop'};
+  return{label:'Needs support',cls:'badge-support',bar:'bar-support'};
+}
+
+function levelFromScore(score){
+  if(score>=85)return 4;if(score>=70)return 3;if(score>=55)return 2;if(score>=40)return 1;return 0;
+}
+
+function getSkillNote(key,score,name){
+  const notes={
+    counting:{strong:name+' counts confidently. Ready to extend to larger numbers.',track:'Good counting ability. Some hesitation on larger quantities.',develop:'Counting is developing — visual objects and number lines will help.',support:'Structured counting practice with physical objects is recommended.'},
+    comparison:{strong:'Excellent number comparison. Ready for ordering and rounding.',track:'Compares most numbers correctly. Takes more time with larger values.',develop:'Number comparison needs support. Visual comparison tools recommended.',support:'Comparing numbers is a challenge — start with objects before abstract numbers.'},
+    patterns:{strong:'Pattern recognition is strong. Ready for sequences and fractions.',track:'Identifies most patterns correctly. Occasional hesitation.',develop:'Pattern work needs consolidation. More practice with simple sequences.',support:'Patterns are a key challenge — systematic practice is recommended.'},
+    rhythm:{strong:'Excellent rhythm sense. Music therapy will extend mathematical pattern thinking.',track:'Good rhythm awareness. Regular music sessions will build confidence.',develop:'Rhythm is developing. Consistent music therapy is highly recommended.',support:'Rhythm needs dedicated attention — music therapy is a priority support.'}
+  };
+  const tier=score>=80?'strong':score>=60?'track':score>=40?'develop':'support';
+  return notes[key]?.[tier]||'—';
+}
+
+function render(){
+  const user=get('nf_user');
+  const child=getActiveChild();
+  const assessment=getActiveAssessment();
+
+  // Sidebar
+  const displayName=user?(((user.firstName||'')+(user.lastName?' '+user.lastName:'')).trim()||'My account'):'My account';
+  document.getElementById('sidebarUserName').textContent=displayName;
+  document.getElementById('sidebarUserAvatar').textContent=initials(displayName);
+  document.getElementById('sidebarUserRole').textContent=user?((user.role||'Parent')+' · Free plan'):'Free plan';
+
+  if(child){
+    document.getElementById('sidebarAvatar').textContent=initials(child.name);
+    document.getElementById('sidebarChildName').textContent=child.name;
+    document.getElementById('sidebarChildDetail').textContent='Age '+child.age+' · '+ksLabel(child.age);
+  }
+
+  if(!assessment){
+    document.getElementById('noDataState').style.display='block';
+    document.getElementById('hasDataState').style.display='none';
+    if(child) document.getElementById('pageTitle').textContent=child.name+"'s learning program 🗺️";
+    return;
+  }
+
+  document.getElementById('noDataState').style.display='none';
+  document.getElementById('hasDataState').style.display='block';
+
+  const name=child?.name||'Your child';
+  const year=assessment.year||'Year 1';
+  const ks=assessment.ks||'KS1';
+
+  document.getElementById('pageTitle').textContent=name+"'s learning program 🗺️";
+  document.getElementById('pageSub').textContent='Personalised plan based on the last assessment — '+year+'.';
+  document.getElementById('profileAvatar').textContent=initials(name);
+  document.getElementById('profileName').textContent=name+"'s learning profile";
+  document.getElementById('profileMeta').textContent=year+' · '+(ks==='KS1'?'Key Stage 1':'Key Stage 2')+' · '+((assessment.accuracy||0)+'% accuracy');
+
+  // Assessed date
+  const dt=assessment.completedAt?new Date(assessment.completedAt):null;
+  const dateStr=dt?dt.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):'—';
+  document.getElementById('assessedDate').textContent='📅 Assessed '+dateStr;
+  document.getElementById('sessionsCount').textContent='🎮 '+(assessment.sessions||0)+' session'+(assessment.sessions===1?'':'s')+' completed';
+
+  const s=assessment.skills||{counting:50,comparison:50,patterns:50,rhythm:50};
+
+  // Observation text
+  const weakest=Object.entries(s).sort((a,b)=>a[1]-b[1]);
+  const strongest=Object.entries(s).sort((a,b)=>b[1]-a[1]);
+  const weakName={counting:'counting',comparison:'comparing numbers',patterns:'pattern recognition',arithmetic:'arithmetic',rhythm:'rhythm'}[weakest[0][0]];
+  const strongName={counting:'counting',comparison:'number comparison',patterns:'pattern recognition',arithmetic:'arithmetic',rhythm:'rhythm'}[strongest[0][0]];
+  document.getElementById('obsText').textContent=
+    name+' shows '+scoreToMeta(strongest[0][1]).label.toLowerCase()+' ability in '+strongName+'. '+
+    (weakest[0][1]<60?'More support would benefit '+weakName+'. ':'Across the board performance is good. ')+
+    (s.rhythm<60?'Rhythm activities showed hesitation — music therapy is recommended.':'Rhythm responses were solid — music therapy will help maintain and build on this.');
+
+  // Skill bars
+  ['counting','comparison','patterns','rhythm'].forEach(key=>{
+    const score=s[key]||s.arithmetic||50;
+    const meta=scoreToMeta(score);
+    const badge=document.getElementById('badge-'+key);
+    badge.textContent=meta.label;badge.className='skill-badge '+meta.cls;
+    const bar=document.getElementById('bar-'+key);
+    bar.className='skill-bar '+meta.bar;
+    setTimeout(()=>bar.style.width=score+'%',200);
+    document.getElementById('note-'+key).textContent=getSkillNote(key,score,name);
+  });
+
+  // Curriculum objectives
+  const objs=assessment.curriculumObjectives||[];
+  const objList=document.getElementById('objList');
+  objList.innerHTML='';
+  if(objs.length===0){
+    document.getElementById('curriculumSection').style.display='none';
+  }else{
+    objs.forEach(obj=>{
+      const item=document.createElement('div');
+      item.className='obj-item';
+      item.style.borderLeft=obj.priority?'3px solid var(--amber)':'1px solid var(--gray-100)';
+      item.innerHTML=`<div class="obj-icon">${obj.icon}</div><div><div class="obj-label">${obj.area}${obj.priority?' · Priority':''}</div>${obj.text}</div>`;
+      objList.appendChild(item);
+    });
+  }
+
+  // Program grid
+  const programs=[
+    {icon:'🔢',bg:'var(--green-light)',name:'Counting & number sense',skillKey:'counting',level:levelFromScore(s.counting),dotColor:'on'},
+    {icon:'⚖️',bg:'var(--amber-light)',name:'Number comparison',skillKey:'comparison',level:levelFromScore(s.comparison),dotColor:'on-a'},
+    {icon:'🧩',bg:'var(--purple-light)',name:'Pattern & sequencing',skillKey:'patterns',level:levelFromScore(s.patterns),dotColor:'on-p'},
+    {icon:'➕',bg:'var(--coral-light)',name:'Arithmetic',skillKey:'arithmetic',level:levelFromScore(s.arithmetic||s.patterns),dotColor:'on'},
+    {icon:'🎵',bg:'var(--purple-light)',name:'Music therapy',skillKey:'rhythm',level:levelFromScore(s.rhythm),dotColor:'on-p',isMusic:true}
+  ];
+
+  const topPriority=programs.filter(p=>(s[p.skillKey]||50)<55).sort((a,b)=>(s[a.skillKey]||50)-(s[b.skillKey]||50))[0];
+  if(topPriority){document.getElementById('weeklyFocusLbl').textContent=topPriority.name;}
+
+  document.getElementById('programHeading').textContent=name+"'s personalised program";
+  document.getElementById('programSub').textContent='Starting points based on '+year+'. Each activity adapts as '+name+' progresses.';
+
+  const grid=document.getElementById('programGrid');
+  grid.innerHTML='';
+  programs.forEach(p=>{
+    const card=document.createElement('div');
+    const isPriority=(s[p.skillKey]||50)<55;
+    card.className='prog-card'+(isPriority?' priority':'')+(p.isMusic?' music-card':'');
+    const dots=Array.from({length:5},(_,i)=>'<div class="lvl-dot '+(i<p.level?p.dotColor:'')+'"></div>').join('');
+    const badgeText=isPriority?(p.isMusic?'Recommended this week':'Priority this week'):'Continue to develop';
+    const badgeClass=isPriority?(p.isMusic?'badge-track':'badge-develop'):'badge-green';
+    card.innerHTML=`
+      <div class="prog-icon" style="background:${p.bg};">${p.icon}</div>
+      <div class="prog-name">${p.name}</div>
+      <div class="prog-level">Starting at Level ${p.level} of 5 — ${year}</div>
+      <div class="level-dots">${dots}</div>
+      <div class="prog-badge ${badgeClass}">${badgeText}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+render();
+</script>
+<script>/* nf-paygate-injected */
+(function(){
+  if(!NF.getUser()){ window.location.href='login.html?next=learning-program.html'; return; }
+})();
+</script>
+</body>
+</html>

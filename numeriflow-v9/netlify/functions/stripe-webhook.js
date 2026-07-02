@@ -1,15 +1,15 @@
 /**
- * NumeriFlow — Stripe Webhook Handler
- * Handles subscription cancellation → downgrades plan in Supabase
+ * NumeriFlow â€” Stripe Webhook Handler
+ * Handles subscription cancellation â†’ downgrades plan in Supabase
  * 
- * Set in Stripe Dashboard → Developers → Webhooks:
+ * Set in Stripe Dashboard â†’ Developers â†’ Webhooks:
  * Endpoint URL: https://numeriflow.uk/.netlify/functions/stripe-webhook
  * Events: customer.subscription.deleted, customer.subscription.updated
  */
 
 const crypto = require('crypto');
 
-// Supabase service role key — server-side only, never in frontend
+// Supabase service role key â€” server-side only, never in frontend
 const SUPABASE_URL  = 'https://agifyxyoktsivnjoemxu.supabase.co';
 const SUPABASE_KEY  = process.env.SUPABASE_SERVICE_KEY; // set in Netlify env vars
 const STRIPE_SECRET = process.env.STRIPE_WEBHOOK_SECRET; // set in Netlify env vars
@@ -68,7 +68,7 @@ async function updateUserPlan(email, plan) {
     throw new Error(`Profile update failed: ${updateRes.status}`);
   }
 
-  console.log(`[Webhook] Updated ${email} → plan: ${plan}`);
+  console.log(`[Webhook] Updated ${email} â†’ plan: ${plan}`);
   return true;
 }
 
@@ -103,12 +103,12 @@ exports.handler = async (event) => {
     switch(type) {
 
       case 'customer.subscription.deleted': {
-        // Subscription cancelled — downgrade to freemium
+        // Subscription cancelled â€” downgrade to freemium
         const email = data.object.customer_email ||
                       data.object.metadata?.email;
         if (email) {
           await updateUserPlan(email, 'freemium');
-          console.log(`[Webhook] Subscription cancelled for ${email} → freemium`);
+          console.log(`[Webhook] Subscription cancelled for ${email} â†’ freemium`);
         }
         break;
       }
@@ -120,16 +120,16 @@ exports.handler = async (event) => {
                        data.object.metadata?.email;
         if (email && ['past_due','unpaid','canceled','incomplete_expired'].includes(status)) {
           await updateUserPlan(email, 'freemium');
-          console.log(`[Webhook] Subscription ${status} for ${email} → freemium`);
+          console.log(`[Webhook] Subscription ${status} for ${email} â†’ freemium`);
         }
         break;
       }
 
       case 'invoice.payment_failed': {
-        // Payment failed — could send a warning email here
+        // Payment failed â€” could send a warning email here
         const email = data.object.customer_email;
         console.log(`[Webhook] Payment failed for ${email}`);
-        // Don't downgrade immediately — give Stripe's retry logic a chance
+        // Don't downgrade immediately â€” give Stripe's retry logic a chance
         // Downgrade happens when subscription moves to past_due/canceled
         break;
       }
@@ -141,7 +141,7 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: JSON.stringify({ received: true }) };
   } catch(e) {
     console.error('[Webhook] Error processing event:', e.message);
-    // Return 200 to prevent Stripe retrying — log the error
+    // Return 200 to prevent Stripe retrying â€” log the error
     return { statusCode: 200, body: JSON.stringify({ received: true, error: e.message }) };
   }
 };

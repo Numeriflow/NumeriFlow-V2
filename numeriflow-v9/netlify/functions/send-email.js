@@ -24,14 +24,14 @@ exports.handler = async (event) => {
   // Email content by type
   const templates = {
     welcome: {
-      subject: `Welcome to NumeriFlow, ${parent_name}! 🦊`,
+      subject: `Welcome to NumeriFlow, ${parent_name}! ðŸ¦Š`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#F8F4EF;padding:32px 24px;border-radius:16px;">
           <div style="text-align:center;margin-bottom:24px;">
             <img src="https://numeriflow.uk/logo.png" alt="NumeriFlow" style="height:56px;">
           </div>
           <div style="background:#fff;border-radius:14px;padding:32px;text-align:center;">
-            <div style="font-size:48px;margin-bottom:12px;">🦊</div>
+            <div style="font-size:48px;margin-bottom:12px;">ðŸ¦Š</div>
             <h1 style="font-size:24px;color:#1B2D6B;margin-bottom:8px;font-family:Arial,sans-serif;">
               Welcome, ${parent_name}!
             </h1>
@@ -40,14 +40,14 @@ exports.handler = async (event) => {
             </p>
             <a href="https://numeriflow.uk/login" 
                style="display:inline-block;background:#FF6B6B;color:#fff;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;">
-              Sign in to NumeriFlow →
+              Sign in to NumeriFlow â†’
             </a>
             <div style="margin-top:24px;background:#E1F5EE;border-radius:10px;padding:16px;text-align:left;">
               <div style="font-size:13px;font-weight:700;color:#0F6E56;margin-bottom:8px;">Getting started:</div>
               <div style="font-size:13px;color:#0F6E56;line-height:2;">
-                1️⃣ Sign in and add your child's profile<br>
-                2️⃣ Run the 8-minute game-based assessment<br>
-                3️⃣ Pip creates a personalised learning plan
+                1ï¸âƒ£ Sign in and add your child's profile<br>
+                2ï¸âƒ£ Run the 8-minute game-based assessment<br>
+                3ï¸âƒ£ Pip creates a personalised learning plan
               </div>
             </div>
             <p style="color:#888780;font-size:12px;margin-top:20px;">
@@ -56,21 +56,21 @@ exports.handler = async (event) => {
             </p>
           </div>
           <p style="text-align:center;color:#aaa;font-size:11px;margin-top:16px;">
-            Numeriflow Kids Learning Ltd · London, UK · 
+            Numeriflow Kids Learning Ltd Â· London, UK Â· 
             <a href="https://numeriflow.uk" style="color:#aaa;">numeriflow.uk</a>
           </p>
         </div>
       `
     },
     beta: {
-      subject: `You're in the NumeriFlow Beta! 🎉`,
+      subject: `You're in the NumeriFlow Beta! ðŸŽ‰`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#F8F4EF;padding:32px 24px;border-radius:16px;">
           <div style="text-align:center;margin-bottom:24px;">
             <img src="https://numeriflow.uk/logo.png" alt="NumeriFlow" style="height:56px;">
           </div>
           <div style="background:#fff;border-radius:14px;padding:32px;text-align:center;">
-            <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+            <div style="font-size:48px;margin-bottom:12px;">ðŸŽ‰</div>
             <h1 style="font-size:24px;color:#1B2D6B;margin-bottom:8px;font-family:Arial,sans-serif;">
               Welcome to the Beta, ${parent_name}!
             </h1>
@@ -84,11 +84,11 @@ exports.handler = async (event) => {
             </div>
             <a href="https://numeriflow.uk/login" 
                style="display:inline-block;background:#FF6B6B;color:#fff;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;">
-              Sign in and enter code →
+              Sign in and enter code â†’
             </a>
           </div>
           <p style="text-align:center;color:#aaa;font-size:11px;margin-top:16px;">
-            Numeriflow Kids Learning Ltd · London, UK
+            Numeriflow Kids Learning Ltd Â· London, UK
           </p>
         </div>
       `

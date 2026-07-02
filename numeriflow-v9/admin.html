@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — NumeriFlow</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body { background: var(--gray-50); }
+.admin-wrap { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
+.admin-header { background: var(--navy); color: #fff; border-radius: 16px; padding: 24px 28px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.admin-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; }
+.stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-strip-card { background: var(--white); border: 1px solid var(--gray-100); border-radius: 14px; padding: 20px; text-align: center; box-shadow: var(--shadow-sm); }
+.stat-strip-val { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 32px; color: var(--navy); }
+.stat-strip-lbl { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+.admin-card { background: var(--white); border: 1px solid var(--gray-100); border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+.admin-card-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; color: var(--navy); margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--gray-400); border-bottom: 2px solid var(--gray-100); }
+td { padding: 10px 12px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--gray-50); }
+.plan-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.plan-monthly { background: var(--green-light); color: var(--green-dark); }
+.plan-annual { background: #EEF2FF; color: #4338CA; }
+.plan-freemium { background: var(--gray-100); color: var(--gray-600); }
+.plan-access_code { background: var(--amber-light); color: var(--amber-dark); }
+.admin-login { max-width: 380px; margin: 100px auto; text-align: center; background: var(--white); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
+.export-btn { background: var(--green); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; float: right; }
+</style>
+</head>
+<body>
+
+<!-- Admin login gate -->
+<div id="adminLogin" class="admin-login">
+  <div style="font-size:40px;margin-bottom:12px;">🔐</div>
+  <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;color:var(--navy);margin-bottom:20px;">NumeriFlow Admin</div>
+  <input type="password" id="adminPass" placeholder="Admin password"
+    style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--gray-200);font-size:15px;margin-bottom:12px;box-sizing:border-box;"
+    onkeydown="if(event.key==='Enter')checkAdminPass()">
+  <button onclick="checkAdminPass()" class="btn btn-primary" style="width:100%;">Enter →</button>
+  <div id="adminPassError" style="display:none;color:var(--coral-dark);font-size:13px;font-weight:700;margin-top:10px;">Incorrect password.</div>
+</div>
+
+<!-- Admin dashboard (hidden until auth) -->
+<div id="adminDash" style="display:none;">
+
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <div>
+        <div class="admin-title">NumeriFlow Admin</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;">Internal dashboard · Saira & Taimur only</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div id="lastRefreshed" style="font-size:12px;color:rgba(255,255,255,0.4);"></div>
+        <button onclick="loadAdminData()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;">↻ Refresh</button>
+        <a href="dashboard.html" style="color:rgba(255,255,255,0.6);font-size:13px;font-weight:700;text-decoration:none;">← Dashboard</a>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="stat-strip">
+      <div class="stat-strip-card">
+        <div class="stat-strip-val" id="adminTotalUsers">—</div>
+        <div class="stat-strip-lbl">Total users</div>
+      </div>
+      <div class="stat-strip-card">
+        <div class="stat-strip-val" id="adminPaidUsers" style="color:var(--green);">—</div>
+        <div class="stat-strip-lbl">Paid users</div>
+      </div>
+      <div class="stat-strip-card">
+        <div class="stat-strip-val" id="adminFreemiumUsers" style="color:var(--gray-400);">—</div>
+        <div class="stat-strip-lbl">Freemium</div>
+      </div>
+      <div class="stat-strip-card">
+        <div class="stat-strip-val" id="adminTotalChildren">—</div>
+        <div class="stat-strip-lbl">Children added</div>
+      </div>
+      <div class="stat-strip-card">
+        <div class="stat-strip-val" id="adminAssessments" style="color:var(--purple);">—</div>
+        <div class="stat-strip-lbl">Assessments done</div>
+      </div>
+    </div>
+
+    <!-- Users table -->
+    <div class="admin-card">
+      <div class="admin-card-title">
+        👥 All users
+        <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+      </div>
+      <div id="usersTableWrap" style="overflow-x:auto;">
+        <div style="text-align:center;padding:32px;color:var(--gray-400);">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Children table -->
+    <div class="admin-card">
+      <div class="admin-card-title">🧒 All children</div>
+      <div id="childrenTableWrap" style="overflow-x:auto;">
+        <div style="text-align:center;padding:32px;color:var(--gray-400);">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Beta feedback -->
+    <div class="admin-card">
+      <div class="admin-card-title">💬 Recent beta feedback</div>
+      <p style="font-size:13px;color:var(--gray-400);margin:0;">
+        Beta feedback is sent to Formspree and to <a href="mailto:info@numeriflow.uk" style="color:var(--green);">info@numeriflow.uk</a>.
+        View all submissions at <a href="https://formspree.io" target="_blank" style="color:var(--green);">formspree.io</a> under form ID <strong>mykawpbe</strong>.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Admin password — change this to something secure
+const ADMIN_PASSWORD = 'NF-Admin-2026';
+
+// Supabase config — anon key for reading own-user data
+// For admin reads we use the anon key with service role via a Netlify function
+const SUPABASE_URL  = 'https://agifyxyoktsivnjoemxu.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnaWZ5eHlva3RzaXZuam9lbXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NzIzODUsImV4cCI6MjA5ODI0ODM4NX0.JuMLFPzbg5S8WBzye10roF40Pgpxp-ZZIZfx6m7tfeQ';
+
+let _adminData = { users: [], children: [], assessments: [] };
+
+function checkAdminPass() {
+  const val = document.getElementById('adminPass').value;
+  if (val === ADMIN_PASSWORD) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDash').style.display = 'block';
+    loadAdminData();
+  } else {
+    document.getElementById('adminPassError').style.display = 'block';
+  }
+}
+
+async function sbAdmin(path) {
+  // Uses the Netlify function for admin reads with service key
+  const res = await fetch('/.netlify/functions/admin-query', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path }),
+  });
+  if (!res.ok) throw new Error('Admin query failed: ' + res.status);
+  return res.json();
+}
+
+async function loadAdminData() {
+  document.getElementById('lastRefreshed').textContent = 'Refreshing…';
+  try {
+    // Fetch profiles (users + plans)
+    const profileRes = await fetch(
+      SUPABASE_URL + '/rest/v1/profiles?select=id,name,plan,created_at&order=created_at.desc',
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + SUPABASE_ANON } }
+    );
+    const profiles = profileRes.ok ? await profileRes.json() : [];
+
+    // Fetch children
+    const childRes = await fetch(
+      SUPABASE_URL + '/rest/v1/children?select=id,user_id,name,age,year,created_at&order=created_at.desc',
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + SUPABASE_ANON } }
+    );
+    const children = childRes.ok ? await childRes.json() : [];
+
+    // Fetch assessments count
+    const asmRes = await fetch(
+      SUPABASE_URL + '/rest/v1/assessments?select=id,child_id,updated_at',
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + SUPABASE_ANON } }
+    );
+    const assessments = asmRes.ok ? await asmRes.json() : [];
+
+    _adminData = { users: profiles, children, assessments };
+    renderAdminData(profiles, children, assessments);
+    document.getElementById('lastRefreshed').textContent =
+      'Refreshed ' + new Date().toLocaleTimeString('en-GB');
+  } catch(e) {
+    console.error('Admin load failed:', e);
+    document.getElementById('lastRefreshed').textContent = 'Error loading — check console';
+  }
+}
+
+function renderAdminData(profiles, children, assessments) {
+  // Stats
+  const paid = profiles.filter(p => ['monthly','annual','access_code'].includes(p.plan));
+  const freemium = profiles.filter(p => !['monthly','annual','access_code'].includes(p.plan));
+  document.getElementById('adminTotalUsers').textContent = profiles.length;
+  document.getElementById('adminPaidUsers').textContent = paid.length;
+  document.getElementById('adminFreemiumUsers').textContent = freemium.length;
+  document.getElementById('adminTotalChildren').textContent = children.length;
+  document.getElementById('adminAssessments').textContent = assessments.length;
+
+  // Users table
+  document.getElementById('usersTableWrap').innerHTML = profiles.length ? `
+    <table>
+      <thead><tr>
+        <th>Name</th><th>Plan</th><th>Children</th><th>Assessments</th><th>Joined</th>
+      </tr></thead>
+      <tbody>
+        ${profiles.map(p => {
+          const userChildren = children.filter(c => c.user_id === p.id);
+          const userAsm = assessments.filter(a => userChildren.some(c => c.id === a.child_id));
+          const planClass = 'plan-' + (p.plan || 'freemium');
+          return `<tr>
+            <td><strong>${p.name || '—'}</strong></td>
+            <td><span class="plan-badge ${planClass}">${p.plan || 'freemium'}</span></td>
+            <td>${userChildren.length}</td>
+            <td>${userAsm.length}</td>
+            <td>${p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB') : '—'}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>` : '<div style="padding:20px;text-align:center;color:var(--gray-400);">No users yet</div>';
+
+  // Children table
+  document.getElementById('childrenTableWrap').innerHTML = children.length ? `
+    <table>
+      <thead><tr>
+        <th>Name</th><th>Age</th><th>Year</th><th>Assessment</th><th>Added</th>
+      </tr></thead>
+      <tbody>
+        ${children.map(c => {
+          const hasAsm = assessments.some(a => a.child_id === c.id);
+          return `<tr>
+            <td><strong>${c.name}</strong></td>
+            <td>${c.age || '—'}</td>
+            <td>${c.year || '—'}</td>
+            <td>${hasAsm ? '<span style="color:var(--green);font-weight:700;">✓ Done</span>' : '<span style="color:var(--gray-400);">Pending</span>'}</td>
+            <td>${c.created_at ? new Date(c.created_at).toLocaleDateString('en-GB') : '—'}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>` : '<div style="padding:20px;text-align:center;color:var(--gray-400);">No children added yet</div>';
+}
+
+function exportCSV() {
+  const { users, children } = _adminData;
+  const rows = [['Name','Plan','Children','Joined']];
+  users.forEach(p => {
+    const count = children.filter(c => c.user_id === p.id).length;
+    rows.push([
+      p.name || '',
+      p.plan || 'freemium',
+      count,
+      p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB') : '',
+    ]);
+  });
+  const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'numeriflow-users-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+document.getElementById('adminPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkAdminPass();
+});
+</script>
+</body>
+</html>

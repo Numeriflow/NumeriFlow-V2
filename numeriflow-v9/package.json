@@ -1,7 +1,4 @@
 {
-  "name": "numeriflow",
-  "version": "1.0.0",
-  "dependencies": {
-    "nodemailer": "^6.9.0"
-  }
+  "name": "numeriflow-functions",
+  "version": "1.0.0"
 }

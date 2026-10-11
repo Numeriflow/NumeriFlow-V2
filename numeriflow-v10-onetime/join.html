@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NumeriFlow Kid Mode. Enter your play code to meet Pip the Fox and start your maths games!">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="NumeriFlow">
+<meta name="application-name" content="NumeriFlow">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://numeriflow.uk/join">
+<meta property="og:site_name" content="NumeriFlow">
+<meta property="og:title" content="NumeriFlow Kid Mode 🦊">
+<meta property="og:description" content="Enter your play code and start learning maths with Pip the Fox!">
+<meta property="og:image" content="https://numeriflow.uk/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@NumeriFlow">
+<meta name="twitter:title" content="NumeriFlow Kid Mode 🦊">
+<meta name="twitter:description" content="Enter your play code and start learning maths with Pip the Fox!">
+<meta name="twitter:image" content="https://numeriflow.uk/og-image.jpg">
+
+<!-- Mobile / PWA hints -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="NumeriFlow">
+<meta name="theme-color" content="#1D9E75">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://numeriflow.uk/join">
+<title>Kid Mode — NumeriFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #1D9E75; --green-light: #E1F5EE; --green-dark: #0F6E56;
+  --purple: #7F77DD; --purple-light: #EEEDFE; --purple-dark: #534AB7;
+  --amber: #EF9F27; --amber-light: #FAEEDA; --amber-dark: #854F0B;
+  --coral: #D85A30; --coral-light: #FAECE7; --coral-dark: #993C1D;
+  --fox-body: #F4793B; --fox-belly: #FDE8D8; --fox-dark: #C85A1E;
+  --white: #FFFFFF; --gray-50: #F8F7F4; --gray-100: #F0EEE9;
+  --gray-200: #D3D1C7; --gray-400: #888780; --gray-900: #2C2C2A;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FFF3E0 0%, #E8F5E9 40%, #EDE7F6 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 16px 120px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Animated background clouds ── */
+.bg-cloud {
+  position: fixed;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  filter: blur(2px);
+  z-index: 0;
+  animation: drift linear infinite;
+}
+@keyframes drift {
+  from { transform: translateX(-200px); }
+  to   { transform: translateX(110vw); }
+}
+
+/* ── Card ── */
+.card {
+  background: var(--white);
+  border-radius: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.10), 0 6px 16px rgba(0,0,0,0.06);
+  padding: 36px 32px 28px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 2;
+  animation: popIn 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes popIn { from{opacity:0;transform:scale(0.8) translateY(24px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+.logo {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800; font-size: 20px;
+  color: var(--gray-900); text-decoration: none;
+  display: block; text-align: center; margin-bottom: 20px;
+}
+.logo span { color: var(--green); }
+
+/* ── States ── */
+.state { display: none; }
+.state.active { display: block; animation: fadeSlideUp 0.35s ease both; }
+@keyframes fadeSlideUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Code entry ── */
+.enter-heading {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800; font-size: 26px;
+  color: var(--gray-900); text-align: center; margin-bottom: 6px;
+}
+
+.enter-sub {
+  font-size: 14px; color: var(--gray-400);
+  text-align: center; line-height: 1.6; margin-bottom: 24px;
+}
+
+.code-row {
+  display: flex; gap: 7px;
+  justify-content: center; margin-bottom: 20px;
+}
+
+.code-box {
+  width: 50px; height: 62px;
+  border-radius: 14px;
+  border: 2.5px solid var(--gray-200);
+  background: var(--gray-50);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800; font-size: 28px;
+  color: var(--gray-900); text-align: center;
+  outline: none; transition: all 0.15s;
+  -moz-appearance: textfield;
+}
+.code-box::-webkit-outer-spin-button,
+.code-box::-webkit-inner-spin-button { -webkit-appearance: none; }
+.code-box:focus {
+  border-color: var(--green);
+  background: var(--green-light);
+  box-shadow: 0 0 0 3px rgba(29,158,117,0.18);
+  transform: scale(1.08);
+}
+.code-box.filled { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
+.code-box.error  { border-color: var(--coral); background: var(--coral-light); animation: shake 0.4s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+
+.error-msg {
+  font-size: 13px; font-weight: 700; color: var(--coral-dark);
+  text-align: center; margin-bottom: 14px; min-height: 18px; display: none;
+}
+.error-msg.show { display: block; animation: fadeSlideUp 0.2s ease; }
+
+.play-btn {
+  width: 100%; padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--green), #16785A);
+  color: var(--white); border: none;
+  font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 20px;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(29,158,117,0.35);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.play-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(29,158,117,0.42); }
+.play-btn:active { transform: scale(0.97); }
+.play-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+/* ── Play area ── */
+.child-greeting {
+  font-family: 'Baloo 2', sans-serif; font-weight: 800;
+  font-size: 28px; color: var(--gray-900);
+  text-align: center; margin-bottom: 4px;
+}
+.child-sub { font-size: 14px; color: var(--gray-400); text-align: center; margin-bottom: 20px; line-height: 1.5; }
+
+/* Stars */
+.stars-row { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
+.star-item { font-size: 22px; }
+.star-item.earned { animation: starPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes starPop { 0%{transform:scale(0) rotate(-30deg)} 100%{transform:scale(1) rotate(0)} }
+
+/* Game tiles */
+.game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+
+.game-tile {
+  border-radius: 20px; padding: 18px 12px;
+  text-align: center; cursor: pointer;
+  border: none; transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  position: relative;
+}
+.game-tile:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 24px rgba(0,0,0,0.14); }
+.game-tile:active { transform: scale(0.97); }
+
+.game-tile-emoji { font-size: 36px; margin-bottom: 8px; display: block; }
+.game-tile-name {
+  font-family: 'Baloo 2', sans-serif; font-weight: 800;
+  font-size: 14px; color: var(--white); line-height: 1.2;
+}
+.game-tile-sub { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 3px; font-weight: 700; }
+
+.tile-counting { background: linear-gradient(135deg, #1D9E75, #0C6647); }
+.tile-compare  { background: linear-gradient(135deg, #EF9F27, #B87616); }
+.tile-patterns { background: linear-gradient(135deg, #7F77DD, #4A44A8); }
+.tile-music    { background: linear-gradient(135deg, #EC407A, #A01050); }
+
+.skill-check-btn {
+  width: 100%; padding: 13px;
+  border-radius: 16px;
+  background: var(--purple-light);
+  color: var(--purple-dark);
+  border: 2px solid var(--purple);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800; font-size: 16px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 14px;
+}
+.skill-check-btn:hover { background: var(--purple); color: var(--white); transform: translateY(-2px); }
+
+.footer-note { font-size: 11px; color: var(--gray-400); text-align: center; line-height: 1.5; }
+.footer-note a { color: var(--green); font-weight: 700; text-decoration: none; }
+
+/* ── Loading ── */
+.loading-state { text-align: center; padding: 48px 0; }
+.loading-emoji { font-size: 52px; animation: spinBounce 1s ease-in-out infinite; display: block; margin-bottom: 16px; }
+@keyframes spinBounce { 0%,100%{transform:scale(1) rotate(0)} 50%{transform:scale(1.2) rotate(10deg)} }
+.loading-text { font-family:'Baloo 2',sans-serif; font-weight:800; font-size:20px; color:var(--gray-900); }
+
+/* ════════════════════════════════════════
+   PIP THE FOX — fixed bottom right
+════════════════════════════════════════ */
+.pip-container {
+  position: fixed;
+  bottom: 0; right: 20px;
+  width: 140px;
+  z-index: 100;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pip-container:hover .pip-body-group { animation: pipHover 0.4s ease; }
+@keyframes pipHover { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+/* Ground strip */
+.pip-ground {
+  width: 140px; height: 14px;
+  background: linear-gradient(90deg, #A8D5B5, #C5E8D0, #A8D5B5);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  margin: 0 auto;
+}
+
+/* Speech bubble */
+.pip-bubble {
+  position: absolute;
+  bottom: 160px; right: 10px;
+  background: var(--white);
+  border-radius: 16px 16px 4px 16px;
+  padding: 10px 14px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 13px;
+  color: var(--gray-900);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  max-width: 160px; min-width: 100px;
+  text-align: center; line-height: 1.4;
+  transform-origin: bottom right;
+  animation: bubbleIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+  border: 2px solid var(--gray-100);
+  pointer-events: none;
+}
+@keyframes bubbleIn { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
+
+.pip-bubble.hidden { display: none; }
+
+/* Pip states (CSS classes on pip-container) */
+
+/* ── IDLE: gentle breathing ── */
+.pip-container .pip-body-group {
+  animation: pipBreath 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes pipBreath { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.96)} }
+
+/* ── HAPPY: jump ── */
+.pip-container.happy .pip-body-group {
+  animation: pipJump 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes pipJump {
+  0%   { transform: translateY(0) rotate(0); }
+  30%  { transform: translateY(-28px) rotate(-8deg); }
+  60%  { transform: translateY(-18px) rotate(6deg); }
+  80%  { transform: translateY(-4px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+/* ── CELEBRATE: spin + bounce ── */
+.pip-container.celebrate .pip-body-group {
+  animation: pipCelebrate 0.8s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes pipCelebrate {
+  0%   { transform: translateY(0) scale(1) rotate(0); }
+  25%  { transform: translateY(-32px) scale(1.1) rotate(-15deg); }
+  50%  { transform: translateY(-40px) scale(1.15) rotate(15deg); }
+  75%  { transform: translateY(-20px) scale(1.05) rotate(-8deg); }
+  100% { transform: translateY(0) scale(1) rotate(0); }
+}
+
+/* ── SAD: shake ── */
+.pip-container.sad .pip-body-group {
+  animation: pipSad 0.5s ease;
+}
+@keyframes pipSad {
+  0%,100% { transform: translateX(0) rotate(0); }
+  20%     { transform: translateX(-5px) rotate(-5deg); }
+  40%     { transform: translateX(5px) rotate(5deg); }
+  60%     { transform: translateX(-4px) rotate(-3deg); }
+  80%     { transform: translateX(4px) rotate(3deg); }
+}
+
+/* ── WAVE: greeting ── */
+.pip-container.wave .pip-body-group {
+  animation: pipWave 1s ease;
+}
+@keyframes pipWave {
+  0%   { transform: translateY(0) rotate(0); }
+  15%  { transform: translateY(-16px) rotate(-10deg); }
+  30%  { transform: translateY(-20px) rotate(8deg); }
+  45%  { transform: translateY(-16px) rotate(-10deg); }
+  60%  { transform: translateY(-8px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+/* ── RUN: used during loading transitions ── */
+.pip-container.run .pip-body-group {
+  animation: pipRun 0.4s ease infinite;
+}
+@keyframes pipRun {
+  0%,100% { transform: translateY(0) scaleX(1); }
+  25%     { transform: translateY(-6px) scaleX(0.95); }
+  75%     { transform: translateY(-6px) scaleX(1.05); }
+}
+
+/* Tail wag */
+.pip-container .pip-tail {
+  transform-origin: 15% 50%;
+  animation: tailWag 1.2s ease-in-out infinite;
+}
+@keyframes tailWag {
+  0%,100% { transform: rotate(0deg); }
+  33%     { transform: rotate(18deg); }
+  66%     { transform: rotate(-12deg); }
+}
+
+.pip-container.happy .pip-tail,
+.pip-container.celebrate .pip-tail {
+  animation: tailWagFast 0.3s ease-in-out infinite;
+}
+@keyframes tailWagFast {
+  0%,100% { transform: rotate(0deg); }
+  50%     { transform: rotate(25deg); }
+}
+
+/* Eyes blink */
+.pip-eye-l, .pip-eye-r {
+  animation: eyeBlink 4s ease-in-out infinite;
+}
+.pip-eye-r { animation-delay: 0.08s; }
+@keyframes eyeBlink {
+  0%,90%,100% { transform: scaleY(1); }
+  95%         { transform: scaleY(0.1); }
+}
+
+/* Stars burst on celebrate */
+.pip-stars {
+  position: absolute;
+  bottom: 140px; right: 0;
+  width: 140px; height: 80px;
+  pointer-events: none;
+  display: none;
+}
+.pip-container.celebrate .pip-stars { display: block; }
+
+.star-burst {
+  position: absolute;
+  font-size: 18px;
+  animation: starBurst 0.8s ease both;
+}
+@keyframes starBurst {
+  0%   { opacity: 1; transform: scale(0) translate(0,0); }
+  60%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.2) var(--burst-dir); }
+}
+
+/* ── Responsive: smaller Pip on small screens ── */
+@media (max-width: 480px) {
+  .pip-container { width: 100px; right: 8px; }
+  .pip-bubble { font-size: 11px; padding: 8px 10px; right: 4px; }
+}
+</style>
+<script src="nf-core.js"></script>
+<script>
+// Supabase session auth gate — verifies against server, catches deleted users
+(async function(){
+  const session = JSON.parse(localStorage.getItem('nf_sb_session') || 'null');
+  const redirect = () => {
+    const allUsers = localStorage.getItem('nf_all_users');
+    localStorage.clear();
+    if (allUsers) localStorage.setItem('nf_all_users', allUsers);
+    window.location.href = 'login.html';
+  };
+  if (!session?.access_token || !session?.user?.id) { redirect(); return; }
+  try {
+    const res = await fetch('https://agifyxyoktsivnjoemxu.supabase.co/auth/v1/user', {
+      headers: {
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnaWZ5eHlva3RzaXZuam9lbXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NzIzODUsImV4cCI6MjA5ODI0ODM4NX0.JuMLFPzbg5S8WBzye10roF40Pgpxp-ZZIZfx6m7tfeQ',
+        'Authorization': 'Bearer ' + session.access_token,
+      }
+    });
+    if (!res.ok) redirect();
+  } catch(e) { /* network error — allow through */ }
+})();
+</script>
+</head>
+<body>
+
+<!-- ── Background clouds ── -->
+<div class="bg-cloud" style="width:80px;height:50px;top:15%;animation-duration:22s;animation-delay:-8s;"></div>
+<div class="bg-cloud" style="width:120px;height:70px;top:35%;animation-duration:30s;animation-delay:-3s;"></div>
+<div class="bg-cloud" style="width:60px;height:40px;top:60%;animation-duration:18s;animation-delay:-14s;"></div>
+<div class="bg-cloud" style="width:100px;height:60px;top:75%;animation-duration:25s;animation-delay:-20s;"></div>
+
+<!-- ════════════════════════════════
+     PIP THE FOX
+════════════════════════════════ -->
+<div class="pip-container" id="pip" onclick="pipTap()" role="img" aria-label="Pip the fox, your learning companion">
+
+  <!-- Speech bubble -->
+  <div class="pip-bubble hidden" id="pipBubble" aria-live="polite"></div>
+
+  <!-- Star burst (celebrate state) -->
+  <div class="pip-stars" id="pipStars" aria-hidden="true">
+    <span class="star-burst" style="left:20px;top:10px;--burst-dir:translate(-24px,-28px);animation-delay:0s;">⭐</span>
+    <span class="star-burst" style="left:60px;top:0px;--burst-dir:translate(0px,-32px);animation-delay:0.05s;">✨</span>
+    <span class="star-burst" style="left:100px;top:10px;--burst-dir:translate(24px,-28px);animation-delay:0.1s;">⭐</span>
+    <span class="star-burst" style="left:10px;top:40px;--burst-dir:translate(-28px,-10px);animation-delay:0.08s;">✨</span>
+    <span class="star-burst" style="left:115px;top:40px;--burst-dir:translate(28px,-10px);animation-delay:0.12s;">⭐</span>
+  </div>
+
+  <!-- Pip SVG — drawn in pure SVG, no images -->
+  <svg class="pip-body-group" width="140" height="155" viewBox="0 0 140 155" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <radialGradient id="pipBodyGrad" cx="45%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#FF9A3C"/>
+        <stop offset="100%" stop-color="#E06000"/>
+      </radialGradient>
+      <radialGradient id="pipBellyGrad" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#FFF0DC"/>
+        <stop offset="100%" stop-color="#FFD9A0"/>
+      </radialGradient>
+    </defs>
+    <g class="pip-tail">
+      <path d="M 32 130 Q 5 115 8 90 Q 10 70 28 72 Q 44 74 42 95 Q 40 112 32 130 Z" fill="url(#pipBodyGrad)"/>
+      <ellipse cx="16" cy="84" rx="10" ry="7" fill="#FFF0DC" transform="rotate(-25 16 84)"/>
+    </g>
+    <ellipse cx="72" cy="116" rx="38" ry="30" fill="url(#pipBodyGrad)"/>
+    <ellipse cx="72" cy="120" rx="24" ry="20" fill="url(#pipBellyGrad)"/>
+    <rect x="50" y="138" width="15" height="18" rx="7" fill="#C85A1E"/>
+    <ellipse cx="57" cy="156" rx="11" ry="5" fill="#B34D16"/>
+    <rect x="77" y="138" width="15" height="18" rx="7" fill="#C85A1E"/>
+    <ellipse cx="84" cy="156" rx="11" ry="5" fill="#B34D16"/>
+    <rect x="59" y="85" width="26" height="18" rx="10" fill="url(#pipBodyGrad)"/>
+    <circle cx="72" cy="68" r="38" fill="url(#pipBodyGrad)"/>
+    <path d="M 40 44 L 26 12 L 58 32 Z" fill="url(#pipBodyGrad)"/>
+    <path d="M 42 42 L 32 18 L 56 34 Z" fill="#C85A1E"/>
+    <path d="M 104 44 L 118 12 L 86 32 Z" fill="url(#pipBodyGrad)"/>
+    <path d="M 102 42 L 112 18 L 88 34 Z" fill="#C85A1E"/>
+    <ellipse cx="72" cy="76" rx="22" ry="18" fill="url(#pipBellyGrad)"/>
+    <ellipse cx="72" cy="70" rx="6" ry="4.5" fill="#C85A1E"/>
+    <ellipse cx="70" cy="68" rx="2.5" ry="1.5" fill="rgba(255,255,255,0.4)"/>
+    <path id="pipMouthHappy" d="M 62 76 Q 72 86 82 76" stroke="#A03000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path id="pipMouthSad"   d="M 62 83 Q 72 75 82 83" stroke="#A03000" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0"/>
+    <g class="pip-eye-l" style="transform-origin:55px 57px">
+      <circle cx="55" cy="57" r="11" fill="white"/>
+      <circle cx="56" cy="58" r="7.5" fill="#6B3A00"/>
+      <circle cx="57" cy="59" r="4.5" fill="#1A0A00"/>
+      <circle cx="60" cy="54" r="3" fill="white"/>
+      <circle cx="54" cy="62" r="1.5" fill="rgba(255,255,255,0.5)"/>
+    </g>
+    <g class="pip-eye-r" style="transform-origin:89px 57px">
+      <circle cx="89" cy="57" r="11" fill="white"/>
+      <circle cx="90" cy="58" r="7.5" fill="#6B3A00"/>
+      <circle cx="91" cy="59" r="4.5" fill="#1A0A00"/>
+      <circle cx="94" cy="54" r="3" fill="white"/>
+      <circle cx="88" cy="62" r="1.5" fill="rgba(255,255,255,0.5)"/>
+    </g>
+    <ellipse cx="42" cy="72" rx="8" ry="5" fill="#FF9060" opacity="0.3"/>
+    <ellipse cx="102" cy="72" rx="8" ry="5" fill="#FF9060" opacity="0.3"/>
+  </svg>
+
+  <!-- Ground -->
+  <div class="pip-ground"></div>
+</div>
+
+<!-- ════════════════════════════════
+     MAIN CARD
+════════════════════════════════ -->
+<div class="card" role="main" aria-label="NumeriFlow Kid Mode">
+  <a href="index.html" class="logo" style="display:flex;align-items:center;gap:8px;"><img src="logo.png" alt="NumeriFlow" style="height:38px;width:auto;"></a>
+
+  <!-- ══ STATE: Enter code ══ -->
+  <div class="state active" id="stateCode">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:52px;margin-bottom:8px;animation:bounce 2s ease-in-out infinite;">🎮</div>
+      <h1 class="enter-heading">Kid Mode!</h1>
+      <p class="enter-sub">Ask a grown-up for your play code, then type it below!</p>
+    </div>
+
+    <div class="code-row" role="group" aria-label="Enter your 6-digit play code">
+      <input class="code-box" id="c0" type="number" min="0" max="9" inputmode="numeric" aria-label="Digit 1" autocomplete="off">
+      <input class="code-box" id="c1" type="number" min="0" max="9" inputmode="numeric" aria-label="Digit 2" autocomplete="off">
+      <input class="code-box" id="c2" type="number" min="0" max="9" inputmode="numeric" aria-label="Digit 3" autocomplete="off">
+      <input class="code-box" id="c3" type="number" min="0" max="9" inputmode="numeric" aria-label="Digit 4" autocomplete="off">
+      <input class="code-box" id="c4" type="number" min="0" max="9" inputmode="numeric" aria-label="Digit 5" autocomplete="off">
+      <input class="code-box" id="c5" type="number" min="0" max="9" inputmode="numeric" aria-label="Digit 6" autocomplete="off">
+    </div>
+
+    <div class="error-msg" id="errorMsg" role="alert"></div>
+
+    <button class="play-btn" id="playBtn" onclick="checkCode()" disabled aria-label="Let's play!">
+      🎮 Let's Play!
+    </button>
+
+    <p class="footer-note" style="margin-top:14px;">
+      Are you a grown-up? <a href="dashboard.html">Go to your dashboard →</a>
+    </p>
+  </div>
+
+  <!-- ══ STATE: Play area ══ -->
+  <div class="state" id="statePlay">
+    <div class="child-greeting" id="childGreeting">Hi there! 👋</div>
+    <div class="child-sub" id="childSub">Pick a game to play with Pip!</div>
+
+    <div class="stars-row" id="starsRow" aria-label="Your stars" role="img"></div>
+
+    <!-- Freemium banner (shown to freemium users) -->
+    <div id="freemiumBanner" style="display:none;background:linear-gradient(135deg,#E1F5EE,#C8EBE1);border-radius:14px;padding:12px 16px;margin-bottom:16px;text-align:center;font-size:13px;color:#0C6647;font-weight:700;">
+      🎉 Free games below! <a href="#" onclick="NF.showPaymentGate();return false;" style="color:#1D9E75;text-decoration:underline;">Upgrade for all 4 games →</a>
+    </div>
+
+    <div class="game-grid" role="list">
+      <!-- FREE for all tiers -->
+      <button class="game-tile tile-counting" onclick="launchGame('counting','Counting Fun')" role="listitem">
+        <span class="game-tile-emoji">🔢</span>
+        <div class="game-tile-name">Counting Fun</div>
+        <div class="game-tile-sub">Count & learn!</div>
+      </button>
+      <!-- PRO only -->
+      <button class="game-tile tile-compare" id="tileComparison" onclick="launchGameGated('comparison','Bigger or Smaller')" role="listitem">
+        <span class="game-tile-emoji">⚖️</span>
+        <div class="game-tile-name">Bigger or Smaller</div>
+        <div class="game-tile-sub">Compare numbers!</div>
+        <div id="lockComparison" style="display:none;font-size:10px;font-weight:700;background:rgba(0,0,0,0.3);border-radius:8px;padding:2px 8px;margin-top:4px;">🔒 Upgrade</div>
+      </button>
+      <!-- PRO only -->
+      <button class="game-tile tile-patterns" id="tilePatterns" onclick="launchGameGated('patterns','Pattern Detective')" role="listitem">
+        <span class="game-tile-emoji">🧩</span>
+        <div class="game-tile-name">Pattern Detective</div>
+        <div class="game-tile-sub">Spot the pattern!</div>
+        <div id="lockPatterns" style="display:none;font-size:10px;font-weight:700;background:rgba(0,0,0,0.3);border-radius:8px;padding:2px 8px;margin-top:4px;">🔒 Upgrade</div>
+      </button>
+      <!-- FREE for all tiers -->
+      <button class="game-tile tile-music" onclick="launchGame('music','Melody Magic')" role="listitem">
+        <span class="game-tile-emoji">🎵</span>
+        <div class="game-tile-name">Melody Magic</div>
+        <div class="game-tile-sub">Play music!</div>
+      </button>
+    </div>
+
+    <button class="skill-check-btn" onclick="launchSkillCheck()">
+      🎯 Skill Check — Show what you know!
+    </button>
+
+    <p class="footer-note">
+      Your grown-up can see your progress in their <a href="dashboard.html">dashboard</a>.
+    </p>
+  </div>
+
+  <!-- ══ STATE: Loading ══ -->
+  <div class="state" id="stateLoading">
+    <div class="loading-state">
+      <span class="loading-emoji" id="loadingEmoji">🦊</span>
+      <div class="loading-text" id="loadingText">Pip is getting ready...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+// ════════════════════════════════
+//  PIP THE FOX — companion logic
+// ════════════════════════════════
+
+const pip = document.getElementById('pip');
+const pipBubble = document.getElementById('pipBubble');
+let pipBubbleTimer = null;
+let pipStateTimer = null;
+
+const messages = {
+  greet:     ["Hi! I'm Pip! 🦊", "Let's learn together!", "You're going to do great! 🌟"],
+  codeTyping:["Looking good! 🎮", "Almost there...", "Type your code! 🔢"],
+  codeWrong: ["Oops! Try again 😅", "Ask your grown-up 🏠", "Check the code! 🤔"],
+  codeRight: ["Yes!! Let's go! 🎉", "Wahoo! Play time! 🦊", "You're in! Yay! ⭐"],
+  counting:  ["I love counting! 🔢", "Let's count together!", "Numbers are fun! 🎉"],
+  comparison:["Which is bigger? 🤔", "I'll help you! 💪", "Think carefully! 🧠"],
+  patterns:  ["I love patterns! 🧩", "Can you spot it? 🔍", "You've got this! ✨"],
+  music:     ["Music time! 🎵", "La la la! 🎶", "I love melodies! 🎼"],
+  skill:     ["Show them what you know!", "You're so clever! 🌟", "I believe in you! 💪"],
+  tap:       ["Hehe! That tickles! 😄", "Pip says hi! 👋", "Woof! I mean... fox! 🦊", "Play with me! 🎮"],
+  loading:   ["Pip is running ahead! 🏃", "Almost ready! ⭐", "Here we go! 🚀"]
+};
+
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+
+function pipSay(text, duration=3000) {
+  clearTimeout(pipBubbleTimer);
+  pipBubble.textContent = text;
+  pipBubble.classList.remove('hidden');
+  if(duration > 0) {
+    pipBubbleTimer = setTimeout(() => pipBubble.classList.add('hidden'), duration);
+  }
+}
+
+function pipAnimate(state, duration=1000) {
+  clearTimeout(pipStateTimer);
+  pip.className = 'pip-container ' + state;
+  // Mouth change
+  const mouthHappy = document.getElementById('pipMouthHappy');
+  const mouthSad   = document.getElementById('pipMouthSad');
+  if(state === 'sad') {
+    mouthHappy.setAttribute('opacity','0');
+    mouthSad.setAttribute('opacity','1');
+  } else {
+    mouthHappy.setAttribute('opacity','1');
+    mouthSad.setAttribute('opacity','0');
+  }
+  pipStateTimer = setTimeout(() => {
+    pip.className = 'pip-container'; // back to idle
+    mouthHappy.setAttribute('opacity','1');
+    mouthSad.setAttribute('opacity','0');
+  }, duration);
+}
+
+// Tap handler — Pip reacts when child taps/clicks him
+function pipTap() {
+  pipAnimate('happy', 800);
+  pipSay(pick(messages.tap), 2500);
+}
+
+// Greet on page load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    pipAnimate('wave', 1200);
+    pipSay(pick(messages.greet), 4000);
+  }, 700);
+  // Pip says something encouraging after the greeting
+  setTimeout(() => {
+    if(!document.getElementById('statePlay').classList.contains('active')) {
+      pipSay(pick(messages.codeTyping), 3000);
+    }
+  }, 5500);
+});
+
+// ════════════════════════════════
+//  CODE INPUT LOGIC
+// ════════════════════════════════
+const codeInputs = Array.from({length:6}, (_,i) => document.getElementById('c'+i));
+
+codeInputs.forEach((input, idx) => {
+  input.addEventListener('input', () => {
+    const val = input.value.replace(/\D/g,'').slice(-1);
+    input.value = val;
+    input.classList.toggle('filled', !!val);
+    if(val && idx < 5) codeInputs[idx+1].focus();
+    updatePlayBtn();
+    // Pip reacts to each digit
+    if(val) { pipAnimate('happy', 400); }
+  });
+
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Backspace' && !input.value && idx > 0) {
+      codeInputs[idx-1].focus();
+      codeInputs[idx-1].value = '';
+      codeInputs[idx-1].classList.remove('filled');
+      updatePlayBtn();
+    }
+    if(e.key === 'Enter') checkCode();
+  });
+
+  input.addEventListener('paste', e => {
+    e.preventDefault();
+    const pasted = (e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'');
+    pasted.slice(0,6).split('').forEach((d,i) => {
+      if(codeInputs[i]) {
+        codeInputs[i].value = d;
+        codeInputs[i].classList.toggle('filled', !!d);
+      }
+    });
+    const lastFilled = Math.min(pasted.length, 5);
+    if(codeInputs[lastFilled]) codeInputs[lastFilled].focus();
+    updatePlayBtn();
+    pipAnimate('celebrate', 800);
+    pipSay('Nice paste! 🚀', 2000);
+  });
+
+  input.addEventListener('focus', () => {
+    // Pip watches the child type
+    if(Math.random() > 0.7) pipSay(pick(messages.codeTyping), 2000);
+  });
+});
+
+function updatePlayBtn() {
+  const code = getEnteredCode();
+  document.getElementById('playBtn').disabled = code.length < 6;
+}
+
+function getEnteredCode() {
+  return codeInputs.map(i => i.value).join('');
+}
+
+// ════════════════════════════════
+//  CODE VALIDATION
+// ════════════════════════════════
+function checkCode() {
+  const entered = getEnteredCode();
+  if(entered.length < 6) return;
+
+  // Clear previous errors
+  document.getElementById('errorMsg').classList.remove('show');
+  codeInputs.forEach(i => i.classList.remove('error'));
+
+  const storedCode = localStorage.getItem('nf_code');
+
+  if(!storedCode || entered !== storedCode) {
+    // Wrong code
+    codeInputs.forEach(i => i.classList.add('error'));
+    document.getElementById('errorMsg').textContent = "That code doesn't match — check with your grown-up!";
+    document.getElementById('errorMsg').classList.add('show');
+    pipAnimate('sad', 1000);
+    pipSay(pick(messages.codeWrong), 3000);
+    setTimeout(() => codeInputs.forEach(i => i.classList.remove('error')), 500);
+    return;
+  }
+
+  // Correct!
+  pipAnimate('celebrate', 1200);
+  pipSay(pick(messages.codeRight), 2500);
+  setState('stateLoading');
+  document.getElementById('loadingEmoji').textContent = '🦊';
+  document.getElementById('loadingText').textContent = 'Pip is running ahead!';
+  pip.classList.add('run');
+
+  setTimeout(() => {
+    pip.classList.remove('run');
+    enterPlayArea();
+  }, 1200);
+}
+
+// ════════════════════════════════
+//  PLAY AREA
+// ════════════════════════════════
+function enterPlayArea() {
+  const child = getFromLS('nf_child');
+  const assessment = getFromLS('nf_assessment');
+  const name = child?.name || 'Explorer';
+
+  document.getElementById('childGreeting').textContent = 'Hi, ' + name + '! 👋';
+  document.getElementById('childSub').textContent = assessment
+    ? 'Great to see you! Pick a game to play with Pip!'
+    : 'Let\'s play! Pick a game below!';
+
+  renderStars(Math.min((assessment?.sessions||0) * 2, 10));
+  setState('statePlay');
+  initFreemiumUI();
+
+  // Pip greets the child by name
+  setTimeout(() => {
+    pipAnimate('wave', 1200);
+    pipSay('Hi ' + name + '! 🦊 Let\'s go!', 3500);
+  }, 300);
+
+  // Pip gives periodic encouragement
+  startPipEncouragement();
+}
+
+function renderStars(count) {
+  const row = document.getElementById('starsRow');
+  row.innerHTML = '';
+  for(let i=0; i<10; i++) {
+    const s = document.createElement('span');
+    s.className = 'star-item' + (i<count ? ' earned' : '');
+    s.textContent = i<count ? '⭐' : '☆';
+    s.style.animationDelay = (i*0.08)+'s';
+    s.setAttribute('aria-hidden','true');
+    row.appendChild(s);
+  }
+}
+
+let encourageInterval = null;
+function startPipEncouragement() {
+  clearInterval(encourageInterval);
+  const encouragements = [
+    "You're doing amazing! 🌟",
+    "Pip is rooting for you! 🦊",
+    "Keep going! You've got this! 💪",
+    "Pip thinks you're brilliant! ✨",
+    "Learning is so fun! 🎉",
+    "You make Pip so happy! 😄"
+  ];
+  let idx = 0;
+  encourageInterval = setInterval(() => {
+    if(document.getElementById('statePlay').classList.contains('active')) {
+      pipSay(encouragements[idx % encouragements.length], 3000);
+      idx++;
+    }
+  }, 12000);
+}
+
+// ════════════════════════════════
+//  GAME LAUNCH
+// ════════════════════════════════
+// Show freemium banner if applicable
+function initFreemiumUI() {
+  if (!NF.isPro() && NF.isFreemium()) {
+    document.getElementById('freemiumBanner').style.display = 'block';
+    document.getElementById('lockComparison').style.display = 'inline-block';
+    document.getElementById('lockPatterns').style.display = 'inline-block';
+    // Visual dim for locked tiles
+    ['tileComparison','tilePatterns'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.opacity = '0.7';
+    });
+  }
+}
+
+// Gated launch: Pro-only games show payment modal for freemium
+function launchGameGated(type, name) {
+  if (NF.isPro()) {
+    launchGame(type, name);
+  } else {
+    NF.showPaymentGate();
+  }
+}
+
+function launchGame(type, name) {
+  clearInterval(encourageInterval);
+
+  const msgMap = {
+    counting: messages.counting,
+    comparison: messages.comparison,
+    patterns: messages.patterns,
+    music: messages.music
+  };
+
+  pipAnimate('celebrate', 900);
+  pipSay(pick(msgMap[type]||messages.loading), 2500);
+
+  setState('stateLoading');
+  document.getElementById('loadingEmoji').textContent = {
+    counting:'🔢', comparison:'⚖️', patterns:'🧩', music:'🎵'
+  }[type]||'🎮';
+  document.getElementById('loadingText').textContent = 'Loading ' + name + '...';
+  pip.className = 'pip-container run';
+
+  // Go to play.html (learning) not assessment.html (diagnostic)
+  setTimeout(() => { window.location.href = 'play.html?game=' + type; }, 1000);
+}
+
+function launchSkillCheck() {
+  clearInterval(encourageInterval);
+  pipAnimate('wave', 900);
+  pipSay(pick(messages.skill), 2000);
+  setState('stateLoading');
+  document.getElementById('loadingEmoji').textContent = '🎯';
+  document.getElementById('loadingText').textContent = 'Starting Skill Check...';
+  pip.className = 'pip-container run';
+  setTimeout(() => { window.location.href = 'assessment.html'; }, 900);
+}
+
+// ════════════════════════════════
+//  STATE SWITCHER
+// ════════════════════════════════
+function setState(id) {
+  document.querySelectorAll('.state').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ════════════════════════════════
+//  LOCALSTORAGE HELPERS
+// ════════════════════════════════
+function getFromLS(key) {
+  try { return JSON.parse(localStorage.getItem(key)||'null'); }
+  catch(e) { return null; }
+}
+
+// Focus first input on load
+codeInputs[0].focus();
+
+// ── If returning from a game, skip code screen ──
+// play.html sets nf_already_auth so child goes straight to tiles
+(function checkAlreadyAuth(){
+  const alreadyAuth = sessionStorage.getItem('nf_already_auth');
+  if(alreadyAuth){
+    sessionStorage.removeItem('nf_already_auth');
+    // Verify the child data still exists before skipping code
+    const child = getFromLS('nf_child') || getFromLS('nf_children')?.[0];
+    if(child){
+      enterPlayArea();
+      return;
+    }
+  }
+})();
+</script>
+<script>/* nf-paygate-injected */
+(function(){
+  if(!NF.getUser()){ window.location.href='login.html?next=join.html'; return; }
+})();
+</script>
+</body>
+</html>
